@@ -35,6 +35,8 @@
 \def \committeemembers #1 {\def \@committeemembers{#1}}
 
 \renewcommand{\maketitle}{\begin{titlepage}
+\pagestyle{plain}
+\pagenumbering{roman}
 \begin{textblock*}{5cm}(-.5cm,-1cm)
 \noindent
 \includegraphics[clip=true,trim=6cm 7cm 6cm 7cm,width=5cm]{template/IST_A_CMYK_POS}
@@ -74,9 +76,7 @@ Members of the Committee: \@committeemembers\\}
 \vfill
 
 {\Large\textbf{\@date}}
-\end{titlepage}
-\pagestyle{plain}
-\pagenumbering{roman}}
+\end{titlepage}}
 
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand*\sfdefault{phv}
