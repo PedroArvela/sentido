@@ -14,7 +14,7 @@
 \ProcessOptions\relax
 
 %% Load base
-\LoadClass[10pt]{article}
+\LoadClass[10pt,twoside]{article}
 
 %% Load additional packages and commands.
 \RequirePackage{geometry}
@@ -41,7 +41,7 @@
 \end{textblock*}
 \centering
 
-\vspace{8cm}
+\vspace{6cm}
 
 {\LARGE\textbf{\@title}}
 
@@ -74,7 +74,9 @@ Members of the Committee: \@committeemembers\\}
 \vfill
 
 {\Large\textbf{\@date}}
-\end{titlepage}}
+\end{titlepage}
+\pagestyle{plain}
+\pagenumbering{roman}}
 
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand*\sfdefault{phv}
@@ -82,5 +84,31 @@ Members of the Committee: \@committeemembers\\}
 
 \renewcommand{\footnotesize}{\fontsize{9pt}{11pt}\selectfont}
 \renewcommand{\footnotelayout}{\setstretch{1}}
+
+\newenvironment{aknowledgements}{%
+\cleardoublepage
+\section*{Aknowledgements}
+\addcontentsline{toc}{section}{Aknowledgements}
+}{\newpage}
+
+\renewenvironment{abstract}{%
+\cleardoublepage
+\section*{\abstractname}
+\addcontentsline{toc}{section}{\abstractname}
+\par
+}{\newpage}
+
+\newenvironment{resumo}{%
+\cleardoublepage
+\section*{Resumo}
+\addcontentsline{toc}{section}{Resumo}
+\par
+}{\newpage}
+
+\let\ist@oldtoc\tableofcontents
+\renewcommand{\tableofcontents}{\cleardoublepage\ist@oldtoc\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}}
 
 \endinput
