@@ -1,20 +1,8 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ist-thesis}[2016/02/02 IST Dissertation]
-
-\DeclareOption{10pt}{
-  \PassOptionsToClass{\CurrentOption}{article}
-}
-
-%% Fallback
-\DeclareOption*{
-  \ClassWarning{ist-thesis}{Unknown option '\CurrentOption'}
-}
+\ProvidesPackage{ist-thesis}[2016/02/02 IST Dissertation]
 
 %% Process given options
 \ProcessOptions\relax
-
-%% Load base
-\LoadClass[10pt,twoside]{article}
 
 %% Load additional packages and commands.
 \RequirePackage{geometry}
@@ -22,6 +10,7 @@
 \RequirePackage{textpos}
 \RequirePackage{footmisc}
 \RequirePackage{ifthen}
+\RequirePackage{tabu}
 
 \geometry{a4paper,margin=2.5cm}
 
@@ -34,12 +23,14 @@
 \def \committeesup #1 {\def \@committeesup{#1}}
 \def \committeemembers #1 {\def \@committeemembers{#1}}
 
+\edef \ist@indent {\the\parindent}
+
 \renewcommand{\maketitle}{\begin{titlepage}
 \pagestyle{plain}
 \pagenumbering{roman}
 \begin{textblock*}{5cm}(-.5cm,-1cm)
 \noindent
-\includegraphics[clip=true,trim=6cm 7cm 6cm 7cm,width=5cm]{template/IST_A_CMYK_POS}
+\includegraphics[clip=true,trim=6cm 7cm 6cm 7cm,width=5cm]{IST_A_CMYK_POS}
 \end{textblock*}
 \centering
 
@@ -69,9 +60,11 @@
 
 \bigskip
 
-{\large Chairperson: \@chairperson\\
-Supervisor: \@committeesup\\
-Members of the Committee: \@committeemembers\\}
+\begin{tabular}{ll}
+Chairperson: & \@chairperson\\
+Supervisor: & \@committeesup\\
+Members of the Committee: & \@committeemembers\\
+\end{tabular}
 
 \vfill
 
@@ -85,29 +78,50 @@ Members of the Committee: \@committeemembers\\}
 \renewcommand{\footnotesize}{\fontsize{9pt}{11pt}\selectfont}
 \renewcommand{\footnotelayout}{\setstretch{1}}
 
-\newenvironment{aknowledgements}{%
-\cleardoublepage
-\section*{Aknowledgements}
-\addcontentsline{toc}{section}{Aknowledgements}
+\newenvironment{acknowledgements}{%
+\chapter*{Acknowledgements}
+\thispagestyle{empty}
 }{\newpage}
 
-\renewenvironment{abstract}{%
-\cleardoublepage
-\section*{\abstractname}
-\addcontentsline{toc}{section}{\abstractname}
-\par
+\newenvironment{abstract}{%
+\chapter*{\abstractname}
+\thispagestyle{empty}
 }{\newpage}
 
 \newenvironment{resumo}{%
-\cleardoublepage
-\section*{Resumo}
-\addcontentsline{toc}{section}{Resumo}
-\par
+\chapter*{Resumo}
+\thispagestyle{empty}
 }{\newpage}
 
-\let\ist@oldtoc\tableofcontents
-\renewcommand{\tableofcontents}{\cleardoublepage\ist@oldtoc\newpage
+\newenvironment{dedications}{%
+\chapter*{}
+\thispagestyle{empty}
+\vfill
+\mbox{}
+\vfill\Large
+\begin{flushright}
+  \begin{minipage}{8cm}
+    \begin{center}}{%
+    \end{center}
+  \end{minipage}
+\end{flushright}
+\normalsize\vfill}
 
+\newenvironment{keywords}{%
+\chapter*{Keywords}
+\thispagestyle{empty}
+\large
+\setlength{\parindent}{0cm}
+}{\setlength{\parindent}{\ist@indent} \newpage}
+
+\newenvironment{aclist}{%
+\chapter*{Acronyms}
+\thispagestyle{empty}
+\begin{acronym}}{%
+\end{acronym}
+\newpage}
+
+\newcommand{\startdocument}{%
 \pagenumbering{arabic}
 \setcounter{page}{1}}
 

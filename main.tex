@@ -1,8 +1,16 @@
-\documentclass{template/ist-thesis}
-\usepackage[portuguese,english]{babel}
+\documentclass[a4paper,10pt,twoside,onecolumn,final,openright,leqno]{book}
+\usepackage[doublespace,final]{thesis}
+\usepackage{ist-thesis}
+%\usepackage[portuguese,english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[en-GB]{datetime2}
+
+\usepackage{acronym}
+\usepackage{epstopdf}
+\usepackage{fancyvrb}
+\usepackage{url}
+\usepackage[hidelinks,bookmarks=true]{hyperref}
 
 \title{SENTIDO: A Word Sense Induction Model for Portuguese}
 \author{José Pedro de Almeida Arvela}
@@ -20,20 +28,49 @@ Baptista}
 
 \maketitle
 
-\begin{aknowledgements}
-TODO
-\end{aknowledgements}
+\begin{acknowledgements}
+ TODO
+\end{acknowledgements}
 
-\begin{abstract}
-TODO
-\end{abstract}
+\begin{dedications}
+ TODO
+\end{dedications}
 
 \begin{resumo}
-TODO
+ TODO
 \end{resumo}
+
+\begin{abstract}
+ TODO
+\end{abstract}
+
+\begin{keywords}
+ TODO
+
+ TODO
+\end{keywords}
+
 
 \tableofcontents
 
+\listoffigures
+\newpage
+
+\listoftables
+\newpage
+
+\begin{aclist}
+  \acro{NLP}{Natural Language Processing}
+\end{aclist}
+
+% Start the real document
+\startdocument
+
+% Input files to use here: input{}
+
+% Bibliography
+\bibliographystyle{chicago}
+\bibliography{refs/myrefs}
 
 \end{document}
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
