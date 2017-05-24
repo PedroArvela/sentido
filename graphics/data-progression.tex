@@ -1,0 +1,23 @@
+\tikzstyle{block} = [rectangle, draw,
+    text width=6em, text centered, minimum height=3em]
+\tikzstyle{line} = [draw, -latex']
+
+\begin{tikzpicture}[node distance = 2cm, on grid]
+    % Place nodes
+    \node [block] (init) {POS-tagged paragraphs};
+    \node [block, below of=init] (pairs) {word pairs};
+    \node [block, below left of=pairs, node distance=3cm] (nodes) {nodes};
+    \node [block, below right of=pairs, node distance=3cm] (edges) {edges};
+    \node [block, below right of=nodes, node distance=3cm] (cooc) {co-occurrence graph};
+    \node [block, below of=cooc, node distance=2.5cm] (cluster) {cluster of nodes};
+
+    \path [line] (init) -- (pairs) node [midway, right] {co-occurrence extraction};
+    \path [line] (pairs) -| (nodes) node [near end, left] {words};
+    \path [line] (pairs) -| (edges) node [near end, right] {relations};
+    \path [line] (nodes) |- (cooc);
+    \path [line] (edges) |- (cooc);
+    \path [line] (cooc) -- (cluster) node [near end, right] {clustering algorithm};
+
+    \draw ($(nodes.north west) + (-0.5,0.5)$) rectangle ($(cooc.south east) + (2.6,-0.5)$);
+    \node [below left of=cooc, xshift=-1cm] () {graph construction};
+\end{tikzpicture}

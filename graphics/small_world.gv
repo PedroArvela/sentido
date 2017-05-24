@@ -1,0 +1,29 @@
+graph G {
+  rankdir=LR;
+
+  A,B,C,D,E,F[color=red];
+  G,H,I,J,K,L[color=blue];
+
+  A -- B;
+  B -- C;
+  C -- D;
+  D -- E;
+  E -- F;
+  F -- A;
+
+  B -- F;
+  C -- E;
+
+  G -- H;
+  H -- I;
+  I -- J;
+  J -- K;
+  K -- L;
+  L -- G;
+
+  H -- L;
+  J -- L;
+
+  A -- G;
+  C -- J;
+}
