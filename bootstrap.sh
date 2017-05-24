@@ -15,8 +15,4 @@ if ! [ -r "$texhome/tex/latex/local/noweb.sty" ]; then
 	wget http://mirrors.ctan.org/obsolete/web/noweb/src/tex/noweb.sty -O $texhome/tex/latex/local/noweb.sty
 fi
 
-if ! [ -r "$texhome/tex/latex/local/doublespace.sty" ]; then
-	wget https://ctan.org/tex-archive/obsolete/macros/latex209/contrib/misc/doublespace.sty -O $texhome/tex/latex/local/doublespace.sty
-fi
-
 texhash

@@ -26,8 +26,6 @@
 \edef \ist@indent {\the\parindent}
 
 \renewcommand{\maketitle}{\begin{titlepage}
-\pagestyle{plain}
-\pagenumbering{roman}
 \begin{textblock*}{5cm}(-.5cm,-1cm)
 \noindent
 \includegraphics[clip=true,trim=6cm 7cm 6cm 7cm,width=5cm]{IST_A_CMYK_POS}
@@ -79,51 +77,12 @@ Members of the Committee: & \@committeemembers\\
 \renewcommand{\footnotesize}{\fontsize{9pt}{11pt}\selectfont}
 \renewcommand{\footnotelayout}{\setstretch{1}}
 
-\newenvironment{acknowledgements}{%
-\chapter*{Acknowledgements}
-\thispagestyle{empty}
-}{\newpage}
-
-\newenvironment{abstract}{%
-\chapter*{\abstractname}
-\thispagestyle{empty}
-}{\newpage}
-
-\newenvironment{resumo}{%
-\chapter*{Resumo}
-\thispagestyle{empty}
-}{\newpage}
-
-\newenvironment{dedications}{%
-\chapter*{}
-\thispagestyle{empty}
-\vfill
-\mbox{}
-\vfill\Large
-\begin{flushright}
-  \begin{minipage}{8cm}
-    \begin{center}}{%
-    \end{center}
-  \end{minipage}
-\end{flushright}
-\normalsize\vfill}
-
 \newenvironment{keywords}{%
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Keywords}
 \chapter*{Keywords}
-\thispagestyle{empty}
 \large
 \setlength{\parindent}{0cm}
 }{\setlength{\parindent}{\ist@indent} \newpage}
-
-\newenvironment{aclist}{%
-\chapter*{Acronyms}
-\thispagestyle{empty}
-\begin{acronym}}{%
-\end{acronym}
-\newpage}
-
-\newcommand{\startdocument}{%
-\pagenumbering{arabic}
-\setcounter{page}{1}}
 
 \endinput
