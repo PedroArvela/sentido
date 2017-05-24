@@ -6,11 +6,33 @@
 \usepackage[T1]{fontenc}
 \usepackage[en-GB]{datetime2}
 
-\usepackage{acronym}
+\usepackage[printonlyused,nohyperlinks]{acronym}
 \usepackage{epstopdf}
 \usepackage{fancyvrb}
 \usepackage{url}
 \usepackage[hidelinks,bookmarks=true]{hyperref}
+
+
+\usepackage[inline]{enumitem}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{footnote}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{tabu}
+\usepackage{tikz}
+
+\usepackage{fancyhdr}
+
+\fancypagestyle{plain}{
+\fancyhf{}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\lfoot[\small\thepage]{}
+\rfoot[]{\small\thepage}}
 
 \title{SENTIDO: A Word Sense Induction Model for Portuguese}
 \author{José Pedro de Almeida Arvela}
@@ -28,45 +50,17 @@ Baptista}
 
 \maketitle
 
-\begin{acknowledgements}
- TODO
-\end{acknowledgements}
-
-\begin{dedications}
- TODO
-\end{dedications}
-
-\begin{resumo}
- TODO
-\end{resumo}
-
-\begin{abstract}
- TODO
-\end{abstract}
-
-\begin{keywords}
- TODO
-
- TODO
-\end{keywords}
-
-
-\tableofcontents
-
-\listoffigures
-\newpage
-
-\listoftables
-\newpage
-
-\begin{aclist}
-  \acro{NLP}{Natural Language Processing}
-\end{aclist}
+\frontmatter
+\input{frontmatter.tex}
 
 % Start the real document
-\startdocument
-
-% Input files to use here: input{}
+\mainmatter
+\pagestyle{plain}
+%\input{introduction.tex}
+\input{state-of-the-art.tex}
+%\input{architecture.tex}
+%\input{evaluation.tex}
+%\input{conclusion.tex}
 
 % Bibliography
 \bibliographystyle{chicago}
