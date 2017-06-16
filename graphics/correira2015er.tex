@@ -1,0 +1,46 @@
+\tikzstyle{every node}=[font=\small]
+\tikzstyle{every attribute}=[font=\small]
+
+\begin{tikzpicture}[node distance = 2cm, on grid]
+
+  \node [entity] (corpus) {Corpus}
+    child {node [attribute, above of=corpus] (csource) {source}}
+    child {node [key attribute, left of=csource] (cname) {\underline{name}}}
+    child {node [attribute, below of=cname] (cgenre) {genre}}
+    child {node [attribute, right of=csource] (cyear) {year}}
+    child {node [attribute, below of=cgenre] (cupdate) {update}};
+
+  \node [entity, right of=corpus, node distance=8cm] (sentence) {Sentence}
+    child {node [key attribute, above of=sentence] (sfile) {\underline{file}}}
+    child {node [key attribute, left of=sfile] (snum) {\underline{sentenceNum}}}
+    child {node [attribute, right of=sfile] (ssentence) {sentence}};
+
+  \node [entity, below of=corpus, node distance=6cm] (word) {Word}
+    child {node [key attribute, below of=word] (wid) {\underline{wordId}}}
+    child {node [attribute, left of=word] (wclass) {class}}
+    child {node [attribute, below of=wclass] (wword) {word}};
+
+  \node [entity, below of=sentence, node distance=3cm] (dependency) {Dependency}
+    child {node [key attribute, above of=dependency] {\underline{dependencyType}}};
+
+  \node [entity, line width=0.8pt, double, double distance=1pt, below of=dependency, node distance=3cm] (property) {property}
+    child {node [key attribute, below of=property, node distance=1cm] (ptype) {\dashuline{propertyType}}};
+
+  \node [relationship, right of=corpus, node distance=4cm] {has}
+    edge [->] (corpus)
+    edge (sentence);
+
+  \node [relationship, below of=corpus, node distance=2cm] (belongs) {belongs}
+    edge (corpus)
+    edge (word);
+
+  \node [relationship, double, below of=dependency, node distance=1cm] {has}
+    edge (dependency)
+    edge (property);
+
+  \path [draw] (property) -- (belongs);
+
+  \draw [dashed] ($(wclass.north west) + (-0.5,0.5)$) rectangle ($(ptype.south east) + (1.5,-1.3)$);
+  \node [below right of=ptype] {aggregation};
+
+\end{tikzpicture}

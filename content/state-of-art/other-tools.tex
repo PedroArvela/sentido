@@ -1,0 +1,45 @@
+\section{Other Tools}
+
+In addition to the existing work in \ac{WSD} and \ac{WSI}, it is relevant to
+mention other works which make use of word co-occurrences in text.
+
+\subsection{Syntax Deep Explorer}
+
+In \cite{correia2015syntax}, a tool was developed to make use of \ac{STRING} to
+allow one to explore co-occurrence data obtained from Portuguese texts. The
+presented solution was composed of a tool to extract co-occurrences in and a
+web-based interface to display these in an intuitive fashion.
+
+The developed solution takes advantage of the rich lexical resources extracted
+and the syntactic and semantic analysis of \ac{STRING} to provide information
+about the patterns of co-occurrences found in the corpora evaluated.
+
+\subsubsection{Architecture}
+
+The implemented solution split the problem into four separate components:
+
+\begin{itemize}
+ \item The storage format of the extracted and computed information;
+ \item The co-occurrence extraction from the corpus;
+ \item The calculation of the various association measures;
+ \item The display of the information in an user-friendly form.
+\end{itemize}
+
+\subsubsection{Storage Format}
+
+A database was chosen as the format to store the obtained information. An
+\ac{ER} model was developed to represent the database, and a relational model
+was generated from the created \ac{ER} model.
+
+\begin{figure}
+ \centering
+ \include{graphics/correira2015er}
+ \caption[ER model of (Correia et al. 2015)]{The \ac{ER} model used in
+ \cite{correia2015syntax}.}
+ \label{fig:correira2015er}
+\end{figure}
+
+
+% kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
+% kate: remove-trailing-space on; space-indent on;
+% kate: replace-trailing-space-save on; remove-trailing-space on;

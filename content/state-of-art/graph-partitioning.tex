@@ -1,0 +1,135 @@
+\section{Graph Partitioning and Clustering Algorithms}
+
+The task of finding clusters which are optimal with respect to fitness measures
+is NP-complete \cite{sima2006np}. The following are two current algorithms,
+time-linear to the number of edges, which try to find solutions through
+approximation.
+
+\subsection{Chinese Whispers.}
+\label{sec:cw}
+
+\ac{CW} is a randomised graph-clustering algorithm which is time-linear in the
+number of edges, developed by Biemann \cite{biemann2006chinese}. It is a basic,
+yet effective, algorithm to partition nodes of weighted, undirected graphs, and
+it is said to perform well in small-world graphs.
+
+\ac{CW} is parameter-free, as the number of partitions emerges naturally during
+the process. But formally, \ac{CW} does not converge, as a node can become tied
+and be randomly assigned a different class at each iteration, without ever
+stabilising, nor is it deterministic, due to the random orders and assignments
+in the algorithm.
+
+In \ac{CW}, a weighted graph, $G=(V,E)$, has nodes $v_i \in V$ and weighted
+edges $(v_i, v_j, w_{ij}) \in E$ with weight $w_{ij}$. If $(v_i, v_j, w_{ij})
+\in E$ implies $(v_j, v_i, w_{ij}) \in E$ then $G$ is undirected. If all weights
+are 1, $G$ is unweighted. The degree of a node is the number of edges it takes
+part in. The neighbourhood of a node $v$ is the set of all nodes $v'$ such that
+$(v,v',w) \in E$ or $(v',v,w) \in E$.
+
+\ac{CW} works as outlined in Algorithm~\ref{alg:cw}. First, all nodes get
+different classes. For a small number of iterations, in each iteration, the
+nodes inherit the strongest class in their neighbourhood. This is the class
+whose sum of edge weights to the current node is maximal. If multiple classes
+are equally the strongest, one is chosen randomly. Classes are updated
+immediately, a node can obtain classes introduced in that same iteration.
+
+Regions of the same class stabilize during the iteration, and grow until they
+reach the border of another class.
+
+\begin{algorithm}
+ \begin{algorithmic}
+  \Function{ChineseWhispers}{V, E}
+   \ForAll{$v_i \in V$}
+    \State $class(v_i) \gets i$
+   \EndFor
+
+   \While{changes}
+    \ForAll{$v \in V$, random order}
+     \State $class(v) \gets max\_rank(class(neighbourhood(v)))$
+    \EndFor
+   \EndWhile
+  \EndFunction
+ \end{algorithmic}
+ \caption{\label{alg:cw} The Chinese Whispers algorithm}
+\end{algorithm}
+
+Apart from ties, the class of a node usually does not change more than a few
+times. The number of iterations depends on the larger distance between two nodes
+in the graph.
+
+\ac{CW} was evaluated on tasks of \ac{WSI} using a similar approach to the one
+in \cite{dorow2003discovering}, by replacing the Markov Clustering algorithm
+with \ac{CW}. The evaluation method in \cite{bordag2006word} was used. In this,
+the neighbourhood of two words is merged and the ability of the algorithm to
+separate the merged graph is evaluated. The evaluation measures used included
+\textit{retrieval precision} ($rP$), the similarity of the found sense with the
+gold standard sense using the overlap measure, and the \textit{retrieval recall
+($rR$)}, which are the amount of words assigned correctly to the gold standard
+sense.
+
+Results for nouns showed that \ac{CW} had a retrieval precision of $94.8\%$ and
+a retrieval recall of $71.3\%$, which suggest similar performance as specialized
+graph-clustering algorithms for \ac{WSI} given the same input.
+
+\subsection{MaxMax.}
+\label{sec:maxmax}
+
+MaxMax is a soft-clustering algorithm applicable to edge-weighted graphs
+\cite{hope2013maxmax}. It is parameter-free, runs in linear time to the number
+of edges and it is deterministic. Test results show it to return scores
+comparable with existing state-of-the-art systems.
+
+In MaxMax, a notion of \textit{maximal affinity} is used, in which affinity
+between vertices $u$ and $v$ is the edge weight $w(u,v)$. A vertex $u$ has
+maximal affinity to a vertex $v$ if $w(u,v)$ is maximal among all edges with
+$u$. $v$ is said to be a \textit{maximal vertex of $u$}.
+
+MaxMax consists of two stages, as described in Algorithm~\ref{alg:maxmax}.
+First, the weighted graph $G$ is transformed in an unweighted, directed graph
+$G'$. Maximal affinity relationships between vertices are used to determine edge
+direction in $G'$. If in $G$ a vertex $u$ has two maximal vertexes $v$ and $w$,
+in $G'$ $u$ will have only two directed edges, from $v$ to $u$ and from $w$ to
+$u$.
+
+Then, clusters are identified, finding the \textit{root} vertices of subgraphs
+of $G'$ and by marking all descendants of a vertex as $\neg root$. In the
+directed graph $G'$, a vertex $v$ is a \textit{descendant} of $u$ is there is a
+directed path from $u$ to $v$. At the end of the stage, vertices which are still
+marked as $root$ uniquely identify clusters.
+
+\begin{algorithm}
+ \begin{algorithmic}
+  \Function{MaxMax}{V, E}
+   \ForAll{$(u,v) \in E$}
+    \If{$v$ is $maximal\_vertex(u)$}
+     \State $E' \gets E' \cup (v,u)$
+    \EndIf
+   \EndFor
+   \State $G' \gets dirgraph(V, E')$
+   \State $\forall v \in V, v \gets root$
+
+   \ForAll{$v \in V$}
+    \If{$v$ is $root$}
+     \ForAll{$u \in descentant(v)$}
+      \State $u \gets \neg root$
+     \EndFor
+    \EndIf
+   \EndFor
+  \EndFunction
+ \end{algorithmic}
+ \caption{\label{alg:maxmax} The MaxMax algorithm}
+\end{algorithm}
+
+MaxMax was evaluated in the context of the SemEval 2010 \ac{WSI} Task
+\cite{manandhar2010semeval}, using an adaptation of the Shared Nearest
+Neighbours algorithm and then using MaxMax to identify sense clusters in the
+generated target word graph. MaxMax has the best scoring V-measure (of $32.8\%$)
+among the systems evaluated in \cite{manandhar2010semeval}, and the worst
+F-score (of $13.2\%$) among the systems evaluated. The authors claim that their
+system is overly penalized by the F-score due to the way this is known to be
+biased towards clustering solutions returning large clusters and to punish small
+clusters disproportionately.
+
+% kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
+% kate: remove-trailing-space on; space-indent on;
+% kate: replace-trailing-space-save on; remove-trailing-space on;

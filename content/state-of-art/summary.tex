@@ -1,0 +1,105 @@
+\section{Summary}
+
+Below is a comparison of the various algorithms mentioned in the previous
+sections. The algorithms are evaluated according to their performance and to
+their features.
+
+\subsection{WSI Algorithms.}
+
+\ac{DSM}-based algorithms have to deal with scalability problems as the number
+of contexts increases. Many of them try to deal with the problem by using denser
+representations of the context vectors used.
+
+In comparison, graph-based algorithms try to deal with the significance of a
+number of co-occurrences, trying to suppress irrelevant co-occurrences as edges
+or using smoothing techniques to generate edges, which were not represented in
+the original graph.
+
+As it can be seen in Table~\ref{tab:uswsi} and Table~\ref{tab:wsi}, current
+implementations of \ac{DSM} and graph-based algorithms have equivalent
+performance when compared using either F-score, V-measure or supervised recall.
+It is important to note that unless the \ac{GS} and test data used is the same,
+the results obtained are not comparable among implementations.
+
+\begin{table}
+\centering
+\caption{\label{tab:uswsi} Unsupervised evaluation of \ac{WSI} algorithms in
+nouns. All measures are in percentage ($\%$). 1c1word, \ac{MFS}, and Random are
+baselines from each of the respective datasets. 1c1word and \ac{MFS} groups all
+instances of a word into a single cluster.}
+
+\begin{tabu} to \textwidth { XXrrrrrr }
+\hline
+\textbf{Algorithm} & \textbf{GS} & \textbf{Prec.} & \textbf{Recall} & \textbf{Purity} & \textbf{Entropy} & \textbf{F-score} & \textbf{V-measure} \\
+\hline
+CBC \cite{pantel2002discovering}          & WordNet        & 60.8 & 50.8 & ---  & ---  & 55.4 & ---  \\
+WD \cite{widdows2002graph}                & WordNet        & ---  & ---  & 82.0 & ---  & ---  & ---  \\
+Col-JC \cite{klapaftis2008word}           & \ac{SWSI} 2007 & ---  & ---  & 88.6 & 31.0 & 78.0 & ---  \\
+Col-BL \cite{klapaftis2008word}           & \ac{SWSI} 2007 & ---  & ---  & 89.6 & 29.0 & 73.1 & ---  \\
+UoY \cite{korkontzelos2010uoy}            & WSI\&D 2010    & ---  & ---  & ---  & ---  & 38.2 & 20.6 \\
+HERMIT \cite{jurgens2010hermit}           & WSI\&D 2010    & ---  & ---  & ---  & ---  & 30.1 & 16.7 \\
+\hline
+1c1word \cite{agirre2007semeval}          & \ac{SWSI} 2007 & ---  & ---  & ---  & ---  & 80.7 & \footnotemark[1]0.0 \\
+Random \cite{agirre2007semeval}           & \ac{SWSI} 2007 & ---  & ---  & ---  & ---  & 38.1 & \footnotemark[1]4.9 \\
+MFS \cite{manandhar2010semeval}           & WSI\&D 2010    & ---  & ---  & ---  & ---  & 57.0 & 0.0  \\
+Random \cite{manandhar2010semeval}        & WSI\&D 2010    & ---  & ---  & ---  & ---  & 30.4 & 4.2  \\
+\hline
+\end{tabu}
+\end{table}
+
+\footnotetext[1]{The mentioned data points were obtained from
+\cite{manandhar2009semeval}.}
+
+\begin{table}
+\centering
+\caption{\label{tab:wsi} Supervised evaluation of \ac{WSI} algorithms. Unless
+otherwise specified, in the WSI\&D 2010 dataset, the 80-20 split is used.}
+
+\begin{tabu} to \textwidth { XXr }
+\hline
+\textbf{Algorithm} & \textbf{Testing Corpus} & \textbf{Recall} (\%)\\
+\hline
+Col-JC \cite{klapaftis2008word}           & \ac{SWSI} 2007 & 86.4 \\
+Col-BL \cite{klapaftis2008word}           & \ac{SWSI} 2007 & 85.6 \\
+UoY \cite{korkontzelos2010uoy}            & WSI\&D 2010    & 59.4 \\
+HERMIT \cite{jurgens2010hermit}           & WSI\&D 2010    & 53.6 \\
+\hline
+MFS \cite{manandhar2010semeval}           & WSI\&D 2010    & 53.2 \\
+Random \cite{manandhar2010semeval}        & WSI\&D 2010    & 51.5 \\
+\hline
+\end{tabu}
+\end{table}
+
+\subsection{Graph Clustering Algorithms.}
+
+The work in this area introduces algorithms time-linear to the number of edges
+with results comparable to older existing algorithms.
+
+Both algorithms are shown to be suitable for \ac{WSI} tasks. Both algorithms are
+time-linear to the number of edges and ideal for execution in large-scale graphs
+which feature small-world features, as it can be seen on Table~\ref{tab:clalg}.
+
+\ac{CW} is already frequently used in the area of \ac{WSI} with good results,
+but unlike MaxMax, it is not deterministic, and it does not allow to place the
+same node in several clusters -- soft-clustering --, a feature specially
+desirable for a global graph approach so that one word can have several senses.
+
+\begin{table}
+\centering
+\caption{\label{tab:clalg} Comparison of Graph Clustering Algorithms. Retrieval
+Precision (rPrec.), Retrieval Recall (rRecall), F-score and V-measure are
+measured in percentage ($\%$).}
+
+\begin{tabu} to \textwidth {XXXrrrr}
+\hline
+\textbf{Alg.} & \textbf{Determ.} & \textbf{Soft-Clust.} & \textbf{rPrec.} & \textbf{rRecall} & \textbf{F-sc.} & \textbf{V-mes.} \\
+\hline
+\ac{CW} \cite{biemann2006chinese} & No            & No              & 94.8 & 71.3 & ---  & ---  \\
+MaxMax \cite{hope2013maxmax}      & Yes           & Yes             & ---  & ---  & 13.2 & 32.8 \\
+\hline
+\end{tabu}
+\end{table}
+
+% kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
+% kate: remove-trailing-space on; space-indent on;
+% kate: replace-trailing-space-save on; remove-trailing-space on;
