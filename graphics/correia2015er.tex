@@ -10,7 +10,7 @@
     child {node [attribute, right of=csource] (cyear) {year}}
     child {node [attribute, below of=cgenre] (cupdate) {update}};
 
-  \node [entity, right of=corpus, node distance=8cm] (sentence) {Sentence}
+  \node [entity, right of=corpus, node distance=9cm] (sentence) {Sentence}
     child {node [key attribute, above of=sentence] (sfile) {\underline{file}}}
     child {node [key attribute, left of=sfile] (snum) {\underline{sentenceNum}}}
     child {node [attribute, right of=sfile] (ssentence) {sentence}};
@@ -26,8 +26,8 @@
   \node [entity, line width=0.8pt, double, double distance=1pt, below of=dependency, node distance=3cm] (property) {property}
     child {node [key attribute, below of=property, node distance=1cm] (ptype) {\dashuline{propertyType}}};
 
-  \node [relationship, right of=corpus, node distance=4cm] {has}
-    edge [->] (corpus)
+  \node [relationship, right of=corpus, node distance=5cm] {has}
+    edge [-latex] (corpus)
     edge (sentence);
 
   \node [relationship, below of=corpus, node distance=2cm] (belongs) {belongs}
@@ -38,9 +38,27 @@
     edge (dependency)
     edge (property);
 
+  \node [relationship, right of=word, node distance=4cm] (cooc) {Co-Occurrence}
+    edge (property)
+    child {node [attribute, below left of=cooc, xshift=-0.7cm, yshift=0.7cm] (freq) {frequency}}
+    child {node [attribute, below of=freq, node distance=0.8cm] (pmi) {pmi}}
+    child {node [attribute, right of=pmi, node distance=0.8cm, yshift=-0.5cm] {dice}}
+    child {node [attribute, below of=cooc] {logdice}}
+    child {node [attribute, below of=cooc, xshift=2cm, yshift=-0.1cm] {chipearson}}
+    child {node [attribute, below of=cooc, xshift=2.2cm, yshift=0.7cm] {loglikelihood}}
+    child {node [attribute, right of=cooc, xshift=0.4cm, yshift=-0.5cm] {significance}};
+
   \path [draw] (property) -- (belongs);
 
-  \draw [dashed] ($(wclass.north west) + (-0.5,0.5)$) rectangle ($(ptype.south east) + (1.5,-1.3)$);
+  \node [draw,dashed, minimum width=15cm, minimum height=4cm] (agg) at ([yshift=-0.6cm]cooc);
   \node [below right of=ptype] {aggregation};
+
+  \draw [-latex] (cooc) -- (corpus);
+  \draw (cooc) -- (word);
+  \draw (cooc) -- (2cm,-5.5cm) -- (word);
+
+  \node [relationship, above of=cooc, node distance=4cm] {Exemplifies}
+    edge (sentence)
+    edge (agg);
 
 \end{tikzpicture}
