@@ -11,9 +11,11 @@
 \RequirePackage{footmisc}
 \RequirePackage{ifthen}
 \RequirePackage{tabu}
+\RequirePackage[sf,big,raggedright,compact]{titlesec}
 
 \geometry{a4paper,margin=2.5cm}
 
+% Define some basic simple macros
 \def \thesisimage #1 {\def \@thesisimage{#1}}
 
 \def \field #1 {\def \@field{#1}}
@@ -25,6 +27,19 @@
 
 \edef \ist@indent {\the\parindent}
 
+% Renew default fonts and font sizes
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand*\sfdefault{phv}
+\linespread{1.5}
+
+\renewcommand{\footnotesize}{\fontsize{9pt}{11pt}\selectfont}
+\renewcommand{\footnotelayout}{\setstretch{1}}
+
+% Change the style and format of the chapters
+\titleformat{\chapter}[hang]{\Huge}{\thechapter}{4\wordsep}{}[]
+\titlespacing{\chapter}{0ex}{\beforetitleunit}{4\aftertitleunit}
+
+% Re-implement the title page
 \renewcommand{\maketitle}{\begin{titlepage}
 \begin{textblock*}{5cm}(-.5cm,-1cm)
 \noindent
@@ -69,13 +84,6 @@ Members of the Committee: & \@committeemembers\\
 
 {\Large\textbf{\@date}}
 \end{titlepage}}
-
-\renewcommand{\familydefault}{\sfdefault}
-\renewcommand*\sfdefault{phv}
-\linespread{1.5}
-
-\renewcommand{\footnotesize}{\fontsize{9pt}{11pt}\selectfont}
-\renewcommand{\footnotelayout}{\setstretch{1}}
 
 \newenvironment{keywords}{%
 \cleardoublepage

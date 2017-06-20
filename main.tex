@@ -1,7 +1,7 @@
 \documentclass[a4paper,10pt,twoside,onecolumn,final,openright,leqno]{book}
 \usepackage[doublespace,final]{thesis}
 \usepackage{ist-thesis}
-%\usepackage[portuguese,english]{babel}
+\usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[en-GB]{datetime2}
@@ -50,13 +50,15 @@ Baptista}
 \committeesup{Unknown}
 \committeemembers{Unknown}
 
-\DTMlangsetup{showdayofmonth=false}
+\DTMlangsetup*{showdayofmonth=false}
 
 \begin{document}
 
+\hypersetup{pageanchor=false}
 \maketitle
 
 \frontmatter
+\hypersetup{pageanchor=true}
 \input{frontmatter.tex}
 
 % Start the real document
