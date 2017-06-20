@@ -10,7 +10,7 @@
     child {node [attribute, right of=csource] (cyear) {year}}
     child {node [attribute, below of=cgenre] (cupdate) {update}};
 
-  \node [entity, right of=corpus, node distance=9cm] (sentence) {Sentence}
+  \node [entity, line width=0.8pt, double, double distance=1pt, right of=corpus, node distance=9cm] (sentence) {Sentence}
     child {node [key attribute, above of=sentence] (sfile) {\underline{file}}}
     child {node [key attribute, left of=sfile] (snum) {\underline{sentenceNum}}}
     child {node [attribute, right of=sfile] (ssentence) {sentence}};
@@ -31,6 +31,7 @@
     edge (sentence);
 
   \node [relationship, below of=corpus, node distance=2cm] (belongs) {belongs}
+    child {node [attribute, below left of=belongs] (bfreq) {frequency}}
     edge (corpus)
     edge (word);
 

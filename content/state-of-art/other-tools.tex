@@ -3,18 +3,96 @@
 In addition to the existing work in \ac{WSD} and \ac{WSI}, it is relevant to
 mention other works which make use of word co-occurrences in text.
 
+\subsection{STRING}
+\label{sec:string}
+
+\ac{STRING} \cite{mamede2012string} is a \ac{NLP} system for the Portuguese
+language, capable of preforming all basic \ac{NLP} tasks, including \ac{NER},
+\ac{IR}, \ac{AR}, among other tasks. \ac{STRING} is composed of several stages:
+
+\subsubsection*{Preprocessing.}
+
+In the first stage, the text is passed through a tokenizer, which is also
+responsible for recognising some special tokens, such as numbers or punctuation.
+The tokens are then passed through a \ac{POS} tagger, LexMan
+\cite{vicente2013lexman}, which uses finite state transducers to label tokens
+with their appropriate \ac{POS} tags. At last, the text is split into sentences
+based mainly on the punctuation and having into account abbreviations, acronyms,
+and the use of ellipsis.
+
+\subsubsection*{POS Disambiguation.}
+
+This stage comprises two steps, which are preformed by two distinct modules:
+
+\begin{enumerate}
+ \item \ac{RuDriCo}, which preforms rule-driven morphossyntactic disambiguation
+\cite{diniz2010conversor};
+ \item \ac{MARv}, which preforms statistical disambiguation
+\cite{ribeiro2003anotacao}.
+\end{enumerate}
+
+\ac{RuDriCo} is also responsible for modifying the initial segmentation done by
+the previous module, through the use of declarative pattern-matching rules. It
+preforms the expansion of contracted words.
+
+\ac{MARv} is responsible for looking at the labels generated for each word
+and then choosing the most likely tag given its immediate context. This is done
+using \acp{HMM}. \ac{MARv} uses second-order models, which codify contextual
+information concerning entities, and unigrams, which codify lexical information.
+
+\subsubsection*{Syntactic Analysis.}
+
+Syntactic analysis is done through the use of \ac{XIP}, which also allows for
+adding lexical, syntactic and semantic information to the output of the
+previous modules. \ac{XIP} is responsible for several tasks:
+
+\begin{enumerate}[label=(\roman*)]
+ \item It adds information to the existing tokens through the use of lexicons.
+\ac{XIP} includes a pre-existing lexicon that can be both extended or modified;
+ \item It allows to define local grammars using pattern-matching rules, to group
+lexical units together into a single entity;
+ \item It also preforms a shallow parsing to group elements into chunks (noun
+ phrase -- NP, prepositional phrase -- PP, among others) using linear precedence
+ and sequence rules;
+ \item Finally it preforms a deep parsing to extract the dependencies between the
+different chunks (subject, direct object, modifier, etc.).
+\end{enumerate}
+
+\subsubsection*{Post-Syntactic Analysis.}
+
+At this stage additional tasks are executed which extract additional information
+from the text. One is the \ac{AR} task \cite{marques2013anaphora}, which
+preforms anaphora identification in the text and then uses the \ac{EM} algorithm
+to obtain the probabilities of each antecedent candidate. Other tasks performed
+include time normalisation \cite{mauricio2011normalizacao} and event ordering
+\cite{cabrita2014ordenar}.
+
 \subsection{Syntax Deep Explorer}
 
 In \cite{correia2015syntax}, a tool was developed to make use of \ac{STRING} to
 allow one to explore co-occurrence data obtained from Portuguese texts. The
-presented solution was composed of a tool to extract co-occurrences in and a
-web-based interface to display these in an intuitive fashion.
+presented solution was composed of a tool to extract co-occurrences and
+calculate the association measures of these as well as a web-based interface to
+display these co-occurrences in an intuitive fashion.
 
 The developed solution takes advantage of the rich lexical resources extracted
 and the syntactic and semantic analysis of \ac{STRING} to provide information
 about the patterns of co-occurrences found in the corpora evaluated.
 
-\subsubsection{Architecture}
+\subsubsection*{Dependencies and Properties}
+
+For the project in question, each co-occurrence is considered a syntactic
+dependency extracted from \ac{XIP}. These dependencies have two words, in which
+the first word is the modified element and the second word is the modifier,
+information about the dependency itself, and a set of properties, if these
+exist.
+
+The project only considers the a subset of possible properties as relevant for
+its goals, which indicate if the modifier is before, or after the modified word
+or if the modifier is a focus adverb.
+
+
+\subsubsection*{Architecture}
 
 The implemented solution split the problem into four separate components:
 
@@ -25,13 +103,16 @@ The implemented solution split the problem into four separate components:
  \item The display of the information in an user-friendly form.
 \end{itemize}
 
-\subsubsection{Storage Format}
+\subsubsection*{Storage Format}
 
-A database was chosen as the format to store the obtained information. An
-\ac{ER} model was developed to represent the database, and a relational model
+An SQLite database was chosen as the format to store the obtained information.
+An \ac{ER} model was developed to represent the database, and a relational model
 was generated from the created \ac{ER} model.
 
-\begin{figure}
+To store the information in the database, the \ac{ER} model in
+Figure~\ref{fig:correira2015er} was created and used.
+
+\begin{figure}[h]
  \centering
  \include{graphics/correia2015er}
  \caption[ER model of (Correia et al. 2015)]{The \ac{ER} model used in
@@ -39,6 +120,66 @@ was generated from the created \ac{ER} model.
  \label{fig:correira2015er}
 \end{figure}
 
+The entities \textit{Corpus}, \textit{Word} and \textit{Dependency} are used to
+store the information about each corpus, word and dependency type respectively.
+
+The weak entity \textit{Property} associates the \textit{Dependency} with a
+property type.
+
+Each word has a \textit{Belongs} relation with the corpus, which indicates how
+often the word occurs in the Corpus.
+
+Each pair of words and property also have a \textit{Co-occurrence} relation,
+with a \textit{frequency} attribute which defines how often these words occur
+together in the same corpus with the given property. Additionally, several
+attributes exist for each kind of association measure.
+
+The weak entity \textit{Sentence} has a \textit{Belongs} association with the
+\textit{Corpus}, and the aggregation of the \textit{Co-occurrence} associations
+has a \textit{Exemplifies} association with the \textit{Sentence} entity.
+
+Additionally, the following \acp{IC} were identified:
+
+\begin{enumerate}
+  \item The words in the \textit{Co-occurrence} association must belong to the
+\textit{Corpus} to which they are associated with.
+  \item The \textit{Co-occurrence} association must be associated to the same
+\textit{Property} with which the words associate with in \textit{Belongs}.
+  \item The sentences in the \textit{Exemplifies} association must belong to the
+\textit{Corpus} to which the given \textit{Co-occurrence} is associated with.
+\end{enumerate}
+
+\subsubsection*{Co-occurrence extraction}
+
+The co-occurrence extractor obtains the processed XML from XIP, and then parses
+it to obtain the dependency information.
+
+The extractor reads all dependencies parsed from the XML and stores in the
+database, for each:
+
+\begin{itemize}
+  \item The type of the dependency in question;
+  \item The lemma and class of each word in the dependency;
+  \item The property of the dependency;
+  \item The sentence in which the dependency occurred.
+\end{itemize}
+
+\subsubsection*{Association Measures}
+
+After the database is populated with the co-occurrences from the \textit{corpus}
+the association measures are calculated in batches of 2,000 co-occurrences
+each.
+
+The measures calculated are:
+
+\begin{itemize}
+  \item \ac{PMI};
+  \item \textit{Dice} Coefficient;
+  \item \textit{LogDice};
+  \item Pearson's Chi-Square Test;
+  \item Log Likelihood Ratio;
+  \item Significance Measure.
+\end{itemize}
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
