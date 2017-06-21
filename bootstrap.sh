@@ -11,8 +11,4 @@ if ! [ -r "$texhome/tex/latex/local/avm.sty" ]; then
 	wget http://nlp.stanford.edu/manning/tex/avm.sty -O $texhome/tex/latex/local/avm.sty
 fi
 
-if ! [ -r "$texhome/tex/latex/local/noweb.sty" ]; then
-	wget http://mirrors.ctan.org/obsolete/web/noweb/src/tex/noweb.sty -O $texhome/tex/latex/local/noweb.sty
-fi
-
 texhash
