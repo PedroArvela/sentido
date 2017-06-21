@@ -12,6 +12,7 @@
 \RequirePackage{ifthen}
 \RequirePackage{tabu}
 \RequirePackage[sf,big,raggedright,compact]{titlesec}
+\RequirePackage[nottoc]{tocbibind}
 
 \geometry{a4paper,margin=2.5cm}
 
@@ -32,11 +33,11 @@
 \renewcommand*\sfdefault{phv}
 \linespread{1.5}
 
-\renewcommand{\footnotesize}{\fontsize{9pt}{11pt}\selectfont}
-\renewcommand{\footnotelayout}{\setstretch{1}}
+%\renewcommand{\footnotesize}{\fontsize{9pt}{11pt}\selectfont}
+%\renewcommand{\footnotelayout}{\setstretch{1}}
 
 % Change the style and format of the chapters
-\titleformat{\chapter}[hang]{\Huge}{\thechapter}{4\wordsep}{}[]
+\titleformat{\chapter}[block]{\raggedleft\Huge}{\thechapter}{4\wordsep}{}[\titlerule]
 \titlespacing{\chapter}{0ex}{\beforetitleunit}{4\aftertitleunit}
 
 \titleformat*{\subsubsection}{\bfseries}

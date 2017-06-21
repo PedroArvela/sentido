@@ -4,8 +4,8 @@
 
 \begin{tikzpicture}[node distance = 2cm, on grid]
     % Place nodes
-    \node [block] (init) {POS-tagged paragraphs};
-    \node [block, below of=init] (pairs) {word pairs};
+    \node [block] (init) {XIP XML};
+    \node [block, below of=init] (pairs) {co-occurrences};
     \node [block, below left of=pairs, node distance=3cm] (nodes) {nodes};
     \node [block, below right of=pairs, node distance=3cm] (edges) {edges};
     \node [block, below right of=nodes, node distance=3cm] (cooc) {co-occurrence graph};
