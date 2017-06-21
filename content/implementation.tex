@@ -1,0 +1,68 @@
+\chapter{Implementation}
+\label{sec:implementation}
+
+\section{Corpora Pre-Parse}
+
+Two corpora were chosen to be used in this project, the CETEMPúblico corpus
+\cite{rocha2000cetempublico}, and a dump of the Portuguese edition Wikipedia
+\footnote{\url{https://en.wikipedia.org/wiki/Wikipedia:Database_download}, last
+accessed on \DTMdate{2017-06-21}.}. These were using each their own syntax to
+describe their contents. As \ac{STRING} only parses plaintext sentences, the
+additional meta-data provided was either removed or adapted for parsing by
+\ac{STRING}.
+
+\subsection{CETEMPúblico}
+
+CETEMPúblico was provided in \iac{SGML} format with the following tags:
+
+\begin{description}[labelwidth=3em]
+ \item [\texttt{ext}] Extract (usually composed of two paragraphs);
+ \item [\texttt{p}]   Paragraph;
+ \item [\texttt{s}]   Sentence;
+ \item [\texttt{t}]   Title;
+ \item [\texttt{a}]   Author;
+ \item [\texttt{li}]  List element.
+\end{description}
+
+To parse it, a Python script was designed, which parses it as \ac{XML} using a
+parser which generates the element tree incrementally. Tags considered
+irrelevant were ignored, and tags with special meanings, such as the ones
+settings the bounds of a sentence, paragraph or excerpt were replaced with
+unique plaintext identifiers.
+
+Because the corpus was in \ac{SGML} format and not \ac{XML}, a few replacements
+were made before feeding each line to the parser that made sure that it would
+only read valid \ac{XML}. These ensured attributes were quoted and that all
+elements had an opening and a closing tag.
+
+\subsection{Wikipedia}
+
+After obtaining the Wikipedia dump, a tool called WikiExtract
+\footnote{\url{https://github.com/attardi/wikiextractor}, last accessed on
+\DTMdate{2017-06-21}.} was used to convert the obtained XML into mostly plain
+text files.
+
+A further cleanup was executed, in which all possible invalid \ac{XML} or
+possible leftover tags were found using a regular expression, added to a list,
+and removed automatically.
+
+At last, document boundaries and paragraphs were replaced with unique
+plaintext identifiers which can be recognized even after being parsed by
+\ac{STRING}.
+
+\section{Co-occurrence Extraction}
+
+To obtain the co-occurrences, the extractor created in \cite{correia2015syntax}
+was used. The extractor was not able to be used as it was due to different
+requirements and conditions for each work, so adaptations were made to it.
+
+\subsection{Storage Model}
+
+To be able to provide all the required information to the graph construction
+algorithm, the model used to store the information had to be modified.
+
+A new \ac{ER} was designed, as shown in Figure~\ref{fig:er-model}.
+
+% kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
+% kate: remove-trailing-space on; space-indent on;
+% kate: replace-trailing-space-save on; remove-trailing-space on;

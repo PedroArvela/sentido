@@ -1,0 +1,39 @@
+\chapter{Architecture}
+\label{sec:architecture}
+
+The architecture of this project is composed of four components:
+
+\begin{enumerate}
+  \item A corpora pre-parser, which prepares the corpora being used to be
+processed by \ac{STRING};
+  \item The co-occurrence extractor from \cite{correia2015syntax};
+  \item A graph constructor and clustering algorithm;
+  \item A sense disambiguation module.
+\end{enumerate}
+
+The data follows the flow exemplified in Figure~\ref{fig:data-progression}. The
+processed text from \ac{STRING} goes through a modified implementation of the
+co-occurrence extractor from \cite{correia2015syntax}, which stores the
+co-occurrences along with their frequencies and association measures in a
+database.
+
+\begin{figure}[h]
+ \centering
+ \include{graphics/data-progression}
+ \caption{The progression of data as it evolves through the architecture}
+ \label{fig:data-progression}
+\end{figure}
+
+\section{Co-occurrence and Graph Storage}
+
+\begin{figure}[h]
+  \centering
+  \include{graphics/er-model}
+  \caption{The \acl*{ER} model used to store the information in the database}
+  \label{fig:er-model}
+\end{figure}
+
+
+% kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
+% kate: remove-trailing-space on; space-indent on;
+% kate: replace-trailing-space-save on; remove-trailing-space on;
