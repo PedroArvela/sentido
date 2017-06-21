@@ -1,6 +1,37 @@
 \tikzstyle{every node}=[font=\small]
+%\tikzstyle{every entity}=[]
 \tikzstyle{every attribute}=[font=\small]
 
-\begin{tikzpicture}[node distance = 2cm, on grid]
+\tikzstyle{weak entity}=[entity, line width=0.8pt, double, double distance=1pt]
+\tikzstyle{weak relationship}=[relationship, double, double distance=1pt]
 
+\begin{tikzpicture}[node distance = 2cm, on grid]
+  \node [entity] (corpus) at (0,0) {Corpus}
+    child {node [key attribute] (cname) at (1,1.5) {\underline{name}}}
+    child {node [attribute] (csource) at (-1,3) {source}}
+    child {node [attribute] (cyear) at (-1,3) {year}}
+    child {node [attribute] (cgenre) at (-1,3) {genre}}
+    child {node [attribute] (cupdate) at (-1,3) {update}};
+
+  \node [entity] (word) at (0,-5) {Word}
+    child {node [key attribute] (wword) at (-1,2) {\underline{word}}}
+    child {node [key attribute] (wclass) at (-2.5,1) {\underline{class}}};
+
+  \node [weak entity] (context) at (8,0) {Context};
+
+  \node [entity] (dependency) at (8,-2) {Dependency}
+    child {node [key attribute] (dtype) at (2,1.5) {\underline{type}}};
+
+  \node [weak entity] (property) at (8,-5) {Property}
+    child {node [key attribute] (ptype) at (2,1.5) {\dashuline{type}}};
+
+  \node [weak relationship] at (8,-3.5) {has}
+    edge [-latex] (dependency)
+    edge [line width=0.8pt, double, double distance=1pt] (property);
+
+  \node [relationship] at (0,-2) {belongs}
+    edge (corpus)
+    edge (property)
+    edge (word)
+    child {node [attribute] (bfreq) at (-2.5,1.5) {frequency}};
 \end{tikzpicture}
