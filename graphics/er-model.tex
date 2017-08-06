@@ -13,25 +13,59 @@
     child {node [attribute] (cgenre) at (-1,3) {genre}}
     child {node [attribute] (cupdate) at (-1,3) {update}};
 
+  \node [weak entity] (file) at (4,0) {File}
+    child {node [key attribute] (fname) at (0,3) {\dashuline{name}}};
+
   \node [entity] (word) at (0,-5) {Word}
     child {node [key attribute] (wword) at (-1,2) {\underline{word}}}
     child {node [key attribute] (wclass) at (-2.5,1) {\underline{class}}};
 
-  \node [weak entity] (context) at (8,0) {Context};
+  \node [weak entity] (context) at (8,0) {Context}
+    child {node [key attribute] (csentence) at (0,3) {\dashuline{sentence}}};
 
-  \node [entity] (dependency) at (8,-2) {Dependency}
+  \node [entity] (dependency) at (8,-1.5) {Dependency}
     child {node [key attribute] (dtype) at (2,1.5) {\underline{type}}};
 
   \node [weak entity] (property) at (8,-5) {Property}
     child {node [key attribute] (ptype) at (2,1.5) {\dashuline{type}}};
 
-  \node [weak relationship] at (8,-3.5) {has}
+  \node [relationship] (co-occurrence) at (4,-5) {co-occurrence}
+    edge [-latex] (word)
+    edge [-latex] (property)
+    edge [-latex] (corpus)
+    child {node [attribute] {frequency}}
+    child {node [attribute] {pmi}}
+    child {node [attribute] {npmi}}
+    child {node [attribute] {dice}}
+    child {node [attribute] {logDice}}
+    child {node [attribute] at (0,-0.5) {chiPearson}}
+    child {node [attribute] {logLikelihood}}
+    child {node [attribute] at (0,-0.5){significance}};
+
+  \draw [-latex] (co-occurrence) -- (2,-4.5) -- (word);
+
+  \node [weak relationship] at (8,-2.8) {has}
     edge [-latex] (dependency)
     edge [line width=0.8pt, double, double distance=1pt] (property);
 
   \node [relationship] at (0,-2) {belongs}
-    edge (corpus)
-    edge (property)
-    edge (word)
+    edge [-latex] (corpus)
+    edge [-latex] (property)
+    edge [-latex] (word)
     child {node [attribute] (bfreq) at (-2.5,1.5) {frequency}};
+
+  \node [weak relationship] at (2,0) {has}
+    edge [-latex] (corpus)
+    edge [line width=0.8pt, double, double distance=1pt] (file);
+
+  \node [weak relationship] at (6,0) {has}
+    edge [-latex] (file)
+    edge [line width=0.8pt, double, double distance=1pt] (context);
+
+  \node [draw,dashed, minimum width=15cm, minimum height=3.6cm] (agg) at ([yshift=-0.5cm]co-occurrence) {};
+
+  \node [relationship] at (4,-2) {occurs}
+    edge [-latex] (agg)
+    edge [-latex] (context)
+    child {node [attribute] at (2, 1) {frequency}};
 \end{tikzpicture}

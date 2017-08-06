@@ -24,7 +24,12 @@ database.
  \label{fig:data-progression}
 \end{figure}
 
-\section{Co-occurrence and Graph Storage}
+\section{Co-occurrence Storage}
+
+The co-occurrences are stored in an SQLite database, using the \ac{ER} model in
+Figure~\ref{fig:er-model}, adapted from \cite{correia2015syntax}, with minor
+changes to keep information of all the sentences used instead of only 20
+randomly selected sentences for each co-occurrence.
 
 \begin{figure}[h]
   \centering
@@ -32,6 +37,40 @@ database.
   \caption{The \acl*{ER} model used to store the information in the database}
   \label{fig:er-model}
 \end{figure}
+
+The changes in relation to \cite{correia2015syntax} are that the Entity
+\emph{Context} replaces \emph{Sentence}, with information about the file used to
+store the information as well as the sentence number in that file.
+
+Additionally, the relationship \emph{Exemplifies} is replaced with
+\emph{Occurs}, which associates all \emph{Co-occurrence} aggregations with all
+the respective \emph{Context}s where they occur.
+
+As in \cite{correia2015syntax}, the following \ac{IC} were identified:
+
+\begin{enumerate}
+  \item The word in \emph{Co-occurrence} must belong to the \emph{Corpus} to
+    which they were associated with;
+  \item The \emph{Co-occurrence} association must be associated to the same
+    \emph{Property} to which the words associate with in \emph{Belongs};
+  \item The sentences in \emph{Context} must belong to the same \emph{Corpus}
+    as the \emph{Co-occurrences} which occur in these.
+\end{enumerate}
+
+\section{Graph Generation}
+
+For a target word \emph{w1}, a query to the database is made to obtain all
+co-occurrences which occur in the same contexts as \emph{w1}, along with the
+respective association measures. After filtering all co-occurrences which do not
+reach the minimum threshold value of the association measure being used, the
+co-occurrences are saved in a graph structure.
+
+To ensure only words directly related remain, a breadth-first search of depth 2
+is made starting from the target word. Only the nodes which were visited during
+this process are kept in the final graph.
+
+\section{Graph Clustering}
+
 
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;

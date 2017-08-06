@@ -61,7 +61,45 @@ requirements and conditions for each work, so adaptations were made to it.
 To be able to provide all the required information to the graph construction
 algorithm, the model used to store the information had to be modified.
 
-A new \ac{ER} was designed, as shown in Figure~\ref{fig:er-model}.
+A new \ac{ER} was designed, as shown in Figure~\ref{fig:er-model}, and used to
+generate the relational model used in the database.
+
+To optimize for the database usage, all tables received their own \texttt{id},
+used as the primary key, with the previous primary key being set as a
+\texttt{UNIQUE} constraint. The new id primary key is then used to reference to
+a given table's line in other tables. This helped reduce the space occupied by
+repeated references to text-based primary keys.
+
+\subsection{Parsing XIP files}
+
+The \ac{XIP} files were being parsed as XML using Java's W3C based \ac{DOM}
+parser\footnote{\url{https://docs.oracle.com/javase/8/docs/api/org/w3c/dom/package-summary.html},
+last accessed on \DTMdate{2017-08-06}}. This parser loads the file in memory and
+creates the \ac{DOM}-like tree structure from there.
+
+This implementation was having problems with larger files, on the range of
+100MiB and larger, taking exponential amounts of time to preform the most basic
+operations.
+
+The existing \ac{DOM} parser was thus replaced with a pull-parser
+implementation, which generates events as required to create the new elements,
+without having to load the file nor the \ac{DOM} tree in memory.
+
+\subsection{Populating the Database}
+
+After parsing the \ac{XIP} files, the dependencies were extracted using the
+tools from \cite{correia2015syntax}. The extracted dependencies were then added
+to the database as co-occurrences, by attempting to insert them at first and
+updating the existing one if the insertion failed due to uniqueness constraints.
+This ensured the number of reads necessary to insert in the database were kept
+to a minimum, and thus reduced the amount of time to populate the database.
+
+After all co-occurrences were added to the database, the values of the
+association measures were updated in batches of 2000 at a time. To prevent
+slowdowns while waiting to read, a cache of read values from the database was
+used to prevent reading multiple times the same value from the database,
+allowing to considerably reduce the time taken populating the association
+measures.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
