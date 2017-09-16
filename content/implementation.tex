@@ -89,6 +89,15 @@ The resulting parser has therefore an $O(1)$ memory usage for parsing, as only
 the currently parsed segment needs to stay in memory as the document structure
 is built.
 
+On top of the XML pull parser, a basic stack was used to keep track of what was
+the current element and depth in the document, in which the name of the current
+tag would be pushed to when a start event was detected, and the top element was
+popped when an end event was detected.
+
+With the events and the stack, a state machine was created, which was
+responsible for deciding the next action in the construction of the XIP document
+in memory.
+
 \subsection{Populating the Database}
 
 After parsing the \ac{XIP} files, the dependencies were extracted using the
