@@ -38,7 +38,7 @@ randomly selected sentences for each co-occurrence.
   \label{fig:er-model}
 \end{figure}
 
-The changes in relation to \cite{correia2015syntax} are that the Entity
+The changes in relation to \cite{correia2015syntax} are that the entity
 \emph{Context} replaces \emph{Sentence}, with information about the file used to
 store the information as well as the sentence number in that file.
 
@@ -57,7 +57,7 @@ As in \cite{correia2015syntax}, the following \ac{IC} were identified:
     as the \emph{Co-occurrences} which occur in these.
 \end{enumerate}
 
-\section{Graph Generation}
+\section{Graph Generation and Clustering}
 
 For a target word \emph{w1}, a query to the database is made to obtain all
 co-occurrences which occur in the same contexts as \emph{w1}, along with the
@@ -65,12 +65,36 @@ respective association measures. After filtering all co-occurrences which do not
 reach the minimum threshold value of the association measure being used, the
 co-occurrences are saved in a graph structure.
 
-To ensure only words directly related remain, a breadth-first search of depth 2
-is made starting from the target word. Only the nodes which were visited during
-this process are kept in the final graph.
+To ensure only words directly related remain, a breadth-first search is made
+starting from the target word. Only the nodes which were visited during this
+process are kept in the final graph.
 
-\section{Graph Clustering}
+After the graph is generated, a graph clustering algorithm is ran against it,
+and the resulting senses are stored.
 
+\section{Sense Disambiguation}
+
+To disambiguate senses of a target word $w$ from a given context
+$c$, the co-occurrences from $c$ are extracted and used to generate
+the co-occurrence cluster for the context, $C_i$.
+
+Then, for each inferred sense cluster $C_j$ of $w$, the
+\emph{Separation} between $C_i$ and $C_j$ is calculated according to
+Equation~\ref{eq:separation} \cite{hope2013uos}, in which
+$\operatorname{proximity}$ is defined as the weight of the co-occurrence in the
+inferred sense graph.
+
+\begin{equation}
+ \operatorname{separation}(C_i,C_j) =
+ 1 - \left(
+ \frac {\sum_{\substack{x \in C_i \\ y \in C_j}} \operatorname{proximity}(x,y)}
+       {|C_i| \times |C_j|}
+ \right)
+\label{eq:separation}
+\end{equation}
+
+The cluster $C_j$ with the lowest separation score compared to $C_i$ is then
+considered the most likely sense of the target word $w$.
 
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;

@@ -1,0 +1,177 @@
+\chapter{Evaluation Methodology}
+
+The evaluation is composed of two methods, an unsupervised evaluation and a
+supervised evaluation. The unsupervised evaluation is used to assess the
+resulting clusters' similarity to the \ac{GS} senses. The supervised evaluation
+is used as an application-oriented assessment of the resulting clusters in the
+task of \ac{WSD}.
+
+\section{Test Corpus}
+
+To evaluate the project, the corpus from \cite{pires2017verb} was used. This was
+the PAROLE corpus \cite{nascimento1998parole}, with each verb manually annotated
+with its ViPEr class and reviewed by linguists.
+
+\section{Unsupervised Evaluation}
+\label{sec:unsupeval}
+
+In this evaluation method, the set of resulting clusters is compared to a
+\ac{GS}. This comparison is made by evaluating the clusters'
+\textit{homogeneity} and \textit{completeness}. Homogeneity refers to the degree
+that each cluster consists of data points primarily belonging to a single
+\ac{GS} class. Completeness refers to the degree that each \ac{GS} class
+consists of data points assigned to a single cluster
+\cite{manandhar2009semeval}. To evaluate homogeneity and completeness, the
+F-score and the V-measure will be used.
+
+Given a particular \ac{GS} sense $gs_i$ of size $a_i$ and a cluster $c_j$ of
+size $a_j$, the F-score of $gs_i$ and $c_j$ is the harmonic mean of its
+precision and its recall, as defined in Equation~\ref{eq:smallf}
+\cite{agirre2007semeval}. Precision of a class $gs_i$ with respect to cluster
+$c_j$ is the number of common instances divided by total cluster size, i.e.
+$P(gs_i, c_i) = \frac{a_{ij}}{a_j}$. The recall of a class $gs_i$ with respect
+to cluster $c_j$ is the number of common instances divided by total sense size,
+i.e. $R(gs_i, c_j) = \frac{a_ {ij}}{a_i}$.
+
+\begin{equation} \label{eq:smallf}
+ f(gs_i, c_j) = \frac{2P(gs_i,c_j)R(gs_i,c_j)}
+                     {P(gs_i,c_j) + R(gs_i,c_j)}
+\end{equation}
+
+The F-score of a class $gs_i$ is the maximum F-score obtained at any cluster, as
+according to Equation~\ref{eq:fscoregs}. The F-Score of the entire clustering
+solution is the weighted average of the F-scores of each \ac{GS}, as in
+Equation~\ref{eq:fscore}, where $q$ is the number of \ac{GS} senses and $N$ is
+the total number of target word instances.
+
+\begin{equation} \label{eq:fscoregs}
+ F(gs_i) = \underset{c_j}{\max} f(gs_i, c_j)
+\end{equation}
+
+\begin{equation} \label{eq:fscore}
+ FS = \sum_{i=1}^q \frac{|gs_i|}{N}F(gs_i)
+\end{equation}
+
+The F-score measures both homogeneity (precision) and completeness (recall).
+However, the F-score suffers from the \textit{matching problem}, by not
+evaluating the entire membership of a cluster \cite{rosenberg2007v}. This is
+due to the F-score not considering the components of the clusters beyond the
+majority class. Furthermore, the F-score penalises systems for getting the
+number of \ac{GS} classes wrongly \cite{manandhar2009semeval}.
+
+Thus, to complement the F-score, the V-measure is also used. V-measure is an
+entropy-based measure that explicitly measures how successfully the criteria
+of homogeneity and completeness have been satisfied \cite{rosenberg2007v}. Just
+as precision and recall are combined to form the F-score, homogeneity and
+completeness are combined using the harmonic mean to compute the V-measure.
+
+For the homogeneity criterion, a clustering must assign only the data points of a
+single class to a single cluster. That is, the class distribution of each
+cluster should be skewed to a single class, zero entropy \cite{rosenberg2007v}.
+In a perfectly homogeneous case, $H(GS|C) = 0$ and in an imperfect situation,
+this value is dependent on the size of the dataset and distribution of class
+sizes. Therefore, the V-measure normalizes this value by the maximum reduction
+in entropy the clustering could provide, $H(GS)$, resulting in
+Equation~\ref{eq:homogeneity}.
+
+\begin{equation} \label{eq:homogeneity}
+ h = \begin{dcases}
+      1,                        & \text{if } H(GS,C) = 0 \\
+      1 - \frac{H(GS|C)}{H(GS)},& \text{otherwise} \\
+     \end{dcases}
+\end{equation}
+
+\begin{equation}
+ H(GS) = - \sum_{i=1}^{|GS|} \frac{\sum_{j=1}^{|C|} a_{ij}}{N}
+         \log \frac{\sum_{j=1}^{|C|} a_{ij}}{N}
+\end{equation}
+
+\begin{equation}
+ H(GS|C) = - \sum_{j=1}^{|C|} \sum_{i=1}^{|GS|} \frac{a_{ij}}{N}
+           \log \frac{a_{ij}}{\sum_{k=1}^{|GS|} a_{kj}}
+\end{equation}
+
+Symmetrically to homogeneity, for the completeness criterion, a clustering
+solution must assign all of the datapoints of a single class to a single
+cluster. This can be evaluated by calculating the conditional entropy of the
+proposed cluster distribution given the class of the component data points,
+$H(C|GS)$. In a perfectly complete case, $H(C|GS) = 0$ and in the worst case
+scenario each class is represented by every cluster with a distribution equal to
+the distribution of cluster sizes, $H(C|GS)$ is maximal and equals $H(C)$.
+Therefore, adding a way symmetric to that used for homogeneity, the V-measure
+defines completeness as in Equation~\ref{eq:completeness}.
+
+\begin{equation} \label{eq:completeness}
+ c = \begin{dcases}
+      1,                        & \text{if } H(C,GS) = 0 \\
+      1 - \frac{H(C|GS)}{H(C)}, & \text{otherwise} \\
+     \end{dcases}
+\end{equation}
+
+\begin{equation}
+ H(C) = - \sum_{j=1}^{|C|} \frac{\sum_{i=1}^{|GS|} a_{ij}}{N}
+        \log \frac{\sum_{i=1}^{|GS|} a_{ij}}{N}
+\end{equation}
+
+\begin{equation}
+ H(C|GS) = - \sum_{i=1}^{|GS|} \sum_{j=1}^{|C|} \frac{a_{ij}}{N}
+           \log \frac{a_{ij}}{\sum_{k=1}^{|C|} a_{ik}}
+\end{equation}
+
+Based on these calculations of homogeneity and completeness, the V-measure of a
+clustering solution is then computed using the weighted harmonic mean of
+homogeneity and completeness, according to Equation~\ref{eq:vmes}, in which if
+$\beta$ is greater than 1 completeness is weighted more strongly and if less
+than 1 homogeneity is weighted more strongly.
+
+\begin{equation} \label{eq:vmes}
+ V_\beta = \frac{(1+\beta)hc}{(\beta h) + c}
+\end{equation}
+
+Although the V-measure does not increase monotonically, it is known to tend to
+favour systems producing a higher number of clusters than the number of \ac{GS}
+senses \cite{manandhar2010semeval}. With this in mind, both the F-score and the
+V-measure are used for this evaluation method, as the F-score penalises systems
+when they produce a different number of clusters from the number of \ac{GS}
+senses.
+
+Additional measures for unsupervised evaluation include \textit{entropy} and
+\textit{purity}. Entropy measures how various classes of objects are
+distributed within each cluster. Generally, the smaller the entropy, the better
+the clustering algorithm preforms. On the other hand, Purity measures the extent
+to which each cluster contains objects from primarily one class. The larger the
+purity, the better the clustering algorithm preforms. A formal definition of
+these measures is available in \cite{zhao2005hierarchical}. However, as both of
+them evaluate only the homogeneity of a clustering algorithm, disregarding
+completeness \cite{manandhar2009semeval}, and are not frequently used in the
+evaluation of more recent algorithms, they will not be considered in this
+evaluation.
+
+\section{Supervised Evaluation}
+\label{sec:supeval}
+
+In the supervised evaluation method, the target corpus is split into a testing
+and training part. The training part is used to map the automatically induced
+clusters to \ac{GS} senses. After that, the testing corpus is used to evaluate
+the clustering resulting in a \ac{WSD} setting.
+
+Suppose there are $m$ clusters and $n$ senses for the target word. $M$ is the
+set of probabilities of words belonging to clusters, $M = \{m_{ij}\}$, $1 \leq i
+\leq m, 1 \leq j \leq n$ and each $m_{ij} = P(gs_j|c_i)$, that is, $m_{ij}$ is
+the probability of a word sense $j$ given it that has been assigned to a cluster
+$i$. This probability can be computed counting the times an occurrence with
+sense $j$ has been assigned to cluster $i$ in the train corpus.
+
+The matrix $M$ is then used to transform any cluster score vector $\overline{h}$
+returned by the algorithm into a sense vector $\overline{s}$. This is done by
+multiplying the score vector by the matrix $M$, that is, $\overline{s} =
+\overline{h}M$.
+
+The mapping matrix $M$ is used in order to convert the cluster score vector
+$\overline{h}$ of each test corpus instance into a sense score vector
+$\overline{s}$, and then assign the sense with maximum score to that instance.
+Finally, the resulting test corpus is evaluated according to its recall measure.
+
+% kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
+% kate: remove-trailing-space on; space-indent on;
+% kate: replace-trailing-space-save on; remove-trailing-space on;

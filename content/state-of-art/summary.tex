@@ -30,7 +30,7 @@ respective datasets. 1c1word and \ac{MFS} groups all instances of a word into a
 single cluster.}
 \label{tab:uswsi}
 
-\begin{tabu} to \textwidth { XXrrrrrr }
+\begin{tabu} to \textwidth { Xlrrrrrr }
 \hline
 \textbf{Algorithm} & \textbf{GS} & \textbf{Prec.} & \textbf{Recall} & \textbf{Purity} & \textbf{Entropy} & \textbf{F-score} & \textbf{V-measure} \\
 \hline
@@ -59,7 +59,7 @@ Random \cite{manandhar2010semeval}        & WSI\&D 2010    & ---  & ---  & ---  
 the WSI\&D 2010 dataset, the 80-20 split is used.}
 \label{tab:wsi}
 
-\begin{tabu} to \textwidth { XXr }
+\begin{tabu} to \textwidth { Xlr }
 \hline
 \textbf{Algorithm} & \textbf{Testing Corpus} & \textbf{Recall} (\%)\\
 \hline
@@ -87,6 +87,9 @@ which feature small-world features, as it can be seen on Table~\ref{tab:clalg}.
 but unlike MaxMax, it is not deterministic, and it does not allow to place the
 same node in several clusters -- soft-clustering --, a feature specially
 desirable for a global graph approach so that one word can have several senses.
+On the other side, MaxMax is known to generate many fine-grained clusters, which
+then need to be merged to obtain clusters more similar in size to the target
+senses \cite{hope2013uos}.
 
 \begin{table}
 \centering
@@ -96,7 +99,7 @@ Retrieval Recall (rRecall), F-score and V-measure are measured in percentage
 ($\%$).}
 \label{tab:clalg}
 
-\begin{tabu} to \textwidth {XXXrrrr}
+\begin{tabu} to \textwidth {Xllrrrr}
 \hline
 \textbf{Alg.} & \textbf{Determ.} & \textbf{Soft-Clust.} & \textbf{rPrec.} & \textbf{rRecall} & \textbf{F-sc.} & \textbf{V-mes.} \\
 \hline

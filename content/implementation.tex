@@ -70,7 +70,7 @@ used as the primary key, with the previous primary key being set as a
 a given table's line in other tables. This helped reduce the space occupied by
 repeated references to text-based primary keys.
 
-\subsection{Parsing XIP files}
+\subsection{Parsing \ac{XIP} files}
 
 The \ac{XIP} files were being parsed as XML using Java's W3C based \ac{DOM}
 parser\footnote{\url{https://docs.oracle.com/javase/8/docs/api/org/w3c/dom/package-summary.html},
@@ -81,9 +81,13 @@ This implementation was having problems with larger files, on the range of
 100MiB and larger, taking exponential amounts of time to preform the most basic
 operations.
 
-The existing \ac{DOM} parser was thus replaced with a pull-parser
-implementation, which generates events as required to create the new elements,
-without having to load the file nor the \ac{DOM} tree in memory.
+The existing \ac{DOM} parser was thus replaced with a pull-parser. This reads
+the file sequentially, and as new elements are found, such as the start or the
+end of an element, an event is generated, with only the contents pertaining it.
+
+The resulting parser has therefore an $O(1)$ memory usage for parsing, as only
+the currently parsed segment needs to stay in memory as the document structure
+is built.
 
 \subsection{Populating the Database}
 
@@ -91,8 +95,6 @@ After parsing the \ac{XIP} files, the dependencies were extracted using the
 tools from \cite{correia2015syntax}. The extracted dependencies were then added
 to the database as co-occurrences, by attempting to insert them at first and
 updating the existing one if the insertion failed due to uniqueness constraints.
-This ensured the number of reads necessary to insert in the database were kept
-to a minimum, and thus reduced the amount of time to populate the database.
 
 After all co-occurrences were added to the database, the values of the
 association measures were updated in batches of 2000 at a time. To prevent
@@ -100,6 +102,70 @@ slowdowns while waiting to read, a cache of read values from the database was
 used to prevent reading multiple times the same value from the database,
 allowing to considerably reduce the time taken populating the association
 measures.
+
+A second pass was then made, after obtaining all the co-occurrences, to
+calculate the various association measures in Section~\ref{sec:assoc} for all of
+them.
+
+\section{Sense Induction}
+
+Given a target word $w$, a query to the database was made, to obtain all
+co-occurrences which happened in the same context as co-occurrences with $w$ as
+either the first or second word.
+
+The resulting set of rows consisted of all co-occurrences happening in the same
+context as $w$. These were then assembled into a graph, in which all the nodes
+represented the words in the resulting set, and the edges represented the
+co-occurrences of that same set.
+
+All co-occurrences in which the association measure's weight was lower than the
+threshold were then removed from the graph.
+
+To this graph, a breadth first search was applied, starting from $w$, to ensure
+only nodes directly connected to $w$ by any number of steps remained in the
+graph. This eliminated nodes and co-occurrences not connected to the graph at
+all, coming -- for example -- from dangling co-occurrences which were previously
+connected only through other co-occurrences which were removed due to their
+weight being below the threshold.
+
+The resulting graph is finally clustered using one of the algorithms explained
+in Section~\ref{sec:clusteralgorithms}.
+
+\section{Sense Disambiguation}
+
+To be able to preform disambiguation, additional changes had to be done to the
+co-occurrence extractor in \cite{correia2015syntax}. The extractor had the logic
+to extract the co-occurrences and the code to write them in the database merged
+together. To make the extractor usable for the task of disambiguation, a
+separation of the code to write in the database and the logic of extracting the
+co-occurrences was preformed.
+
+Having applied those changes, the disambiguation for a target word $w$ and a
+context $c$ starts by using the modified extractor to obtain all co-occurrences
+which occur in $c$. These are then considered the cluster of co-occurrences of
+the word $w$ in context $c$.
+
+To discover which of the induced senses $s$ is the most likely to be in use,
+each one of them is compared to the cluster of co-occurrences from the context
+using the measure of \emph{separation} defined in Equation~\ref{eq:separation}.
+
+\section{Avoiding Duplicated Calculations}
+
+As many of these steps can take considerable amounts of time, it is desirable to
+avoid repeating them as often as it is possible. As a result, most of the
+execution pipeline of the code was adapted to read and write from files as often
+as possible, allowing the program to use these files as a cache for calculated
+operations.
+
+The format chosen was a subset of \ac{CSV} files, in which each element was a
+row and each property was a column.
+
+After that, each time an extensive operation was concluded, such as obtaining
+the co-occurrences in the context of a word, or generating the clusters for a
+word using a given set of parameters, the results would be saved in a CSV file.
+
+If that same set of data was required later on, instead of re-calculating it
+from scratch, the information was obtained from the existing file.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
