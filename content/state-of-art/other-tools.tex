@@ -18,7 +18,7 @@ as described in Figure~\ref{fig:stringarch}.
  \include{graphics/string-architecture}
 \end{figure}
 
-\subsubsection*{Preprocessing.}
+\subsubsection*{Preprocessing}
 
 In the first stage, the text is passed through a tokenizer, which is also
 responsible for recognising some special tokens, such as numbers or punctuation.
@@ -28,31 +28,33 @@ with their appropriate \ac{POS} tags. At last, the text is split into sentences
 based mainly on the punctuation and having into account abbreviations, acronyms,
 and the use of ellipsis.
 
-\subsubsection*{POS Disambiguation.}
+\subsubsection*{POS Disambiguation}
 
 This stage comprises two steps, which are preformed by two distinct modules:
 
 \begin{enumerate}
- \item \ac{RuDriCo}, which preforms rule-driven morphossyntactic disambiguation
+ \item \ac{RuDriCo2}, which preforms rule-driven morphossyntactic disambiguation
 \cite{diniz2010conversor};
  \item \ac{MARv}, which preforms statistical disambiguation
 \cite{ribeiro2003anotacao}.
 \end{enumerate}
 
-\ac{RuDriCo} is also responsible for modifying the initial segmentation done by
-the previous module, through the use of declarative pattern-matching rules. It
+\ac{RuDriCo2} is responsible for refining the initial segmentation done by
+LexMan. It uses declarative pattern-matching rules to modify the original
+segmentation or disambiguate some of the \ac{POS} tags. \ac{RuDriCo2} also
 preforms the expansion of contracted words.
 
-\ac{MARv} is responsible for looking at the labels generated for each word
-and then choosing the most likely tag given its immediate context. This is done
-using \acp{HMM}. \ac{MARv} uses second-order models, which codify contextual
-information concerning entities, and unigrams, which codify lexical information.
+\ac{MARv} is responsible for resolving morphossyntactic ambiguity. It analyses
+the labels generated for each word and then chooses the most likely tag given
+its immediate context. This is done using \acp{HMM}. \ac{MARv} uses
+second-order models, which codify contextual information concerning entities,
+and unigrams, which codify lexical information.
 
-\subsubsection*{Syntactic Analysis.}
+\subsubsection*{Syntactic Analysis}
 
-Syntactic analysis is done through the use of \ac{XIP}, which also allows for
-adding lexical, syntactic and semantic information to the output of the
-previous modules. \ac{XIP} is responsible for several tasks:
+Syntactic analysis is done through the use of \ac{XIP} \cite{ait2002robustness},
+which also allows for adding lexical, syntactic and semantic information to the
+output of the previous modules. \ac{XIP} is responsible for several tasks:
 
 \begin{enumerate}[label=(\roman*)]
  \item It adds information to the existing tokens through the use of lexicons.
@@ -66,7 +68,7 @@ lexical units together into a single entity;
 different chunks (subject, direct object, modifier, etc.).
 \end{enumerate}
 
-\subsubsection*{Post-Syntactic Analysis.}
+\subsubsection*{Post-Syntactic Analysis}
 
 At this stage additional tasks are executed which extract additional information
 from the text. One is the \ac{AR} task \cite{marques2013anaphora}, which
