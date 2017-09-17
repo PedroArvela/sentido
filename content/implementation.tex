@@ -6,8 +6,8 @@
 Two corpora were chosen to be used in this project, the CETEMPúblico corpus
 \cite{rocha2000cetempublico}, and a dump of the Portuguese edition Wikipedia
 \footnote{\url{https://en.wikipedia.org/wiki/Wikipedia:Database_download}, last
-accessed on \DTMdate{2017-06-21}.}. These were using each their own syntax to
-describe their contents. As \ac{STRING} only parses plaintext sentences, the
+accessed on \DTMdate{2017-06-21}.}. Each one was using its own syntax to
+describe its contents. As \ac{STRING} only parses plain text sentences, the
 additional meta-data provided was either removed or adapted for parsing by
 \ac{STRING}.
 
@@ -28,33 +28,34 @@ To parse it, a Python script was designed, which parses it as \ac{XML} using a
 parser which generates the element tree incrementally. Tags considered
 irrelevant were ignored, and tags with special meanings, such as the ones
 settings the bounds of a sentence, paragraph or excerpt were replaced with
-unique plaintext identifiers.
+unique plain text identifiers.
 
 Because the corpus was in \ac{SGML} format and not \ac{XML}, a few replacements
-were made before feeding each line to the parser that made sure that it would
-only read valid \ac{XML}. These ensured attributes were quoted and that all
-elements had an opening and a closing tag.
+were made before feeding each line to the parser to made sure that it the parser
+only be fed valid \ac{XML}. These ensured attributes were quoted and that all
+elements had an opening and closing tag.
 
 \subsection{Wikipedia}
 
 After obtaining the Wikipedia dump, a tool called WikiExtract
 \footnote{\url{https://github.com/attardi/wikiextractor}, last accessed on
-\DTMdate{2017-06-21}.} was used to convert the obtained XML into mostly plain
-text files.
+\DTMdate{2017-06-21}.} was used to convert the obtained \ac{XML} into mostly
+plain text files.
 
-A further cleanup was executed, in which all possible invalid \ac{XML} or
+Further cleaning was executed, in which all possible invalid \ac{XML} or
 possible leftover tags were found using a regular expression, added to a list,
 and removed automatically.
 
 At last, document boundaries and paragraphs were replaced with unique
-plaintext identifiers which can be recognized even after being parsed by
+plain text identifiers which can be recognized even after being parsed by
 \ac{STRING}.
 
 \section{Co-occurrence Extraction}
 
 To obtain the co-occurrences, the extractor created in \cite{correia2015syntax}
-was used. The extractor was not able to be used as it was due to different
-requirements and conditions for each work, so adaptations were made to it.
+is used. The extractor was not able to be used as it was due to different
+requirements and conditions for each work, so adaptations were made to it for
+the new environment.
 
 \subsection{Storage Model}
 
@@ -64,11 +65,11 @@ algorithm, the model used to store the information had to be modified.
 A new \ac{ER} was designed, as shown in Figure~\ref{fig:er-model}, and used to
 generate the relational model used in the database.
 
-To optimize for the database usage, all tables received their own \texttt{id},
+To optimize for the database usage, all tables have their own \texttt{id},
 used as the primary key, with the previous primary key being set as a
-\texttt{UNIQUE} constraint. The new id primary key is then used to reference to
-a given table's line in other tables. This helped reduce the space occupied by
-repeated references to text-based primary keys.
+\texttt{UNIQUE} constraint. The new \texttt{id} primary key is used to reference
+to a given table's line in other tables. This helped reduce the space occupied
+by repeated references to text-based primary keys.
 
 \subsection{Parsing \ac{XIP} files}
 
@@ -82,60 +83,73 @@ This implementation was having problems with larger files, on the range of
 operations.
 
 The existing \ac{DOM} parser was thus replaced with a pull-parser. This reads
-the file sequentially, and as new elements are found, such as the start or the
+the file sequentially and, as new tags are found, such as the start or the
 end of an element, an event is generated, with only the contents pertaining it.
 
-The resulting parser has therefore an $O(1)$ memory usage for parsing, as only
-the currently parsed segment needs to stay in memory as the document structure
-is built.
+The pull-parser has an $O(1)$ memory usage for parsing, as only the currently
+parsed segment needs to stay in memory as the document structure is built.
 
-On top of the XML pull parser, a basic stack was used to keep track of what was
-the current element and depth in the document, in which the name of the current
-tag would be pushed to when a start event was detected, and the top element was
-popped when an end event was detected.
+On top of the XML pull parser, a basic stack is used to keep track of what is
+the current element and depth in the document. The name of the current tag
+is pushed to the stack when a start event is emitted, and the top element is
+popped when an end event is emitted.
 
-With the events and the stack, a state machine was created, which was
-responsible for deciding the next action in the construction of the XIP document
-in memory.
+With the events and the stack, a state machine is used, which is responsible for
+deciding the next action in the construction of the XIP document in memory.
 
 \subsection{Populating the Database}
 
-After parsing the \ac{XIP} files, the dependencies were extracted using the
-tools from \cite{correia2015syntax}. The extracted dependencies were then added
+After parsing the \ac{XIP} files, the dependencies are extracted using the
+tools from \cite{correia2015syntax}. The extracted dependencies are then added
 to the database as co-occurrences, by attempting to insert them at first and
-updating the existing one if the insertion failed due to uniqueness constraints.
+updating the existing one if the insertion fail due to uniqueness constraints.
 
-After all co-occurrences were added to the database, the values of the
-association measures were updated in batches of 2000 at a time. To prevent
-slowdowns while waiting to read, a cache of read values from the database was
+After all co-occurrences are added to the database, the values of the
+association measures are updated in batches of 2000 at a time. To prevent
+slowdowns while waiting to read, a cache of read values from the database is
 used to prevent reading multiple times the same value from the database,
 allowing to considerably reduce the time taken populating the association
 measures.
 
-A second pass was then made, after obtaining all the co-occurrences, to
-calculate the various association measures in Section~\ref{sec:assoc} for all of
-them.
-
 \section{Sense Induction}
 
-Given a target word $w$, a query to the database was made, to obtain all
-co-occurrences which happened in the same context as co-occurrences with $w$ as
-either the first or second word.
+Given a target word $w$, a query to the database is made to obtain all
+co-occurrences which happen in the same context as co-occurrences with $w$ as
+either the first or second word, as in Listing~\ref{lst:contextextract}.
 
-The resulting set of rows consisted of all co-occurrences happening in the same
-context as $w$. These were then assembled into a graph, in which all the nodes
-represented the words in the resulting set, and the edges represented the
-co-occurrences of that same set.
+\begin{lstlisting}[language=SQL,float=h,caption=SQL Query to extract all
+co-occurrences in same context as the target word,label=lst:contextextract]
+SELECT Coocorrencia.*,
+       p1.palavra AS p1lemma,
+       p1.classe AS p1class,
+       p2.palavra AS p2lemma,
+       p2.classe AS p2class
+FROM Coocorrencia
+INNER JOIN CoOccurrenceContexts ON Coocorrencia.id = CoOccurrenceContexts.cooccurrence
+INNER JOIN Palavra AS p1 ON Coocorrencia.idPalavra1 = p1.idPalavra
+INNER JOIN Palavra AS p2 ON Coocorrencia.idPalavra2 = p2.idPalavra
+WHERE CoOccurrenceContexts.context IN
+    ( SELECT CoOccurrenceContexts.context
+     FROM CoOccurrenceContexts
+     INNER JOIN Coocorrencia ON CoOccurrenceContexts.cooccurrence = Coocorrencia.id
+     WHERE Coocorrencia.idPalavra1 = ?1
+       OR Coocorrencia.idPalavra2 = ?1)
+\end{lstlisting}
 
-All co-occurrences in which the association measure's weight was lower than the
-threshold were then removed from the graph.
+The resulting set of rows consists of all co-occurrences happening in the same
+context as $w$. These are then assembled into a graph, in which all the nodes
+represent the words from the set, and the edges represent the co-occurrences of
+that same set.
 
-To this graph, a breadth first search was applied, starting from $w$, to ensure
-only nodes directly connected to $w$ by any number of steps remained in the
-graph. This eliminated nodes and co-occurrences not connected to the graph at
-all, coming -- for example -- from dangling co-occurrences which were previously
-connected only through other co-occurrences which were removed due to their
-weight being below the threshold.
+All co-occurrences in which the association measure's weight is lower than a
+pre-specified threshold are then removed from the graph.
+
+A breadth first search is then applied, starting from $w$, to ensure only nodes
+directly connected to $w$ by any number of steps remain in the graph. This
+eliminates nodes and co-occurrences not connected to the graph at all, coming
+-- for example -- from dangling co-occurrences which were previously connected
+only through other co-occurrences which were removed in previous steps of the
+generation.
 
 The resulting graph is finally clustered using one of the algorithms explained
 in Section~\ref{sec:clusteralgorithms}.
@@ -151,30 +165,32 @@ co-occurrences was preformed.
 
 Having applied those changes, the disambiguation for a target word $w$ and a
 context $c$ starts by using the modified extractor to obtain all co-occurrences
-which occur in $c$. These are then considered the cluster of co-occurrences of
-the word $w$ in context $c$.
+which occur in $c$. These are considered the cluster of co-occurrences of the
+word $w$ in context $c$.
 
 To discover which of the induced senses $s$ is the most likely to be in use,
 each one of them is compared to the cluster of co-occurrences from the context
 using the measure of \emph{separation} defined in Equation~\ref{eq:separation}.
+The cluster with the lowest \emph{separation} is considered the most likely
+sense of the word in the given context.
 
 \section{Avoiding Duplicated Calculations}
 
 As many of these steps can take considerable amounts of time, it is desirable to
 avoid repeating them as often as it is possible. As a result, most of the
 execution pipeline of the code was adapted to read and write from files as often
-as possible, allowing the program to use these files as a cache for calculated
+as possible, allowing the project to use these files as a cache for calculated
 operations.
 
 The format chosen was a subset of \ac{CSV} files, in which each element was a
 row and each property was a column.
 
-After that, each time an extensive operation was concluded, such as obtaining
-the co-occurrences in the context of a word, or generating the clusters for a
-word using a given set of parameters, the results would be saved in a CSV file.
+Each time an extensive operation is concluded, such as obtaining the
+co-occurrences in the context of a word, or generating the clusters for a
+word using a given set of parameters, the results are saved in a CSV file.
 
-If that same set of data was required later on, instead of re-calculating it
-from scratch, the information was obtained from the existing file.
+If that same set of data is required later on, instead of re-calculating it
+from scratch, the information is obtained from the existing file.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

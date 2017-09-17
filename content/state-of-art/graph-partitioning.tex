@@ -38,6 +38,8 @@ Regions of the same class stabilize during the iteration, and grow until they
 reach the border of another class.
 
 \begin{algorithm}
+ \caption{The Chinese Whispers algorithm}
+ \label{alg:cw}
  \begin{algorithmic}
   \Function{ChineseWhispers}{V, E}
    \ForAll{$v_i \in V$}
@@ -51,7 +53,6 @@ reach the border of another class.
    \EndWhile
   \EndFunction
  \end{algorithmic}
- \caption{\label{alg:cw} The Chinese Whispers algorithm}
 \end{algorithm}
 
 Apart from ties, the class of a node usually does not change more than a few
@@ -99,6 +100,8 @@ directed path from $u$ to $v$. At the end of the stage, vertices which are still
 marked as $root$ uniquely identify clusters.
 
 \begin{algorithm}
+ \caption{The MaxMax algorithm}
+ \label{alg:maxmax}
  \begin{algorithmic}
   \Function{MaxMax}{V, E}
    \ForAll{$(u,v) \in E$}
@@ -118,7 +121,6 @@ marked as $root$ uniquely identify clusters.
    \EndFor
   \EndFunction
  \end{algorithmic}
- \caption{\label{alg:maxmax} The MaxMax algorithm}
 \end{algorithm}
 
 MaxMax was evaluated in the context of the SemEval 2010 \ac{WSI} Task

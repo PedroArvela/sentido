@@ -1,0 +1,48 @@
+\tikzstyle{block} = [rectangle, draw, node distance=1.5cm,
+    text width=2.5cm, text centered, minimum width=3cm, minimum height=3em,
+    rotate=90, anchor=base]
+\tikzstyle{line} = [draw, -latex']
+
+\begin{tikzpicture}[node distance = 2cm, on grid]
+
+  \node [block] (lexman) {LexMan};
+  \node [block, below of=lexman] (rudrico) {RuDriCo2};
+  \node [block, below of=rudrico] (marv) {MARv4};
+  \node [block, below of=marv] (xip) {XIP};
+  \node [block, below of=xip] (anaphora) {Anaphora Resolution};
+  \node [block, below of=anaphora] (time) {Time Normalization};
+  \node [block, below of=time] (slot) {Sloft Filling};
+  \node [block, below of=slot] (event) {Event Ordering};
+  \node [block, below of=event, ellipse, text width=1cm] (join) {Join};
+
+  \path [line] ([xshift=-0.5cm]lexman.north) -- (lexman);
+
+  \path [line] (lexman) -- (rudrico);
+  \path [line] (rudrico) -- (marv);
+  \path [line] (marv) -- (xip);
+
+  \path [line] (xip) -- ([yshift=1cm]xip.east) --
+               ([yshift=1cm]anaphora.east) -- (anaphora);
+  \path [line] (xip) -- ([yshift=1cm]xip.east) --
+               ([yshift=1cm]time.east) -- (time);
+  \path [line] (xip) -- ([yshift=1cm]xip.east) --
+               ([yshift=1cm]slot.east) -- (slot);
+  \path [line] (xip) -- ([yshift=1cm]xip.east) --
+               ([yshift=1cm]event.east) -- (event);
+  \path [line] (xip) -- ([yshift=1cm]xip.east) --
+               ([yshift=1cm]join.east) -- (join);
+
+  \path [line] (anaphora) -- ([yshift=-1cm]anaphora.west) --
+               ([yshift=-1cm]join.west) -- (join);
+  \path [line] (time) -- ([yshift=-1cm]time.west) --
+               ([yshift=-1cm]join.west) -- (join);
+  \path [line] (slot) -- ([yshift=-1cm]slot.west) --
+               ([yshift=-1cm]join.west) -- (join);
+  \path [line] (event) -- ([yshift=-1cm]event.west) --
+               ([yshift=-1cm]join.west) -- (join);
+
+\end{tikzpicture}
+
+% kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
+% kate: remove-trailing-space on; space-indent on;
+% kate: replace-trailing-space-save on; remove-trailing-space on;

@@ -10,7 +10,6 @@
 \usepackage{epstopdf}
 \usepackage{fancyvrb}
 \usepackage{url}
-\usepackage[hidelinks,bookmarks=true]{hyperref}
 
 
 \usepackage[inline]{enumitem}
@@ -19,10 +18,29 @@
 \usepackage{amsmath}
 \usepackage{footnote}
 \usepackage{graphicx}
+\usepackage{listings}
 \usepackage{mathtools}
 \usepackage{tabu}
 \usepackage{tikz}
 \usepackage{ulem}
+
+\usepackage[hidelinks,bookmarks=true]{hyperref}
+
+\renewcommand{\lstlistoflistings}{\begingroup
+\tocfile{\lstlistlistingname}{lol}
+\endgroup}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\ttfamily,            % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\itshape\color{gray},  % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{red},         % string literal style
+  numberstyle=\color{yellow},      % number literal style
+}
 
 % Resets emph to italics instead of underline
 \normalem

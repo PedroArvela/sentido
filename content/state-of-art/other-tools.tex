@@ -8,7 +8,15 @@ mention other works which make use of word co-occurrences in text.
 
 \ac{STRING} \cite{mamede2012string} is a \ac{NLP} system for the Portuguese
 language, capable of preforming all basic \ac{NLP} tasks, including \ac{NER},
-\ac{IR}, \ac{AR}, among other tasks. \ac{STRING} is composed of several stages:
+\ac{IR}, \ac{AR}, among other tasks. \ac{STRING} is composed of several stages,
+as described in Figure~\ref{fig:stringarch}.
+
+\begin{figure}[ht]
+ \caption{\acs*{STRING} Architecture}
+ \label{fig:stringarch}
+ \centering
+ \include{graphics/string-architecture}
+\end{figure}
 
 \subsubsection*{Preprocessing.}
 
@@ -112,12 +120,12 @@ was generated from the created \ac{ER} model.
 To store the information in the database, the \ac{ER} model in
 Figure~\ref{fig:correira2015er} was created and used.
 
-\begin{figure}[h]
- \centering
- \include{graphics/correia2015er}
+\begin{figure}[ht]
  \caption[ER model of (Correia et al. 2015)]{The \ac{ER} model used in
  \cite{correia2015syntax}.}
  \label{fig:correira2015er}
+ \centering
+ \include{graphics/correia2015er}
 \end{figure}
 
 The entities \textit{Corpus}, \textit{Word} and \textit{Dependency} are used to
@@ -182,7 +190,12 @@ The measures calculated are:
   \item Significance Measure.
 \end{itemize}
 
-% TODO: Explain each of the association measures here
+\subsection{Information Display}
+
+The extracted information which was stored in the database is then displayed to
+the user through the use of a web interface written in \ac{PHP} and AngularJS.
+The \emph{front-end}, executed on the \emph{client-side}, makes \ac{AJAX}
+requests to the \emph{back-end}, executed on the \emph{server-side}.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

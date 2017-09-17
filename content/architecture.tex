@@ -17,11 +17,11 @@ co-occurrence extractor from \cite{correia2015syntax}, which stores the
 co-occurrences along with their frequencies and association measures in a
 database.
 
-\begin{figure}[h]
- \centering
- \include{graphics/data-progression}
+\begin{figure}[ht]
  \caption{The progression of data as it evolves through the architecture}
  \label{fig:data-progression}
+ \centering
+ \include{graphics/data-progression}
 \end{figure}
 
 \section{Co-occurrence Storage}
@@ -31,11 +31,11 @@ Figure~\ref{fig:er-model}, adapted from \cite{correia2015syntax}, with minor
 changes to keep information of all the sentences used instead of only 20
 randomly selected sentences for each co-occurrence.
 
-\begin{figure}[h]
-  \centering
-  \include{graphics/er-model}
+\begin{figure}[ht]
   \caption{The \acl*{ER} model used to store the information in the database}
   \label{fig:er-model}
+  \centering
+  \include{graphics/er-model}
 \end{figure}
 
 The changes in relation to \cite{correia2015syntax} are that the entity
@@ -59,8 +59,8 @@ As in \cite{correia2015syntax}, the following \ac{IC} were identified:
 
 \section{Graph Generation and Clustering}
 
-For a target word \emph{w1}, a query to the database is made to obtain all
-co-occurrences which occur in the same contexts as \emph{w1}, along with the
+For a target word $w$, a query to the database is made to obtain all
+co-occurrences which occur in the same contexts as $w$, along with the
 respective association measures. After filtering all co-occurrences which do not
 reach the minimum threshold value of the association measure being used, the
 co-occurrences are saved in a graph structure.
