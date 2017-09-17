@@ -192,12 +192,73 @@ The measures calculated are:
   \item Significance Measure.
 \end{itemize}
 
-\subsection{Information Display}
+\subsubsection*{Information Display}
 
 The extracted information which was stored in the database is then displayed to
 the user through the use of a web interface written in \ac{PHP} and AngularJS.
 The \emph{front-end}, executed on the \emph{client-side}, makes \ac{AJAX}
 requests to the \emph{back-end}, executed on the \emph{server-side}.
+
+\subsection{Association Measures}
+
+\subsubsection*{\acl*{PMI} and \acl*{NPMI}}
+
+\ac{PMI} is a measure of how much the actual probability of a co-occurrence
+$p(x,y)$ differs from what would be expected given the probabilities of the
+individual events and assuming the independence of $p(x)$ and $p(y)$
+\cite{bouma2009normalized}. \ac{PMI} is thus defined in Equation~\ref{eq:pmi}.
+
+\begin{equation}
+  \label{eq:pmi}
+  i(x,y) = \ln \frac{p(x,y)}{p(x)p(y)}
+\end{equation}
+
+\ac{NPMI} normalizes the upper and lower bound of \ac{PMI} \cite{bouma2009normalized}.
+In this case, $i_n(x,y) = 1$ when the two words only occur together,
+$i_n(x,y) = 0$ when $x$ and $y$ are independent, and $i_n(x,y)$ approaches $-1$
+when the two words occur separately but not together, that is, when $p(x,y)$
+approaches 0 and $p(x)$, $p(y)$ are fixed. \ac{NPMI} is thus defined in
+Equation~\ref{eq:npmi}.
+
+\begin{equation}
+  \label{eq:npmi}
+  i_n(x,y) = \left. \left( \ln \frac{p(x,y)}{p(x)p(y)} \right) \middle/
+             - \ln p(x,y) \right.
+\end{equation}
+
+
+\subsubsection*{Dice Coefficient and LogDice}
+
+The Dice coefficient measures the amount of association between two
+co-occurrences \cite{dice1945measures} and ranges from $1.0$, which indicates
+association of the two co-occurrences every time they occurred, to $0.0$, which
+indicates no association whatsoever between the two co-occurrences under any
+time they occurred at all. The Dice coefficient is defined in
+Equation~\ref{eq:dice}.
+
+\begin{equation}
+  \label{eq:dice}
+  D = \frac{2p(x,y)}{p(x) + p(y)}
+\end{equation}
+
+\emph{logDice} addresses the fact that the Dice coefficient usually generates
+very small numbers \cite{rychly2008lexicographer}. For \emph{logDice}, the
+maximum is $14$. A value of $0$ means there is less than 1 co-occurrence of
+$XY$ per 16,000 $X$ or 16,000 $Y$. A value increase in 1 unit means the
+co-occurrence occurs twice as often, and a value increase of 7 means the
+co-occurrence occurs about 100 times as often. \emph{logDice} is defined in
+Equation~\ref{eq:logdice}.
+
+\begin{equation}
+  \label{eq:logdice}
+  \operatorname{logDice} = 14 + \log_2 D = 14 + \log_2 \frac{2p(x,y)}{p(x) + p(y)}
+\end{equation}
+
+\subsubsection*{Pearson's Chi-Squared Test}
+
+\subsubsection*{Log Likelihood Ratio}
+
+\subsubsection*{Significance Measure}
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
