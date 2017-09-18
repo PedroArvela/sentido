@@ -1,4 +1,5 @@
 \section{Co-occurrence Graph Models}
+\label{sec:co-occurrence}
 
 In graph-based models, the meanings of a word are represented by a weighted
 and undirected co-occurrence graph. The nodes (or vertices) of the graph are the
@@ -21,7 +22,7 @@ searched.
  \includegraphics[width=0.5\textwidth]{graphics/small_world}
 \end{figure}
 
-\subsection{Graph Model for Unsupervised Lexical Acquisition.}
+\subsection{Graph Model for Unsupervised Lexical Acquisition}
 
 A graph from a \ac{POS}-tagged corpus is made in \cite{widdows2002graph}, using
 words as nodes and the grammatical co-occurrence relationships between pairs as
@@ -56,7 +57,7 @@ retrieved using a single seed-word from the class in question.
 The results show that of a total of 200 retrieved words, only 36 were
 incorrect, giving an accuracy of $82\%$.
 
-\subsection{Word Sense Induction Using Graphs of Collocations.}
+\subsection{Word Sense Induction Using Graphs of Collocations}
 \label{sec:collocations}
 
 A graph of collocations is used in \cite{klapaftis2008word} to generate a
@@ -152,7 +153,7 @@ evaluation, the model with smoothing achieved $88.6\%$ purity, $31\%$ entropy
 F-Score of $78.0\%$. Results without smoothing were similar, but with a lower
 F-Score due to the larger number of induced clusters.
 
-\subsection{UoY: Graphs of Unambiguous Vertices.}
+\subsection{UoY: Graphs of Unambiguous Vertices}
 
 The model developed in \cite{korkontzelos2010uoy} is a relaxed version of the
 model in \cite{klapaftis2008word}, described in Section~\ref{sec:collocations},

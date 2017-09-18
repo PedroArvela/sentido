@@ -201,6 +201,11 @@ requests to the \emph{back-end}, executed on the \emph{server-side}.
 
 \subsection{Association Measures}
 
+As it could be seen in Section~\ref{sec:vectorspace} and
+Section~\ref{sec:co-occurrence}, many works rely in metrics to measure the
+cohesion of two words \cite{pantel2003clustering,pantel2002discovering,jurgens2010hermit,klapaftis2008word,korkontzelos2010uoy,correia2015syntax}.
+This section further examines some association measures and their properties.
+
 \subsubsection*{\acl*{PMI} and \acl*{NPMI}}
 
 \ac{PMI} is a measure of how much the actual probability of a co-occurrence
@@ -226,7 +231,6 @@ Equation~\ref{eq:npmi}.
              - \ln p(x,y) \right.
 \end{equation}
 
-
 \subsubsection*{Dice Coefficient and LogDice}
 
 The Dice coefficient measures the amount of association between two
@@ -241,7 +245,7 @@ Equation~\ref{eq:dice}.
   D = \frac{2p(x,y)}{p(x) + p(y)}
 \end{equation}
 
-\emph{logDice} addresses the fact that the Dice coefficient usually generates
+\emph{LogDice} addresses the fact that the Dice coefficient usually generates
 very small numbers \cite{rychly2008lexicographer}. For \emph{logDice}, the
 maximum is $14$. A value of $0$ means there is less than 1 co-occurrence of
 $XY$ per 16,000 $X$ or 16,000 $Y$. A value increase in 1 unit means the
@@ -256,9 +260,96 @@ Equation~\ref{eq:logdice}.
 
 \subsubsection*{Pearson's Chi-Squared Test}
 
+$\chi^2$ is a test for dependence which does not assume normally distributed
+probabilities \cite{manning1999foundations}. The test compares observed
+frequencies with the frequencies expected for independence. In the simplest
+case, this test is applied to 2-by-2 tables such as Table~\ref{tab:chi2}. The
+$\chi^2$ test sums the differences between the observed and expected values
+in all squares of the table, scaled by the magnitude of the expected values,
+as per Equation~\ref{eq:chi2}, where $i$ is the table row, $j$ is the table
+column, $O_{ij}$ is the observed value of the cell $(i,j)$ and $E_{ij}$ is the
+expected value.
+
+\begin{table}[ht]
+  \caption{A 2-by-2 table showing the dependence of two words}
+  \label{tab:chi2}
+  \centering
+  \begin{tabu} to \textwidth {| l | r | r |}
+    \hline
+                 & $w1 = x$ & $w1 \neq x$ \\
+    \hline
+    $w2 = y$     & $O_{11}$ & $O_{12}$ \\
+    \hline
+    $w2 \neq y $ & $O_{21}$ & $O_{22}$ \\
+    \hline
+  \end{tabu}
+\end{table}
+
+\begin{equation}
+  \label{eq:chi2}
+  \chi^2 = \sum_{ij} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+\end{equation}
+
+The expected frequencies $E_{ij}$ are calculated by converting the total of the
+rows and columns into proportions. For example, $E_{11}$ is calculated by adding
+the items of the first row and dividing it by the sample size ($N$), adding the
+items of the first column and dividing it by the sample size, and then
+multiplying these two and multiply the result by the sample size, as exemplified
+in Equation~\ref{eq:Eij}.
+
+\begin{equation}
+  \label{eq:Eij}
+  E_{11} = \frac{O_{11} + O_{12}}{N} \times \frac{O_{11} + O_{21}}{N} \times N
+\end{equation}
+
+For 2-by-2 tables, the test can be simplified into Equation~\ref{eq:chi22by2}.
+
+\begin{equation}
+  \label{eq:chi22by2}
+  \chi^2 =  \frac{N(O_{11}O_{22} - O_{12}O_{21})^2}
+            {(O_{11} + O_{12}) (O_{11} + O_{21})
+             (O_{12} + O_{22}) (O_{21} + O_{22})}
+\end{equation}
+
+
 \subsubsection*{Log Likelihood Ratio}
 
+The Log-likelihood ratio ($G^2$ or $-2\log\lambda$) was created to address the
+overestimation of the normal distribution when dealing with very small
+probabilities ($np(1 - p) < 5$ for $p$ being the probability that the next word
+matches a prototype and $n$ the amount of words for which the match is being
+tested) \cite{dunning1993accurate}.
+
+The likelihood ratio tests do not depend on assuming a normal distribution and
+instead use the generalized likelihood ratio, which can be used effectively in
+smaller volumes of text than is necessary for conventional tests based on
+assumed normal distributions \cite{dunning1993accurate}.
+
+For events $k_1,k_2$, the likelihood ratio for the binomial distribution is
+defined in Equation~\ref{eq:loglikelihood}.
+
+\begin{equation}
+  \label{eq:loglikelihood}
+  -2\log\lambda = 2 \sum_{i,j} n_{ij} \log \left( \frac{n_{ij}}{m_{ij}} \right)
+\end{equation}
+
+\begin{equation}
+  n_{ij} = \frac{k_{ij}}{k_{i1} + k_{i2}}, m_{ij} = \frac{k_{1j} + k_{2j}}{N}
+\end{equation}
+
 \subsubsection*{Significance Measure}
+
+The significance measure is based on the statistical \emph{G-Test} for Poisson
+distributions: given two words $A$, $B$, each occurring $a$, $b$ times and $k$
+times together, the significance $\operatorname{sig}(A, B)$ of their occurrence
+in a sentence is defined in Equation~\ref{eq:sig}, with $n$ being the number of
+sentences and $x = \frac{ab}{n}$ \cite{biemann2004language}.
+
+\begin{equation}
+  \label{eq:sig}
+  \operatorname{sig}(A,B) = x - k \log x = \log k!
+\end{equation}
+
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

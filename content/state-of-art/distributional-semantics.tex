@@ -1,4 +1,5 @@
 \section{Statistical and Vector Space Models}
+\label{sec:vectorspace}
 
 These methods implement \acp{DSM} using one of two methods, by implementing
 semantic similarity based on a statistically oriented probability distribution
@@ -6,18 +7,18 @@ model, by implementing semantic similarity based on a geometrically oriented
 vector space model \cite{van2010mining}. Some of these methods are presented
 below.
 
-\subsection{CBC.}
+\subsection{CBC}
 
 An implementation of a clustering approach is \ac{CBC}
 \cite{pantel2003clustering,pantel2002discovering}. The algorithm represents each
 word as a feature vector, in which each feature corresponds to a context where
-the word occurs. The value of the feature is the pointwise mutual information
-between the feature and the word.
+the word occurs. The value of the feature is the \ac{PMI} between the feature
+and the word.
 
 For $F_c(w)$ being the frequency count of a word $w$ occurring in context $c$,
-the pointwise mutual information, $mi_{w,c}$, between $c$ and $w$ is defined as
-in Equation~\ref{eq:miwc}, where $N = \sum_i\sum_jF_i(j)$ is the total
-frequency count of all words and their contexts.
+the \ac{PMI}, $mi_{w,c}$, between $c$ and $w$ is defined as in
+Equation~\ref{eq:miwc}, where $N = \sum_i\sum_jF_i(j)$ is the total frequency
+count of all words and their contexts.
 
 \begin{equation}
  mi_{w,c} = \frac{\frac{F_c(w)}{N}}
@@ -142,7 +143,7 @@ F-score of $55.4\%$, outperforming the then existing algorithms by $7.5\%$ on
 precision and $5.3\%$ on recall. The F-score is later described in
 Section~\ref{sec:unsupeval}.
 
-\subsection{HERMIT.}
+\subsection{HERMIT}
 
 The model from \cite{jurgens2010hermit} performs \ac{WSI} by modeling individual
 contexts in a high dimensional word space. Word senses are induced by finding
