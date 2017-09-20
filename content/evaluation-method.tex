@@ -152,8 +152,8 @@ evaluation.
 
 In the supervised evaluation method, the target corpus is split into a testing
 and training part. The training part is used to map the automatically induced
-clusters to \ac{GS} senses. After that, the testing corpus is used to evaluate
-the clustering resulting in a \ac{WSD} setting.
+clusters to \ac{GS} senses \cite{agirre2006evaluating}. After that, the testing
+corpus is used to evaluate the clustering resulting in a \ac{WSD} setting.
 
 Suppose there are $m$ clusters and $n$ senses for the target word. $M$ is the
 set of probabilities of words belonging to clusters, $M = \{m_{ij}\}$, $1 \leq i
@@ -170,7 +170,11 @@ multiplying the score vector by the matrix $M$, that is, $\overline{s} =
 The mapping matrix $M$ is used in order to convert the cluster score vector
 $\overline{h}$ of each test corpus instance into a sense score vector
 $\overline{s}$, and then assign the sense with maximum score to that instance.
-Finally, the resulting test corpus is evaluated according to its recall measure.
+
+As the algorithm always returns an answer, its recall is of 100\% in all
+cases, there are no false negatives as there aren't any negatives at all. So
+the algorithm only needs to be evaluated according to its precision
+\cite{agirre2006evaluating}.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
