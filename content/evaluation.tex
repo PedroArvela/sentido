@@ -1,5 +1,74 @@
 \chapter{Evaluation}
 
+\section{Test Corpus}
+
+To evaluate the project, the corpus from \cite{pires2017verb} was used. This was
+the PAROLE corpus \cite{nascimento1998parole}, with each verb manually annotated
+with its ViPEr class and reviewed by linguists.
+
+The splitting used for evaluation was to use the whole corpus for training,
+except for the sentence being evaluated.
+
+\section{Parameter choosing}
+
+The graph partitioning algorithm chosen was \ac{CW}, as the other option,
+MaxMax, has a tendency to generate many fine-grained clusters
+\cite{hope2013uos}.
+
+\ac{NPMI} and logDice were chosen as the association measures due to their
+normalized scores, which allow to use the same parameter between different words
+while keeping the same underlying meaning.
+
+\ac{NPMI} was tested with minimum thresholds of 0.0, 0.25, 0.5, and 0.75,
+ranging from each word being at best independent of the other up to both
+occurring mostly together.
+
+logDice was tested with minimum thresholds of 0.0, 2.5, 5.0, 7.5, and 10,
+ranging from being at least 1 co-occurrence per 16,000 instances of each
+individual word, up to 1 co-occurrence per 15.625 instances of each word.
+
+\section{Unsupervised Evaluation}
+
+The results of the unsupervised evaluation (shown in
+Table~\ref{tab:unsup-results}), shows that all tests scored poorly in F-Score,
+while \ac{MFS} had a result on average of 83.4\%. In the V-Measure, results
+varied from 0.000 for the lowest values up to 0.344 to the highest. Not counting
+the most restrictive threshold of logDice and NPMI, all tests had better results
+than \ac{MFS}, which scored 0.004 in V-Measure.
+
+Another thing which is possible to see if that when the threshold is too high,
+not enough points are available to form a meaningful view of the system,
+resulting in no clusters at all and giving poor results.
+
+When evaluating the number of clusters, it is possible to see that most tests
+might have been penalised due to the high number of clusters they had compared
+in relation to the average number of gold senses.
+
+\begin{table}[ht]
+\caption{Results of the unsupervised \ac{WSI} evaluation. All results on logDice
+and \ac{NPMI} were made using \ac{CW}.}
+\label{tab:unsup-results}
+\begin{tabu} to \textwidth {Xrrrr}
+\hline
+\textbf{Association Measure} & \textbf{Threshold} & \textbf{F-Score (\%)} & \textbf{V-Measure} & \textbf{\# Clusters} \\
+\hline
+logDice   &  0.0 & 0.0195 & 0.3362 & 147.3 \\
+logDice   &  2.5 & 0.0180 & 0.3346 & 252.2 \\
+logDice   &  5.0 & 0.0246 & 0.2960 & 259.7 \\
+logDice   &  7.5 & 0.0270 & 0.1826 &  48.8 \\
+logDice   & 10.0 & 0.0083 & 0.0333 &   0.1 \\
+\hline
+\ac{NPMI} & 0.0  & 0.0234 & 0.3097 &  76.5 \\
+\ac{NPMI} & 0.25 & 0.0169 & 0.3437 & 380.1 \\
+\ac{NPMI} & 0.5  & 0.0072 & 0.0980 &   0.2 \\
+\ac{NPMI} & 0.75 & 0.0000 & 0.0000 &   0.0 \\
+\hline
+\ac{MFS}  &  --- & 0.8336 & 0.0037 &   1.0 \\
+\hline
+\end{tabu}
+\end{table}
+
+
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
 % kate: replace-trailing-space-save on; remove-trailing-space on;
