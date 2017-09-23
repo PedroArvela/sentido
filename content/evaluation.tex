@@ -32,12 +32,12 @@ individual word, up to 1 co-occurrence per 15.625 instances of each word.
 The results of the unsupervised evaluation (shown in
 Table~\ref{tab:unsup-results}), shows that all tests scored poorly in F-Score,
 while \ac{MFS} had a result on average of 83.4\%. In the V-Measure, results
-varied from 0.000 for the lowest values up to 0.344 to the highest. Not counting
-the most restrictive threshold of logDice and NPMI, all tests had better results
-than \ac{MFS}, which scored 0.004 in V-Measure.
+varied from 0.0\% for the lowest values up to 34.4\% for the highest. Not
+counting the most restrictive threshold of logDice and NPMI, all tests had
+better results than \ac{MFS}, which scored 0.4\% in V-Measure.
 
 Another thing which is possible to see if that when the threshold is too high,
-not enough points are available to form a meaningful view of the system,
+not enough points are available to form a meaningful view of the contexts,
 resulting in no clusters at all and giving poor results.
 
 When evaluating the number of clusters, it is possible to see that most tests
@@ -45,29 +45,121 @@ might have been penalised due to the high number of clusters they had compared
 in relation to the average number of gold senses.
 
 \begin{table}[ht]
-\caption{Results of the unsupervised \ac{WSI} evaluation. All results on logDice
-and \ac{NPMI} were made using \ac{CW}.}
+\caption{Results of the unsupervised \ac*{WSI} evaluation.}
 \label{tab:unsup-results}
-\begin{tabu} to \textwidth {Xrrrr}
+\begin{tabu} to \textwidth {Xlrrrr}
 \hline
-\textbf{Association Measure} & \textbf{Threshold} & \textbf{F-Score (\%)} & \textbf{V-Measure} & \textbf{\# Clusters} \\
+\textbf{Algorithm} & \textbf{Association Measure} & \textbf{Threshold} & \textbf{F-Score (\%)} & \textbf{V-Measure (\%)} & \textbf{\# Clusters} \\
 \hline
-logDice   &  0.0 & 0.0195 & 0.3362 & 147.3 \\
-logDice   &  2.5 & 0.0180 & 0.3346 & 252.2 \\
-logDice   &  5.0 & 0.0246 & 0.2960 & 259.7 \\
-logDice   &  7.5 & 0.0270 & 0.1826 &  48.8 \\
-logDice   & 10.0 & 0.0083 & 0.0333 &   0.1 \\
+\ac{CW} & logDice   &  0.0 &  1.95 & 33.62 & 147.3 \\
+\ac{CW} & logDice   &  2.5 &  1.80 & 33.46 & 252.2 \\
+\ac{CW} & logDice   &  5.0 &  2.46 & 29.60 & 259.7 \\
+\ac{CW} & logDice   &  7.5 &  2.70 & 18.26 &  48.8 \\
+\ac{CW} & logDice   & 10.0 &  0.83 &  3.33 &   0.1 \\
 \hline
-\ac{NPMI} & 0.0  & 0.0234 & 0.3097 &  76.5 \\
-\ac{NPMI} & 0.25 & 0.0169 & 0.3437 & 380.1 \\
-\ac{NPMI} & 0.5  & 0.0072 & 0.0980 &   0.2 \\
-\ac{NPMI} & 0.75 & 0.0000 & 0.0000 &   0.0 \\
+\ac{CW} & \ac{NPMI} & 0.0  &  2.34 & 30.97 &  76.5 \\
+\ac{CW} & \ac{NPMI} & 0.25 &  1.69 & 34.37 & 380.1 \\
+\ac{CW} & \ac{NPMI} & 0.5  &  0.72 &  9.80 &   0.2 \\
+\ac{CW} & \ac{NPMI} & 0.75 &  0.00 &  0.00 &   0.0 \\
 \hline
-\ac{MFS}  &  --- & 0.8336 & 0.0037 &   1.0 \\
+\ac{MFS} &      --- &  --- & 83.36 &  0.37 &   1.0 \\
 \hline
 \end{tabu}
 \end{table}
 
+\section{Supervised Evaluation}
+
+The results on supervised \ac{WSD} (seen in Table~\ref{tab:sup-results}) were
+very poor overall. None of the tests were able to surpass the results of
+\ac{MFS}, with a precision of 65.7\%. The highest result was using logDice with
+a threshold of 7.5, which reached a precision of 10.1\%.
+
+\begin{table}[ht]
+\caption{Results of the supervised \ac*{WSD} evaluation.}
+\label{tab:sup-results}
+\begin{tabu} to \textwidth {Xlrr}
+\hline
+\textbf{Algorithm} & \textbf{Association Measure} & \textbf{Threshold} & \textbf{Precision (\%)} \\
+\hline
+\ac{CW} & logDice   &  0.0 &  5.37 \\
+\ac{CW} & logDice   &  2.5 &  0.00 \\
+\ac{CW} & logDice   &  5.0 &  8.27 \\
+\ac{CW} & logDice   &  7.5 & 10.10 \\
+\ac{CW} & logDice   & 10.0 &  2.55 \\
+\hline
+\ac{CW} & \ac{NPMI} & 0.0  &  0.22 \\
+\ac{CW} & \ac{NPMI} & 0.25 &  2.65 \\
+\ac{CW} & \ac{NPMI} & 0.5  &  0.00 \\
+\ac{CW} & \ac{NPMI} & 0.75 &  0.00 \\
+\hline
+\ac{MFS} & ---      &  --- & 65.74 \\
+\hline
+\end{tabu}
+\end{table}
+
+\section{Result interpretation and evaluation}
+
+Overall, the tests had poor results. In all examples \ac{MFS} was able to
+achieve better results, showing the project is not ready to be used for
+disambiguation.
+
+The high number of clusters obtained (on average above the hundreds) shows that
+the results are too fine-grained to be able to properly match them to the senses
+trying to disambiguate.
+
+This might be caused by the use of syntactic dependencies, which give many less
+co-occurrences, ad thus not being able to make use of the small word properties
+of co-occurrence graphs described in Section~\ref{sec:co-occurrence}.
+
+Another relevant point which might affect the results is that the extractor used
+\cite{correia2015syntax} never had in mind the use case of this project, and was
+filtering several co-occurrences, as seen in Figure~\ref{fig:extractor}. It is
+possible and likely that it could have filtered co-occurrences essential to be
+able to disambiguate the use of a word in a given context. The co-occurrences
+it was filtering might also have affected the small word properties of the
+co-occurrence graph, invalidating the foundations in which the graph clustering
+algorithms work on to be able to achieve acceptable results.
+
+\begin{figure}[ht]
+\caption[Dependencies found by \acs*{STRING} and the extractor]{A comparison between
+the dependencies found by STRING and the ones used by the extractor. All the
+dependencies shown were found by \ac{STRING}, while only the ones shown in blue
+were recognized by the extractor.}
+\label{fig:extractor}
+\centering
+\tikzstyle{every node}=[text height=1.5ex, text depth=0.25ex,
+                        minimum width=1cm, text centered]
+\tikzstyle{every path} = [draw=gray, -triangle 45]
+\begin{tikzpicture}[node distance=1.55cm, on grid]
+\node (1) {O};
+\node [right of=1] (2) {Pedro};
+\node [right of=2] (3) {vingou};
+\node [right of=3] (4) {se};
+\node [right of=4] (5) {de};
+\node [right of=5] (6) {quem};
+\node [right of=6] (7) {matou};
+\node [right of=7] (8) {o};
+\node [right of=8] (9) {seu};
+\node [right of=9] (10) {pai};
+
+\path (2) -- (1);
+\path (10) to[bend right] (8);
+\path (6) -- (5);
+\path (7) to[bend right] (3);
+\path (10) -- (9);
+\path [blue] (3) -- (2);
+\path [blue] (7) to[bend right] (2);
+\path (4) -- (3);
+\path [blue] (7) to[bend left] (10);
+\path (6) -- (7);
+\end{tikzpicture}
+\end{figure}
+
+Additionally, even though \ac{CW} produces coarser clusters than MaxMax, its
+results are still fine-grained and produce more clusters than related algorithms
+\cite{marco2013clustering}. Using a different algorithm, such as \ac{B-MST}
+\cite{marco2013clustering} or HyperLex \cite{veronis2004hyperlex} could possibly
+have achieved better results.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
