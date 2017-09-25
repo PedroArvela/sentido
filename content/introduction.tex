@@ -2,8 +2,8 @@
 
 \section{Motivation}
 
-In most human languages, it is possible that the same word has different
-meanings according to the context in which it is used. For example:
+In human languages, it is possible that the same word has different meanings
+according to the context in which it is used. For example:
 
 \begin{enumerate}[label=(\alph*)]
  \item She shot the arrow using her \textit{bow}.
@@ -11,35 +11,31 @@ meanings according to the context in which it is used. For example:
 \end{enumerate}
 
 In these two sentences, the word \textit{bow} means different things. In
-sentence \textit{(a)} it is used as a hunting tool, while in sentence
-\textit{(b)} it is a ribbon. To be able to do some tasks in \ac{NLP}, machines
-need to be able to differentiate between each use of the same word.
+sentence (a) it is used as a hunting tool, while in sentence (b) it is a ribbon.
+To be able to do some tasks in \ac{NLP}, machines need to be able to
+differentiate between each use of the same word. \ac{WSD} is thus the
+identification of the underlying meaning of words in their context
+\cite{navigli2009word}.
 
-\ac{WSD} is thus the identification of the underlying meaning of words in their
-context \cite{navigli2009word}.
-
-To be able to accomplish tasks of \ac{WSD}, it is necessary to have information
-about the various words, their possible meanings, and how each meaning is
-usually expressed.
+To be able to accomplish \ac{WSD}, it is necessary to have information about
+the various words, their possible meanings, and how each meaning is usually
+expressed.
 
 When there is a lack of lexical resources, such as sense inventories or
 sense-tagged corpora, preforming \ac{WSD} can be a time-consuming task which
 needs to be repeated any time there is a change in the domain, language or
 sense inventory in use \cite{ng1997getting}.
 
-This problem becomes aggravated by the exponential growth of data published on
-the internet \cite{james2014data,james2016data} and the accompanying need to
+This problem is aggravated by the exponential growth of data published on
+the internet \cite{james2016data} and the accompanying need to
 process this data through automatic methods.
 
-Additionally, \ac{WSD} preforms a crucial role in machine translation. The
-Portuguese word for \emph{banco} in English can either mean \emph{bank},
-\emph{chair}, \emph{stool}, among other meanings, depending upon context. There
-are several cases where \ac{WSD} can have large influence in the quality of
-automatically translated text \cite{navigli2009word}.
+There are several cases where \ac{WSD} can have large influence in the quality
+of automatically translated text \cite{navigli2009word}.
 
-\ac{WSI} is thus the task of automatically identifying the meanings of words
+\ac{WSI} is the task of automatically identifying the meanings of words
 without presence of manually annotated data \cite{agirre2007semeval}. Many
-systems have been implemented to preform the task of \ac{WSI}, some of which
+systems have been implemented to perform \ac{WSI}, some of which
 will be later described in Section~\ref{ch:stateofart}.
 
 \section{Objectives}
