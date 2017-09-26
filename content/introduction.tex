@@ -1,6 +1,6 @@
 \chapter{Introduction}
 
-\section{Motivation}
+% Explain the problem
 
 In human languages, it is possible that the same word has different meanings
 according to the context in which it is used. For example:
@@ -13,41 +13,71 @@ according to the context in which it is used. For example:
 In these two sentences, the word \textit{bow} means different things. In
 sentence (a) it is used as a hunting tool, while in sentence (b) it is a ribbon.
 To be able to do some tasks in \ac{NLP}, machines need to be able to
-differentiate between each use of the same word. \ac{WSD} is thus the
-identification of the underlying meaning of words in their context
-\cite{navigli2009word}.
+differentiate between each use of the same word.
 
-\ac{WSD} is a task which is required both inside and outside the field of
-\ac{NLP}. Machine translation, \ac{IR}, and all kinds of content categorization
-benefit from \ac{WSD} to reduce uncertainty when preforming their goals. In
-machine translation, for example, a word in Portuguese -- \textit{laço} -- might
-be possible to translate to different words in English according to its context
--- \textit{ribbon} or \textit{bond} between two people \cite{navigli2009word}.
-As publication of content increases exponentially \cite{james2016data}, new
-uses for \ac{WSD} and places where using \ac{WSD} might benefit the quality of
-the results are constantly being found and discovered.
+% Show why the problem is ubiquitous
 
-\ac{WSD} systems require sense inventories and sense-tagged corpora to function.
-Without these resources, preforming \ac{WSD} is not possible, and the systems
-which could make use of word senses need to work with degraded precision,
-normally by assuming the \ac{MFS} the word takes on the corpora \cite{TODO}.
-To be able to preform \ac{WSD} in these under-resourced languages, it is
-necessary to manually assemble the sense inventories and to review corpora so as
-to tag senses into its words \cite{ng1997getting}.
+This problem affects machine translation, \ac{IR} and content categorization
+\cite{navigli2009word}. Taking an example of machine translation, the
+Portuguese word \textit{laço} can be translated in various different English
+words depending on context; it can be translated into \textit{ribbon} or it can
+be translated to the \textit{bond} between two people. A system which naïvely
+uses the \ac{MFS} will improperly translate or categorize these words when they
+are used outside of their most common context.
 
-\ac{WSI} is the task of automatically identifying the meanings of words
-without presence of manually annotated data \cite{agirre2007semeval}. Many
-systems have been implemented to perform \ac{WSI}, some of which
-will be later described in Section~\ref{ch:stateofart}.
+% Introduce the solution to the problem
 
-\section{Objectives}
+To deal with this problem it is possible to identify the underlying meaning of a
+word based on its context. This process is called \ac{WSD}
+\cite{navigli2009word}. This process requires both sense inventories as well as
+large amounts of sense-tagged corpora to function efficiently. As a result,
+under-resourced languages need to deal with greater hardships to be able to
+achieve satisfactory results \cite{ng1997getting}.
 
-\ac{SENTIDO}'s goal is to create an architecture capable of generating
-labels for a word which are related to the word's semantic meanings, using the
-context in a corpus to preform such task. Additionally, it intends to provide a
-mechanism, given a word, its induced labels, and a context, to disambiguate
-which label most closely corresponds to the usage of the word in this context.
+A solution to the lack of resources is to automatically identify the meaning of
+words in their given context, without the requirement of manually annotated
+data. This is called \ac{WSI} \cite{agirre2007semeval}.
 
+% Propose questions which this paper will answer
+
+% Is it possible?
+% Does it execute within reasonable limits?
+% Can it be better than no induction/disambiguation?
+% How do you evaluate it? Aka, how do you know it is better?
+
+There are several implementations of \ac{WSI} available (some of which will be
+later described in Chapter~\ref{ch:stateofart}). The goal of this dissertation
+is to investigate the feasibility and possibility of creating a \ac{WSI} model
+for the Portuguese language which is capable of improving the quality of
+detected word senses within the words' contexts. Furthermore, this dissertation
+looks into seeing if the task of \ac{WSI} and \ac{WSD} can be preformed within
+reasonable time and resources, and to evaluate the quality of this new model
+against the existing baselines used within the \ac{NLP} chain \acs*{STRING}
+(described in Section~\ref{sec:string}).
+
+% Introduce the shiny new tool, explain the problem it solves
+
+Additionally, this dissertation presents the results of this investigation, in
+a project called \ac{SENTIDO}. \ac{SENTIDO} is a \ac{WSI} and \ac{WSD} model
+which infers the possible senses of a word from untagged corpora based on the
+additional words which co-occur with the target word; and, given a word and its
+context, disambiguates between the previously inferred senses.
+
+% Describe the layout of this paper
+
+In Chapter~\ref{ch:stateofart}, the existing \ac{WSI} implementations and models
+are described, as well and the theoretical foundations and additional tools
+which support and aide them. In Chapter~\ref{ch:architecture}, the architecture
+of the model is outlined, as well as the various stages of which it is composed
+of. In Chapter~\ref{ch:implementation}, the implementation details, such as the
+used corpora, existing tools from which the model is developed on, and
+adaptations made to those same tools, are depicted.
+Chapter~\ref{ch:eval-method} describes how the algorithm is tested and which are
+the theoretical foundations for the soundness of the methodology.
+Chapter~\ref{ch:eval} describes the test corpus used, the chosen parameters and
+analyses the results of the evaluation. Chapter~\ref{ch:future} describes what
+can be improved in the future and Chapter~\ref{ch:conclusion} provides a
+resume and conclusion to this dissertation.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
