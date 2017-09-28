@@ -3,8 +3,10 @@
 
 \section{Test Corpus}
 
-To evaluate the project, the corpus from \cite{pires2017verb} was used. This was
-the PAROLE corpus \cite{nascimento1998parole}, with each verb manually annotated
+To evaluate the project, the corpus from \citep{pires2017verb} was used. This 
+was
+the PAROLE corpus \citep{nascimento1998parole}, with each verb manually 
+annotated
 with its ViPEr class and reviewed by linguists.
 
 The splitting used for evaluation was to use the whole corpus for training,
@@ -14,7 +16,7 @@ except for the sentence being evaluated.
 
 The graph partitioning algorithm chosen was \ac{CW}, as the other option,
 MaxMax, has a tendency to generate many fine-grained clusters
-\cite{hope2013uos}.
+\citep{hope2013uos}.
 
 \ac{NPMI} and logDice were chosen as the association measures due to their
 normalized scores, which allow to use the same parameter between different words
@@ -113,7 +115,8 @@ co-occurrences, ad thus not being able to make use of the small word properties
 of co-occurrence graphs described in Section~\ref{sec:co-occurrence}.
 
 Another relevant point which might affect the results is that the extractor used
-\cite{correia2015syntax} never had in mind the use case of this project, and was
+\citep{correia2015syntax} never had in mind the use case of this project, and 
+was
 filtering several co-occurrences, as seen in Figure~\ref{fig:extractor}. It is
 possible and likely that it could have filtered co-occurrences essential to be
 able to disambiguate the use of a word in a given context. The co-occurrences
@@ -158,8 +161,9 @@ were recognized by the extractor.}
 
 Additionally, even though \ac{CW} produces coarser clusters than MaxMax, its
 results are still fine-grained and produce more clusters than related algorithms
-\cite{marco2013clustering}. Using a different algorithm, such as \ac{B-MST}
-\cite{marco2013clustering} or HyperLex \cite{veronis2004hyperlex} could possibly
+\citep{marco2013clustering}. Using a different algorithm, such as \ac{B-MST}
+\citep{marco2013clustering} or HyperLex \citep{veronis2004hyperlex} could 
+possibly
 have achieved better results.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;

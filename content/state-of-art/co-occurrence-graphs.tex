@@ -3,9 +3,10 @@
 
 In graph-based models, the meanings of a word are represented by a weighted
 and undirected co-occurrence graph. The nodes (or vertices) of the graph are the
-words which occur in the corpus and the edges are co-occurrences, with the
-weight of the edge describing the amount of times that co-occurrence exists. Two
-words are said to co-occur if they both occur within the same context.
+words which occur in the corpus and the transitions (or edges) are 
+co-occurrences, with the weight of the edge describing the amount of times that 
+co-occurrence exists. Two words are said to co-occur if they both occur within 
+the same context.
 
 These models are based on the idea that co-occurrence graphs have the properties
 of \textit{small world networks} \cite{veronis2004hyperlex}, that is, most nodes
@@ -24,7 +25,7 @@ searched.
 
 \subsection{Graph Model for Unsupervised Lexical Acquisition}
 
-A graph from a \ac{POS}-tagged corpus is made in \cite{widdows2002graph}, using
+A graph from a \ac{POS}-tagged corpus is made in \citep{widdows2002graph}, using
 words as nodes and the grammatical co-occurrence relationships between pairs as
 edges. The relationships extracted are the co-occurrences of Noun-Verb,
 Verb-Noun, Adjective-Noun, Noun-Noun. To generate the edges the top-$n$
@@ -47,12 +48,16 @@ set of nodes and $N(a)$ are all the nodes which are linked to a node $a$.
  \caption{\label{alg:similarnodes} Select the most similar node}
 \end{algorithm}
 
-The model was built using the \ac{BNC} and evaluated against classes in
-WordNet. A WordNet class was considered to be the collection of synsets
-subsumed by a parent synset. For a given seed word, the algorithm in
-\ref{alg:similarnodes} was used to find the $n$ nodes most closely related to
-it. Ten classes were chosen beforehand, and for each class 20 words were
-retrieved using a single seed-word from the class in question.
+The model was built using the 
+\ac{BNC}\footnote{\url{http://www.natcorp.ox.ac.uk/}, last accessed on 
+\DTMdate{2017-09-28}.} and evaluated against classes in WordNet. A WordNet 
+class was considered to be the collection of synsets subsumed by a parent 
+synset, for example, the class \textit{musical instruments} was the collection 
+of all synsets subsumed by the WordNet \textit{musical instruments} synset. For 
+a given seed word, the algorithm in \ref{alg:similarnodes} was used 
+to find the $n$ nodes most closely related to it. Ten classes were chosen 
+beforehand, and for each class 20 words were retrieved using a single seed-word 
+from the class in question.
 
 The results show that of a total of 200 retrieved words, only 36 were
 incorrect, giving an accuracy of $82\%$.
@@ -60,7 +65,7 @@ incorrect, giving an accuracy of $82\%$.
 \subsection{Word Sense Induction Using Graphs of Collocations}
 \label{sec:collocations}
 
-A graph of collocations is used in \cite{klapaftis2008word} to generate a
+A graph of collocations is used in \citep{klapaftis2008word} to generate a
 taxonomy of senses which takes into consideration word polysemy. In this, each
 node corresponds to an occurrence of two words in the same context window (which
 in the model is a paragraph) and two nodes are connected if two collocations
@@ -74,34 +79,23 @@ At first, paragraphs with $tw$ are removed from $bc$ and all paragraphs from
 $bc$ and $rc$ are \ac{POS} tagged. From these, only nouns are kept and
 lemmatised.
 
-Log-likelihood ($G^2$) is then used to filter common nouns which are not
-semantically related to $tw$, by checking if a given word $w_i$ has a similar
-distribution in $bc$ and $rc$. If that is true, $G^2$ will have a small value
-and $w_i$ should be removed from $bc$.
-
-\begin{equation}\label{eq:g2}
- G^2 = 2 * \sum_{i,j} n_{i,j} \cdot log \frac{n_{ij}}{m_{ij}}
-\end{equation}
-
-\begin{equation}\label{eq:mij}
- m_{ij} = \frac{\sum_{k=1}^2 n_{ik} \cdot \sum_{k=1}^2 n_{kj}}
-               {N}
-\end{equation}
+Log-likelihood ($G^2$) \citep{dunning1993accurate} is then used to filter 
+common nouns which are not semantically related to $tw$, by checking if a given 
+word $w_i$ has a similar distribution in $bc$ and $rc$. If that is true, $G^2$ 
+will have a small value and $w_i$ should be removed from $bc$.
 
 The noun frequencies of $bc$ are stored in a list $lbc$ and the noun
-frequencies of $rc$ are stored in a list $lrc$.
+frequencies of $rc$ are stored in a list $lrc$. For each word $w_i \in lbc$ is 
+created a table of observed counts OT taken from $lbc$ and $lrc$, and a table 
+of expected values ET under the model of independence. $G^2$ is then calculated 
+using the equations in Subsection~\ref{subsec:loglikeliood}.
 
-For each word $w_i \in lbc$ is created a table of observed counts from $lbc$
-and $lrc$, OT, and a table of expected values under the model of independence,
-ET. $G^2$ is then calculated (Equation~\ref{eq:g2}), where $n_{ij}$ is the
-$i,j$ cell of OT and $m_{ij}$ (Equation~\ref{eq:mij}) is the $i,j$ cell of ET,
-and $N = \sum_{i,j} n_{ij}$.
-
-$lbc$ is then filtered by removing words with a smaller relative frequency in
-$lbc$ in relation to $lrc$. The resulting $lbc$ is then sorted by the $G^2$
-values. Words that have a $G^2$ smaller than a pre-specified threshold $p_1$
-are then removed from $bc$. By the end of this process, each paragraph in $bc$
-is a list of nouns assumed to be topically related to $tw$.
+The $lbc$ list is then filtered by removing words with a smaller relative 
+frequency in $lbc$ in relation to $lrc$. The resulting $lbc$ list is then 
+sorted by the $G^2$ values. Words that have a $G^2$ smaller than a 
+pre-specified threshold $p_1$ are then removed from $bc$. By the end of this 
+process, each paragraph in $bc$ is converted to a list of nouns assumed to be 
+topically related to $tw$.
 
 With the base corpus now processed, collocations of two nouns are detected by
 generating all $\binom{n}{2}$ combinations for each $n$-length paragraph.
@@ -125,40 +119,34 @@ and $VC_j$ is then calculated using the \ac{JC} (Equation~\ref{eq:jc}).
                        {|VC_i \cup VC_j|}
 \end{equation}
 
-The final graph, $G'$, is then clustered using \ac{CW}, further described in
-Section~\ref{sec:cw}. This algorithm was used as it does not require input
-parameters and performs in linear time to the number of edges, although it is
-not guaranteed to converge.
+The final graph, $G'$, is then clustered using the \ac{CW} algorithm, further 
+described in Section~\ref{sec:cw}. This algorithm was used because it does not 
+require input parameters and performs in linear time to the number of edges, 
+although it is not guaranteed to converge.
 
 \ac{WSD} is at last made by assigning one of the induced clusters to each
 instance of the target word. For each target word in a given paragraph, a score
 for each induced cluster is applied, based on the number of collocations which
 occur in the paragraph.
 
-For the part of \ac{WSD}, for each paragraph of $bc$, each induced cluster is
+To preform \ac{WSD}, for each paragraph of $bc$, each induced cluster is
 assigned a score equal to the number of collocations occurring in it.
 
-To evaluate the model, the framework of the \ac{SWSI} \cite{agirre2007semeval}
+To evaluate the model, the framework of the \ac{SWSI} \citep{agirre2007semeval}
 was used. The test corpus consists of texts from the Wall Street Journal
-corpus, hand-tagged with OntoNotes senses \cite{hovy2006ontonotes}.
+corpus, hand-tagged with OntoNotes senses \citep{hovy2006ontonotes}.
 
-The model was evaluated under \textit{unsupervised evaluation}, where the
-resulting classes are compared to the \ac{GS}, and under \textit{supervised
-evaluation}, where the model's performance on a \ac{WSD} setting with the
-test corpus is measured.
-
-The model was evaluated with and without smoothing. In the unsupervised
-evaluation, the model with smoothing achieved $88.6\%$ purity, $31\%$ entropy
-(these measures are described below, in Section~\ref{sec:unsupeval}) and an
-F-Score of $78.0\%$. Results without smoothing were similar, but with a lower
-F-Score due to the larger number of induced clusters.
+The model was evaluated under \textit{unsupervised evaluation} and 
+\textit{supervised evaluation} (see above). In the unsupervised evaluation, the 
+model achieved $88.6\%$ purity, $31\%$ entropy (these measures are described 
+below, in Section~\ref{sec:unsupeval}) and an F-Score of $78\%$.
 
 \subsection{UoY: Graphs of Unambiguous Vertices}
 
-The model developed in \cite{korkontzelos2010uoy} is a relaxed version of the
-model in \cite{klapaftis2008word}, described in Section~\ref{sec:collocations},
-in which a node is generated from a single word if it is considered unambiguous,
-and a node is only generated from a set of two words if otherwise.
+The model developed by \citet{korkontzelos2010uoy} is a relaxed version of the
+model in \citep{klapaftis2008word}, described in Section~\ref{sec:collocations},
+in which a node is generated from a single word if this word is considered 
+unambiguous, otherwise, a node is only generated from a set of two words.
 
 The corpus is first preprocessed, with the aim of capturing words contextually
 related to the target. Sentences or paragraphs, \textit{snippets}, which contain
@@ -167,50 +155,46 @@ nouns are kept and words which occour in a stoplist are filtered out. Nouns
 which are infrequent in the reference corpus are removed and the log-likelihood
 ratio ($G^2$) is used to compare the distribution of each noun to its
 distribution in the reference corpus. If a noun's $G^2$ is lower than a
-specified threshold, or the noun has a higher relative frequency in the
+specified threshold, or if the noun has a higher relative frequency in the
 reference corpus than in the target corpus, then that noun is removed. At this
 stage, each snippet is a list of lemmatised nouns contextually related to the
 target word.
 
 The graph is constructed by first representing all nouns in the list as graph
 vertices. Each noun within a snippet is combined with every other, generating
-$\binom{n}{2}$ pairs. $G^2$ is applied once again, to the pairs to filter out
-unimportant ones.
+$\binom{n}{2}$ pairs. $G^2$ is applied once again to the pairs.
 
-To filter out pairs which refer to the same sense, a vector with the snippet IDs
+To filter out pairs that refer to the same sense, a vector with the snippet IDs
 in which they occur is generated for each pair and each noun. A pair is
 discarded if its vector is similar to both vectors of their component nouns,
-using for that purpose the Dice coefficient defined in Equation~\ref{eq:uoydice}.
-
-\begin{equation} \label{eq:uoydice}
- QS = \frac{2 |X \cap Y|}{|X| + |Y|}
-\end{equation}
+using for that purpose the Dice coefficient \citep{dice1945measures}, which is 
+later described in Subsection~\ref{subsec:dice}.
 
 Edges are drawn based on the co-occurrence of the corresponding vertices in
 snippets. The weight of the edge is the maximum of the conditional probabilities
-of its vertices, calculated according to Equation~\ref{eq:wab}, and low weighted
-edges are filtered out.
+of its vertices, calculated according to Equation~(\ref{eq:wab}), and lowly 
+weighted edges are filtered out.
 
 \begin{equation} \label{eq:wab}
  w_{a,b} = \frac{1}{2} \left( \frac{f_{a,b}}{f_a} + \frac{f_{a,b}}{f_b} \right)
 \end{equation}
 
 The graph is then clustered using \ac{CW}, described in Section~\ref{sec:cw}.
-To reduce the number of clusters, a post-processing stage is applied in which
+To reduce the number of clusters, a post-processing stage is applied, in which,
 for each cluster $l_i$, a set of all snippets $S_i$ containing at least one
 vertex of $l_i$ is generated. For any clusters $l_a$ and $l_b$, if
 $S_a \subseteq S_b$  or $S_a \supseteq S_b$, these are merged.
 
-The model was submitted for SemEval-2010 Task 14 \cite{manandhar2009semeval}
-and evaluated in an unsupervised and a supervised method. The first was measured
-according to the V-measure and F-score, while the second was measured using
-recall. Parameters were tuned by choosing maximum supervised recall, resulting
-in threshold frequencies of 10, $G^2$ threshold of 10, collocations weights of
-0.4 and similarity threshold for pairs-of-nouns vertices of 0.8.
+The model was submitted for SemEval-2010 Task 14 \citep{manandhar2009semeval}
+and evaluated using an unsupervised and a supervised method. The first was 
+measured according to the V-measure and F-score, while the second was measured 
+using recall. Parameters were tuned by choosing maximum supervised recall, 
+resulting in threshold frequencies of 10, $G^2$ threshold of 10, collocations 
+weights of 0.4 and similarity threshold for pairs-of-nouns vertices of 0.8.
 
 Results showed that the model achieved results of a V-measure of $20.6\%$, an
-F-score of $38.2\%$ on the unsupervised evaluation with nouns and a recall of
-$59.4$ on the supervised evaluation.
+F-score of $38.2\%$ on the unsupervised evaluation with nouns, and a supervised 
+recall of $59.4\%$ on the supervised evaluation.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

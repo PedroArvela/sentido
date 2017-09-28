@@ -4,7 +4,7 @@
 \section{Corpora Pre-Parse}
 
 Two corpora were chosen to be used in this project, the CETEMPúblico corpus
-\cite{rocha2000cetempublico}, and a dump of the Portuguese edition Wikipedia
+\citep{rocha2000cetempublico}, and a dump of the Portuguese edition Wikipedia
 \footnote{\url{https://en.wikipedia.org/wiki/Wikipedia:Database_download}, last
 accessed on \DTMdate{2017-06-21}.}. Each one was using its own syntax to
 describe its contents. As \ac{STRING} only parses plain text sentences, the
@@ -52,7 +52,7 @@ plain text identifiers which can be recognized even after being parsed by
 
 \section{Co-occurrence Extraction}
 
-To obtain the co-occurrences, the extractor created in \cite{correia2015syntax}
+To obtain the co-occurrences, the extractor created in \citep{correia2015syntax}
 is used. The extractor was not able to be used as it was due to different
 requirements and conditions for each work, so adaptations were made to it for
 the new environment.
@@ -100,7 +100,7 @@ deciding the next action in the construction of the XIP document in memory.
 \subsection{Populating the Database}
 
 After parsing the \ac{XIP} files, the dependencies are extracted using the
-tools from \cite{correia2015syntax}. The extracted dependencies are then added
+tools from \citep{correia2015syntax}. The extracted dependencies are then added
 to the database as co-occurrences, by attempting to insert them at first and
 updating the existing one if the insertion fail due to uniqueness constraints.
 
@@ -157,7 +157,8 @@ in Section~\ref{sec:clusteralgorithms}.
 \section{Sense Disambiguation}
 
 To be able to preform disambiguation, additional changes had to be done to the
-co-occurrence extractor in \cite{correia2015syntax}. The extractor had the logic
+co-occurrence extractor in \citep{correia2015syntax}. The extractor had the 
+logic
 to extract the co-occurrences and the code to write them in the database merged
 together. To make the extractor usable for the task of disambiguation, a
 separation of the code to write in the database and the logic of extracting the

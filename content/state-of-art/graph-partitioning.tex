@@ -2,7 +2,7 @@
 \label{sec:clusteralgorithms}
 
 The task of finding clusters which are optimal with respect to fitness measures
-is NP-complete \cite{sima2006np}. The following are two current algorithms,
+is NP-complete \citep{sima2006np}. The following are two current algorithms,
 time-linear to the number of edges, which try to find solutions through
 approximation.
 
@@ -10,7 +10,7 @@ approximation.
 \label{sec:cw}
 
 \ac{CW} is a randomised graph-clustering algorithm which is time-linear in the
-number of edges, developed by Biemann \cite{biemann2006chinese}. It is a basic,
+number of edges, developed by Biemann \citep{biemann2006chinese}. It is a basic,
 yet effective, algorithm to partition nodes of weighted, undirected graphs, and
 it is said to perform well in small-world graphs.
 
@@ -60,8 +60,8 @@ times. The number of iterations depends on the larger distance between two nodes
 in the graph.
 
 \ac{CW} was evaluated on tasks of \ac{WSI} using a similar approach to the one
-in \cite{dorow2003discovering}, by replacing the Markov Clustering algorithm
-with \ac{CW}. The evaluation method in \cite{bordag2006word} was used. In this,
+in \citep{dorow2003discovering}, by replacing the Markov Clustering algorithm
+with \ac{CW}. The evaluation method in \citep{bordag2006word} was used. In this,
 the neighbourhood of two words is merged and the ability of the algorithm to
 separate the merged graph is evaluated. The evaluation measures used included
 \textit{retrieval precision} ($rP$), the similarity of the found sense with the
@@ -77,7 +77,7 @@ graph-clustering algorithms for \ac{WSI} given the same input.
 \label{sec:maxmax}
 
 MaxMax is a soft-clustering algorithm applicable to edge-weighted graphs
-\cite{hope2013maxmax}. It is parameter-free, runs in linear time to the number
+\citep{hope2013maxmax}. It is parameter-free, runs in linear time to the number
 of edges and it is deterministic. Test results show it to return scores
 comparable with existing state-of-the-art systems.
 
@@ -124,10 +124,10 @@ marked as $root$ uniquely identify clusters.
 \end{algorithm}
 
 MaxMax was evaluated in the context of the SemEval 2010 \ac{WSI} Task
-\cite{manandhar2010semeval}, using an adaptation of the Shared Nearest
+\citep{manandhar2010semeval}, using an adaptation of the Shared Nearest
 Neighbours algorithm and then using MaxMax to identify sense clusters in the
 generated target word graph. MaxMax has the best scoring V-measure (of $32.8\%$)
-among the systems evaluated in \cite{manandhar2010semeval}, and the worst
+among the systems evaluated in \citep{manandhar2010semeval}, and the worst
 F-score (of $13.2\%$) among the systems evaluated. The authors claim that their
 system is overly penalized by the F-score due to the way this is known to be
 biased towards clustering solutions returning large clusters and to punish small

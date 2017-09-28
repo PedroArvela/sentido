@@ -1,56 +1,40 @@
 \section{Statistical and Vector Space Models}
 \label{sec:vectorspace}
 
-These methods implement \acp{DSM} using one of two methods, by implementing
-semantic similarity based on a statistically oriented probability distribution
-model, by implementing semantic similarity based on a geometrically oriented
-vector space model \cite{van2010mining}. Some of these methods are presented
-below.
+These methods implement \acp{DSM} either based on a statistically or a 
+geometrically  oriented probability distribution models \citep{van2010mining}. 
+Some of these methods are presented below.
 
-\subsection{CBC}
+\subsection{\acl*{CBC}}
 
-An implementation of a clustering approach is \ac{CBC}
-\cite{pantel2003clustering,pantel2002discovering}. The algorithm represents each
-word as a feature vector, in which each feature corresponds to a context where
-the word occurs. The value of the feature is the \ac{PMI} between the feature
-and the word.
-
-For $F_c(w)$ being the frequency count of a word $w$ occurring in context $c$,
-the \ac{PMI}, $mi_{w,c}$, between $c$ and $w$ is defined as in
-Equation~\ref{eq:miwc}, where $N = \sum_i\sum_jF_i(j)$ is the total frequency
-count of all words and their contexts.
-
-\begin{equation}
- mi_{w,c} = \frac{\frac{F_c(w)}{N}}
-                 {\frac{\sum_iF_i(w)}{N} \times
-                  \frac{\sum_jF_c(j)}{N}}
- \label{eq:miwc}
-\end{equation}
-
-The similarity between two words $w_i$ and $w_j$ is computed using the
-\textit{cosine coefficient} of their mutual information vectors, as in
+An implementation of a clustering approach is \ac{CBC} 
+\citep{pantel2003clustering}. The algorithm represents each word as a feature 
+vector, in which each feature corresponds to a context where the word occurs. 
+The value of the feature is the \ac{PMI} between the feature and the word 
+\citep{bouma2009normalized}, which is later described in \ref{subsec:pmi}. The 
+similarity between two words is computed using the \textit{cosine coefficient} 
+\citep{salton1986introduction} of their mutual information vectors, as in 
 Equation~\ref{eq:simwiwj}.
 
 \begin{equation}
- \operatorname{sim}(w_i,w_j) = \frac{\sum_c mi_{w_i,c} \times mi_{w_j,c}}
-                     {\sqrt{\sum_c{mi_{w_i,c}}^2 \times \sum_c{mi_{w_j,c}}^2}}
- \label{eq:simwiwj}
+\operatorname{sim}(w_i,w_j) = \frac{\sum_c mi_{w_i,c} \times mi_{w_j,c}}
+                    {\sqrt{\sum_c{mi_{w_i,c}}^2 \times \sum_c{mi_{w_j,c}}^2}}
+\label{eq:simwiwj}
 \end{equation}
 
-The \ac{CBC} algorithm consists of three phases. In phase I, the top-$k$
-similar elements of each element $e$ are computed.
-
-In phase II a collection of tight clusters is constructed, where the
-elements of each cluster form a committee. In each step, the algorithm finds a
-set of tight clusters, called committees, and identifies residue elements not
-covered by any. First the top-$k$ similar elements are clustered using
-average-link clustering \cite{han2000data}. A committee covers an element if
-its similarity to the centroid of the committee exceeds a given threshold. The
-algorithm then recursively attempts to find more committees among the residue
-elements. The details are presented in Algorithm~\ref{alg:cbcphaseii}.
+The \ac{CBC} algorithm consists of three phases. In phase I, the top-$k$ 
+similar elements of each element $e$ are computed. In phase II a collection of 
+tight clusters is constructed, where the elements of each cluster form a 
+committee. In each step, the algorithm finds a set of tight clusters, called 
+committees, and identifies residue elements not covered by any. First the 
+top-$k$ similar elements are clustered using average-link clustering 
+\citep{han2000data}. A committee covers an element if its similarity to the 
+centroid of the committee exceeds a given threshold. The algorithm then 
+recursively attempts to find more committees among the residue elements. The 
+details are presented in Algorithm~\ref{alg:cbcphaseii}.
 
 \begin{algorithm}
- \begin{algorithmic}
+\begin{algorithmic}
 \Function{phaseII}{$E$, $S$, $\theta_1$, $\theta_2$}
   \ForAll {$e \in E$}
     \State $C \gets$ \Call{average-link}{$S$, $e$}
@@ -92,9 +76,8 @@ elements. The details are presented in Algorithm~\ref{alg:cbcphaseii}.
     \State \Return $C \cup$ \Call{phaseII}{$R$, $S$, $\theta_1$, $\theta_2$}
   \EndIf
 \EndFunction
- \end{algorithmic}
-
- \caption{\label{alg:cbcphaseii} Phase II of CBC}
+\end{algorithmic}
+\caption{\label{alg:cbcphaseii} Phase II of CBC}
 \end{algorithm}
 
 
@@ -106,63 +89,63 @@ both are removed from $e$ to allow \ac{CBC} to discover the less frequent
 senses of a word and avoid duplicate senses.
 
 \begin{algorithm}
- \begin{algorithmic}
-  \State $C$ is a list of clusters initially empty
-  \Function{phaseIII}{$e$}
-    \State $S \gets$ \Call{top200}{$e$}
-    \Comment{The top-200 similar clusters to e}
+\begin{algorithmic}
+\State $C$ is a list of clusters initially empty
+\Function{phaseIII}{$e$}
+  \State $S \gets$ \Call{top200}{$e$}
+  \Comment{The top-200 similar clusters to e}
 
-    \While {$\neg S \subset \emptyset$}
-      \State $c \gets$ \Call{most-similar}{$S$, $e$}
-      \If {$sim(e, c) < \sigma$}
-        \State \textbf{break}
-      \EndIf
-     \If {$\forall c' \in C, \neg similar(c,c')$}
-       \State $c \gets c \cup e$
-       \State Remove from e its features that overlap with the features of c
-     \EndIf
-     \State $S \gets S \setminus \{c\}$
-    \EndWhile
-    \State \Return $C$
-  \EndFunction
- \end{algorithmic}
-
- \caption{\label{alg:cbcphaseiii} Phase III of CBC}
+  \While {$\neg S \subset \emptyset$}
+    \State $c \gets$ \Call{most-similar}{$S$, $e$}
+    \If {$sim(e, c) < \sigma$}
+      \State \textbf{break}
+    \EndIf
+   \If {$\forall c' \in C, \neg similar(c,c')$}
+     \State $c \gets c \cup e$
+     \State Remove from e its features that overlap with the features of c
+   \EndIf
+   \State $S \gets S \setminus \{c\}$
+  \EndWhile
+  \State \Return $C$
+\EndFunction
+\end{algorithmic}
+\caption{\label{alg:cbcphaseiii} Phase III of CBC}
 \end{algorithm}
 
 To evaluate the system, its output was compared with WordNet, with the
-frequency counts for the nodes, called synsets, obtained from the SemCor corpus.
+frequency counts for the nodes, called synsets, obtained from the SemCor corpus 
+\citep{miller1993semantic}.
 
-144M words of newspaper text from the TREC collection were processed to obtain
-the corpus. The test set was constructed by intersecting the words in
-WordNet with the nouns in the corpus, resulting in a test set of 13403 words
-with an average number of 740.8 features per word.
-
-\ac{CBC} obtained a precision of $60.8\%$, a recall of $50.8\%$ and an
-F-score of $55.4\%$, outperforming the then existing algorithms by $7.5\%$ on
-precision and $5.3\%$ on recall. The F-score is later described in
-Section~\ref{sec:unsupeval}.
+The corpus was obtained by processing 144 million words of newspaper text from 
+the TREC Collection (1988 AP Newswire, 1989-90 LA Times, and 1991 San Jose 
+Mercury)\footnote{\url{http://trec.nist.gov/data/test_coll.html}, last 
+accessed on \DTMdate{2017-09-28}.}. The test set was constructed by 
+intersecting the words in WordNet 
+with the nouns in the corpus, resulting in a test set of 13403 words with an 
+average number of 740.8 features per word. \ac{CBC} obtained a precision of 
+$60.8\%$, a recall of $50.8\%$ and an F-score of $55.4\%$. These evaluation 
+measures are later described in Section~\ref{sec:unsupeval}.
 
 \subsection{HERMIT}
 
-The model from \cite{jurgens2010hermit} performs \ac{WSI} by modeling individual
-contexts in a high dimensional word space. Word senses are induced by finding
-contexts which are similar and a hybrid clustering method is used to group
-similar contexts.
+The model from \citet{jurgens2010hermit} performs \ac{WSI} by modelling 
+individual contexts in a high dimensional word space. Word senses are induced 
+by finding contexts which are similar and a hybrid clustering method is used to 
+group similar contexts.
 
 Each context of a word is approximated using the \ac{RI} word space model
-\cite{kanerva2000random}, in which the occurrence of a word is represented with
+\citep{kanerva2000random}, in which the occurrence of a word is represented with
 an \textit{index vector} instead of a set of dimensions.
 
 \ac{RI} can be described as a two-step operation
-\cite{sahlgren2005introduction}:
+\citep{sahlgren2005introduction}:
 
 \begin{enumerate}
  \item Each context in the data is assigned an unique and randomly generated
  representation, called an \textit{index vector}, which is sparse and
- high-dimensional. Their dimensionality ($d$) is on the order of thousands and
- they consist of a small number of randomly distributed $\pm1$, with the rest
- of the elements set to $0$;
+ high-dimensional. Its dimensionality ($d$) is on the order of thousands and
+ it consists of a small number of randomly distributed values of $\pm1$, with 
+ the rest of the elements set to $0$;
  \item Then, context vectors are produced by scanning through the text. Each
  time a word occurs in a context, the context's $d$-dimensional index vector is
  added to the context vector for that word. Words are represented by
@@ -171,38 +154,43 @@ an \textit{index vector} instead of a set of dimensions.
 
 This allows for a creation of a co-occurrence matrix $F_{w \times d}$ which is
 an approximation of a standard co-occurrence matrix $F_{w \times c}$, but in
-which $d \ll c$. As a result, it transforms the original co-occurrence counts
-into a smaller and denser representation without the computational overhead of
-other dimensional reduction techniques such as \ac{SVD}.
+which $d \ll c$. As a result, HERMIT transforms the original co-occurrence 
+counts into a smaller and denser representation without the computational 
+overhead of other dimensional reduction techniques such as \ac{SVD} 
+\citep{jurgens2010hermit}.
 
-The identification of related contexts is made through the use of clustering,
-which separates similar context vectors into dissimilar clusters representing
-the distinct senses of a word. A hybrid of the online $k$-means and \ac{HAC}
-with a threshold is used. The threshold allows for the number of clusters to be
+The identification of related contexts is made through the use of clustering, 
+which separates similar context vectors into dissimilar clusters representing 
+the distinct senses of a word. A hybrid of the online $k$-means clustering 
+\citep{liberty2016algorithm} and \ac{HAC} \citep{zepeda2013hierarchical} with a 
+threshold is used. The threshold allows for the number of clusters to be 
 determined by data similarity instead of manually specified.
 
-The context vectors are clustered using $k$-means, which assigns a context to
-the most similar cluster centroid. If the nearest centroid has a similarity
-lesser than the \textit{cluster threshold} and there are not $k$ clusters, the
-context forms a new cluster. The similarity between context vectors is defined
-as the cosine similarity.
+The context vectors are clustered using $k$-means clustering, which assigns a 
+context to the most similar cluster centroid. If the nearest centroid has a 
+smaller similarity than the \textit{cluster threshold} and there are not any 
+$k$ clusters, the context forms a new cluster. The similarity between context 
+vectors is defined as the cosine similarity (see above).
 
 Clusters are then repeatedly merged using \ac{HAC} with average link criteria,
 that is, cluster similarity is the mean cosine similarity of the pairwise
 similarity of all data points from each cluster. When the two most similar
 clusters have a similarity less than the threshold, merging stops. The resulting
-clusters represent distinct word senses.
+clusters should then represent distinct word senses.
 
-The model was submitted for SemEval-2010 Task 14 \cite{manandhar2009semeval}
-and evaluated in an unsupervised and a supervised method. The first was measured
-according to the V-measure (later described in Section~\ref{sec:unsupeval}) and
-F-score, while the second was measured using recall. Using the provided test
+The model was submitted for SemEval-2010 Task 14 \citep{manandhar2009semeval}
+and evaluated in an unsupervised method, which compares the found clusters with 
+the gold data for the word senses, and a supervised method, which evaluates the 
+results of \ac{WSD} using the induced clusters. The first was measured
+according to the F-score and V-measure, which is the harmonic mean between the 
+homogeneity and completeness (later described in Section~\ref{sec:unsupeval}); 
+while the second was measured using supervised recall. Using the provided test 
 corpus, parameters were tuned for a context window size of $\pm1$, a clustering
 threshold of $.15$ and a maximum of $15$ clusters per word.
 
 The final results of the SemEval-2010 Task 14 showed that Hermit achieved a
 V-measure of $16.7\%$ and an F-score of $24.4\%$ in nouns in the unsupervised
-evaluation and a recall of $53.6\%$ in the supervised evaluation.
+evaluation and a supervised recall of $53.6\%$.
 
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;

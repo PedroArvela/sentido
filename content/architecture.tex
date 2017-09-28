@@ -6,14 +6,14 @@ The architecture of this project is composed of four components:
 \begin{enumerate}
   \item A corpora pre-parser, which prepares the corpora being used to be
 processed by \ac{STRING};
-  \item The co-occurrence extractor from \cite{correia2015syntax};
+  \item The co-occurrence extractor from \citep{correia2015syntax};
   \item A graph constructor and clustering algorithm;
   \item A sense disambiguation module.
 \end{enumerate}
 
 The data follows the flow exemplified in Figure~\ref{fig:data-progression}. The
 processed text from \ac{STRING} goes through a modified implementation of the
-co-occurrence extractor from \cite{correia2015syntax}, which stores the
+co-occurrence extractor from \citep{correia2015syntax}, which stores the
 co-occurrences along with their frequencies and association measures in a
 database.
 
@@ -27,7 +27,7 @@ database.
 \section{Co-occurrence Storage}
 
 The co-occurrences are stored in an SQLite database, using the \ac{ER} model in
-Figure~\ref{fig:er-model}, adapted from \cite{correia2015syntax}, with minor
+Figure~\ref{fig:er-model}, adapted from \citep{correia2015syntax}, with minor
 changes to keep information of all the sentences used instead of only 20
 randomly selected sentences for each co-occurrence.
 
@@ -38,7 +38,7 @@ randomly selected sentences for each co-occurrence.
   \include{graphics/er-model}
 \end{figure}
 
-The changes in relation to \cite{correia2015syntax} are that the entity
+The changes in relation to \citep{correia2015syntax} are that the entity
 \emph{Context} replaces \emph{Sentence}, with information about the file used to
 store the information as well as the sentence number in that file.
 
@@ -46,7 +46,7 @@ Additionally, the relationship \emph{Exemplifies} is replaced with
 \emph{Occurs}, which associates all \emph{Co-occurrence} aggregations with all
 the respective \emph{Context}s where they occur.
 
-As in \cite{correia2015syntax}, the following \ac{IC} were identified:
+As in \citep{correia2015syntax}, the following \ac{IC} were identified:
 
 \begin{enumerate}
   \item The word in \emph{Co-occurrence} must belong to the \emph{Corpus} to
@@ -80,7 +80,7 @@ the co-occurrence cluster for the context, $C_i$.
 
 Then, for each inferred sense cluster $C_j$ of $w$, the
 \emph{Separation} between $C_i$ and $C_j$ is calculated according to
-Equation~\ref{eq:separation} \cite{hope2013uos}, in which
+Equation~\ref{eq:separation} \citep{hope2013uos}, in which
 $\operatorname{proximity}$ is defined as the weight of the co-occurrence in the
 inferred sense graph.
 

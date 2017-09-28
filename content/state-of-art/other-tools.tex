@@ -6,7 +6,7 @@ mention other works which make use of word co-occurrences in text.
 \subsection{STRING}
 \label{sec:string}
 
-\ac{STRING} \cite{mamede2012string} is a \ac{NLP} system for the Portuguese
+\ac{STRING} \citep{mamede2012string} is a \ac{NLP} system for the Portuguese
 language, capable of preforming all basic \ac{NLP} tasks, including \ac{NER},
 \ac{IR}, \ac{AR}, among other tasks. \ac{STRING} is composed of several stages,
 as described in Figure~\ref{fig:stringarch}.
@@ -23,7 +23,7 @@ as described in Figure~\ref{fig:stringarch}.
 In the first stage, the text is passed through a tokenizer, which is also
 responsible for recognising some special tokens, such as numbers or punctuation.
 The tokens are then passed through a \ac{POS} tagger, LexMan
-\cite{vicente2013lexman}, which uses finite state transducers to label tokens
+\citep{vicente2013lexman}, which uses finite state transducers to label tokens
 with their appropriate \ac{POS} tags. At last, the text is split into sentences
 based mainly on the punctuation and having into account abbreviations, acronyms,
 and the use of ellipsis.
@@ -34,9 +34,9 @@ This stage comprises two steps, which are preformed by two distinct modules:
 
 \begin{enumerate}
  \item \ac{RuDriCo2}, which preforms rule-driven morphossyntactic disambiguation
-\cite{diniz2010conversor};
+\citep{diniz2010conversor};
  \item \ac{MARv}, which preforms statistical disambiguation
-\cite{ribeiro2003anotacao}.
+\citep{ribeiro2003anotacao}.
 \end{enumerate}
 
 \ac{RuDriCo2} is responsible for refining the initial segmentation done by
@@ -52,7 +52,8 @@ and unigrams, which codify lexical information.
 
 \subsubsection*{Syntactic Analysis}
 
-Syntactic analysis is done through the use of \ac{XIP} \cite{ait2002robustness},
+Syntactic analysis is done through the use of \ac{XIP} 
+\citep{ait2002robustness},
 which also allows for adding lexical, syntactic and semantic information to the
 output of the previous modules. \ac{XIP} is responsible for several tasks:
 
@@ -71,15 +72,15 @@ different chunks (subject, direct object, modifier, etc.).
 \subsubsection*{Post-Syntactic Analysis}
 
 At this stage additional tasks are executed which extract additional information
-from the text. One is the \ac{AR} task \cite{marques2013anaphora}, which
+from the text. One is the \ac{AR} task \citep{marques2013anaphora}, which
 preforms anaphora identification in the text and then uses the \ac{EM} algorithm
 to obtain the probabilities of each antecedent candidate. Other tasks performed
-include time normalisation \cite{mauricio2011normalizacao} and event ordering
-\cite{cabrita2014ordenar}.
+include time normalisation \citep{mauricio2011normalizacao} and event ordering
+\citep{cabrita2014ordenar}.
 
 \subsection{Syntax Deep Explorer}
 
-In \cite{correia2015syntax}, a tool was developed to make use of \ac{STRING} to
+In \citep{correia2015syntax}, a tool was developed to make use of \ac{STRING} to
 allow one to explore co-occurrence data obtained from Portuguese texts. The
 presented solution was composed of a tool to extract co-occurrences and
 calculate the association measures of these as well as a web-based interface to
@@ -124,7 +125,7 @@ Figure~\ref{fig:correira2015er} was created and used.
 
 \begin{figure}[ht]
  \caption[ER model of (Correia et al. 2015)]{The \ac{ER} model used in
- \cite{correia2015syntax}.}
+ \citep{correia2015syntax}.}
  \label{fig:correira2015er}
  \centering
  \include{graphics/correia2015er}
@@ -203,22 +204,25 @@ requests to the \emph{back-end}, executed on the \emph{server-side}.
 
 As it could be seen in Section~\ref{sec:vectorspace} and
 Section~\ref{sec:co-occurrence}, many works rely in metrics to measure the
-cohesion of two words \cite{pantel2003clustering,pantel2002discovering,jurgens2010hermit,klapaftis2008word,korkontzelos2010uoy,correia2015syntax}.
+cohesion of two words 
+\citep{pantel2003clustering,pantel2002discovering,jurgens2010hermit,klapaftis2008word,korkontzelos2010uoy,correia2015syntax}.
 This section further examines some association measures and their properties.
 
 \subsubsection*{\acl*{PMI} and \acl*{NPMI}}
+\label{subsec:pmi}
 
 \ac{PMI} is a measure of how much the actual probability of a co-occurrence
 $p(x,y)$ differs from what would be expected given the probabilities of the
 individual events and assuming the independence of $p(x)$ and $p(y)$
-\cite{bouma2009normalized}. \ac{PMI} is thus defined in Equation~\ref{eq:pmi}.
+\citep{bouma2009normalized}. \ac{PMI} is thus defined in Equation~\ref{eq:pmi}.
 
 \begin{equation}
   \label{eq:pmi}
   i(x,y) = \ln \frac{p(x,y)}{p(x)p(y)}
 \end{equation}
 
-\ac{NPMI} normalizes the upper and lower bound of \ac{PMI} \cite{bouma2009normalized}.
+\ac{NPMI} normalizes the upper and lower bound of \ac{PMI} 
+\citep{bouma2009normalized}.
 In this case, $i_n(x,y) = 1$ when the two words only occur together,
 $i_n(x,y) = 0$ when $x$ and $y$ are independent, and $i_n(x,y)$ approaches $-1$
 when the two words occur separately but not together, that is, when $p(x,y)$
@@ -232,9 +236,10 @@ Equation~\ref{eq:npmi}.
 \end{equation}
 
 \subsubsection*{Dice Coefficient and LogDice}
+\label{subsec:dice}
 
 The Dice coefficient measures the amount of association between two
-co-occurrences \cite{dice1945measures} and ranges from $1.0$, which indicates
+co-occurrences \citep{dice1945measures} and ranges from $1.0$, which indicates
 association of the two co-occurrences every time they occurred, to $0.0$, which
 indicates no association whatsoever between the two co-occurrences under any
 time they occurred at all. The Dice coefficient is defined in
@@ -246,7 +251,7 @@ Equation~\ref{eq:dice}.
 \end{equation}
 
 \emph{LogDice} addresses the fact that the Dice coefficient usually generates
-very small numbers \cite{rychly2008lexicographer}. For \emph{logDice}, the
+very small numbers \citep{rychly2008lexicographer}. For \emph{logDice}, the
 maximum is $14$. A value of $0$ means there is less than 1 co-occurrence of
 $XY$ per 16,000 $X$ or 16,000 $Y$. A value increase in 1 unit means the
 co-occurrence occurs twice as often, and a value increase of 7 means the
@@ -261,7 +266,7 @@ Equation~\ref{eq:logdice}.
 \subsubsection*{Pearson's Chi-Squared Test}
 
 $\chi^2$ is a test for dependence which does not assume normally distributed
-probabilities \cite{manning1999foundations}. The test compares observed
+probabilities \citep{manning1999foundations}. The test compares observed
 frequencies with the frequencies expected for independence. In the simplest
 case, this test is applied to 2-by-2 tables such as Table~\ref{tab:chi2}. The
 $\chi^2$ test sums the differences between the observed and expected values
@@ -313,17 +318,18 @@ For 2-by-2 tables, the test can be simplified into Equation~\ref{eq:chi22by2}.
 
 
 \subsubsection*{Log Likelihood Ratio}
+\label{subsec:loglikeliood}
 
 The Log-likelihood ratio ($G^2$ or $-2\log\lambda$) was created to address the
 overestimation of the normal distribution when dealing with very small
 probabilities ($np(1 - p) < 5$ for $p$ being the probability that the next word
 matches a prototype and $n$ the amount of words for which the match is being
-tested) \cite{dunning1993accurate}.
+tested) \citep{dunning1993accurate}.
 
 The likelihood ratio tests do not depend on assuming a normal distribution and
 instead use the generalized likelihood ratio, which can be used effectively in
 smaller volumes of text than is necessary for conventional tests based on
-assumed normal distributions \cite{dunning1993accurate}.
+assumed normal distributions \citep{dunning1993accurate}.
 
 For events $k_1,k_2$, the likelihood ratio for the binomial distribution is
 defined in Equation~\ref{eq:loglikelihood}.
@@ -343,7 +349,7 @@ The significance measure is based on the statistical \emph{G-Test} for Poisson
 distributions: given two words $A$, $B$, each occurring $a$, $b$ times and $k$
 times together, the significance $\operatorname{sig}(A, B)$ of their occurrence
 in a sentence is defined in Equation~\ref{eq:sig}, with $n$ being the number of
-sentences and $x = \frac{ab}{n}$ \cite{biemann2004language}.
+sentences and $x = \frac{ab}{n}$ \citep{biemann2004language}.
 
 \begin{equation}
   \label{eq:sig}

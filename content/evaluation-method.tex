@@ -16,13 +16,13 @@ In this evaluation method, the set of resulting clusters is compared to a
 that each cluster consists of data points primarily belonging to a single
 \ac{GS} class. Completeness refers to the degree that each \ac{GS} class
 consists of data points assigned to a single cluster
-\cite{manandhar2009semeval}. To evaluate homogeneity and completeness, the
+\citep{manandhar2009semeval}. To evaluate homogeneity and completeness, the
 F-score and the V-measure will be used.
 
 Given a particular \ac{GS} sense $gs_i$ of size $a_i$ and a cluster $c_j$ of
 size $a_j$, the F-score of $gs_i$ and $c_j$ is the harmonic mean of its
 precision and its recall, as defined in Equation~\ref{eq:smallf}
-\cite{agirre2007semeval}. Precision of a class $gs_i$ with respect to cluster
+\citep{agirre2007semeval}. Precision of a class $gs_i$ with respect to cluster
 $c_j$ is the number of common instances divided by total cluster size, i.e.
 $P(gs_i, c_i) = \frac{a_{ij}}{a_j}$. The recall of a class $gs_i$ with respect
 to cluster $c_j$ is the number of common instances divided by total sense size,
@@ -49,20 +49,20 @@ the total number of target word instances.
 
 The F-score measures both homogeneity (precision) and completeness (recall).
 However, the F-score suffers from the \textit{matching problem}, by not
-evaluating the entire membership of a cluster \cite{rosenberg2007v}. This is
+evaluating the entire membership of a cluster \citep{rosenberg2007v}. This is
 due to the F-score not considering the components of the clusters beyond the
 majority class. Furthermore, the F-score penalises systems for getting the
-number of \ac{GS} classes wrongly \cite{manandhar2009semeval}.
+number of \ac{GS} classes wrongly \citep{manandhar2009semeval}.
 
 Thus, to complement the F-score, the V-measure is also used. V-measure is an
 entropy-based measure that explicitly measures how successfully the criteria
-of homogeneity and completeness have been satisfied \cite{rosenberg2007v}. Just
+of homogeneity and completeness have been satisfied \citep{rosenberg2007v}. Just
 as precision and recall are combined to form the F-score, homogeneity and
 completeness are combined using the harmonic mean to compute the V-measure.
 
 For the homogeneity criterion, a clustering must assign only the data points of a
 single class to a single cluster. That is, the class distribution of each
-cluster should be skewed to a single class, zero entropy \cite{rosenberg2007v}.
+cluster should be skewed to a single class, zero entropy \citep{rosenberg2007v}.
 In a perfectly homogeneous case, $H(GS|C) = 0$ and in an imperfect situation,
 this value is dependent on the size of the dataset and distribution of class
 sizes. Therefore, the V-measure normalizes this value by the maximum reduction
@@ -125,7 +125,7 @@ than 1 homogeneity is weighted more strongly.
 
 Although the V-measure does not increase monotonically, it is known to tend to
 favour systems producing a higher number of clusters than the number of \ac{GS}
-senses \cite{manandhar2010semeval}. With this in mind, both the F-score and the
+senses \citep{manandhar2010semeval}. With this in mind, both the F-score and the
 V-measure are used for this evaluation method, as the F-score penalises systems
 when they produce a different number of clusters from the number of \ac{GS}
 senses.
@@ -136,9 +136,9 @@ distributed within each cluster. Generally, the smaller the entropy, the better
 the clustering algorithm preforms. On the other hand, Purity measures the extent
 to which each cluster contains objects from primarily one class. The larger the
 purity, the better the clustering algorithm preforms. A formal definition of
-these measures is available in \cite{zhao2005hierarchical}. However, as both of
+these measures is available in \citep{zhao2005hierarchical}. However, as both of
 them evaluate only the homogeneity of a clustering algorithm, disregarding
-completeness \cite{manandhar2009semeval}, and are not frequently used in the
+completeness \citep{manandhar2009semeval}, and are not frequently used in the
 evaluation of more recent algorithms, they will not be considered in this
 evaluation.
 
@@ -147,7 +147,7 @@ evaluation.
 
 In the supervised evaluation method, the target corpus is split into a testing
 and training part. The training part is used to map the automatically induced
-clusters to \ac{GS} senses \cite{agirre2006evaluating}. After that, the testing
+clusters to \ac{GS} senses \citep{agirre2006evaluating}. After that, the testing
 corpus is used to evaluate the clustering resulting in a \ac{WSD} setting.
 
 Suppose there are $m$ clusters and $n$ senses for the target word. $M$ is the
@@ -169,7 +169,7 @@ $\overline{s}$, and then assign the sense with maximum score to that instance.
 As the algorithm always returns an answer, its recall is of 100\% in all
 cases, there are no false negatives as there aren't any negatives at all. So
 the algorithm only needs to be evaluated according to its precision
-\cite{agirre2006evaluating}.
+\citep{agirre2006evaluating}.
 
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
