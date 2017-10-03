@@ -74,7 +74,6 @@
 
 % Bibliography styles...
 %\usepackage{authordate1-4} % Author/Date bibliography
-\usepackage{chicago} % Chicago Manual of Style
 %\RequirePackage[index]{apacite}
 %\renewcommand{\bibname}{Índice de Nomes}
 %\renewcommand{\BBAB}{e} % between authors in text
@@ -147,24 +146,6 @@
 %\newcommand{\bibheadtitle}{BIBLIOGRAFIA}
 \newcommand{\bibtitle}{Bibliography}
 \newcommand{\bibheadtitle}{BIBLIOGRAPHY}
-
-% Redefine the bibliography environment to generate a new chapter,
-% with the corresponding index entry...
-
-\renewenvironment{thebibliography}{
-  \chapter*{\bibtitle}%
-  \@mkboth{\bibheadtitle}{\bibheadtitle}%
-  \list{\relax}{\setlength{\labelsep}{0em}
-    %--apacite \setlength{\itemindent}{-\bibhang}
-    %--apacite \setlength{\leftmargin}{\bibhang}%
-    \setlength{\itemindent}{1.3\bibindent}
-  }
-  %\def\newblock{\hskip .11em plus .33em minus .07em}
-  %\sloppy\clubpenalty4000\widowpenalty4000
-  \sfcode`\.=1000
-  }{}%1col.
-  %--apacite \columnsep=1.3\bibhang}{}%1col.
-  %\columnsep=1.3\bibhang\begin{multicols}{2}}{\end{multicols}}%2col.
 
 %---------------------------------------------------------------------------
 % More settings...

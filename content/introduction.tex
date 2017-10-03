@@ -17,22 +17,22 @@ differentiate between each use of the same word.
 
 % Show why the problem is ubiquitous
 
-This problem affects machine translation, \ac{IR} and content categorization
-\citep{navigli2009word}. Taking an example of machine translation, the
+This problem affects, among other \ac{NLP} tasks, \ac{MT}, \ac{IR} and content
+categorization \citep{navigli2009word}. Taking an example from \ac{MT}, the
 Portuguese word \textit{laço} can be translated in various different English
 words depending on context; it can be translated into \textit{ribbon} or it can
 be translated to the \textit{bond} between two people. A system which naïvely
-uses the \ac{MFS} will improperly translate or categorize these words when they
-are used outside of their most common context.
+uses the \ac{MFS} may improperly translate or categorize this word when it is
+used outside of its most common context.
 
 % Introduce the solution to the problem
 
-To deal with this problem it is possible to identify the underlying meaning of a
-word based on its context. This process is called \ac{WSD}
+To deal with this problem it is necessary to identify the underlying meaning of
+a word based on its context. This process is called \ac{WSD}
 \citep{navigli2009word}. This process requires both sense inventories as well as
-large amounts of sense-tagged corpora to function efficiently. As a result,
-under-resourced languages need to deal with greater hardships to be able to
-achieve satisfactory results \citep{ng1997getting}.
+large amounts of sense-tagged \emph{corpora} to function efficiently. As a
+result, under-resourced languages need to deal with greater hardships to be
+able to achieve satisfactory results \citep{ng1997getting}.
 
 A solution to the lack of resources is to automatically identify the meaning of
 words in their given context, without the requirement of manually annotated
@@ -45,39 +45,37 @@ data. This is called \ac{WSI} \citep{agirre2007semeval}.
 % Can it be better than no induction/disambiguation?
 % How do you evaluate it? Aka, how do you know it is better?
 
-There are several implementations of \ac{WSI} available (some of which will be
-later described in Chapter~\ref{ch:stateofart}). The goal of this dissertation
-is to investigate the feasibility and possibility of creating a \ac{WSI} model
-for the Portuguese language which is capable of improving the quality of
-detected word senses within the words' contexts. Furthermore, this dissertation
-looks into seeing if the task of \ac{WSI} and \ac{WSD} can be preformed within
-reasonable time and resources, and to evaluate the quality of this new model
-against the existing baselines used within the \ac{NLP} chain \acs*{STRING}
-(described in Section~\ref{sec:string}).
+The goal of this dissertation is to investigate the feasibility of creating a
+\ac{WSI} model for the Portuguese language which is capable of improving the
+quality of detected word senses within the words' contexts. Furthermore, this
+dissertation looks into seeing if the task of \ac{WSI} and \ac{WSD} can be
+performed within reasonable time, and to evaluate the quality of this new model
+against the \ac{MFS} baseline.
 
 % Introduce the shiny new tool, explain the problem it solves
 
 Additionally, this dissertation presents the results of this investigation, in
 a project called \ac{SENTIDO}. \ac{SENTIDO} is a \ac{WSI} and \ac{WSD} model
-which infers the possible senses of a word from untagged corpora based on the
-additional words which co-occur with the target word; and, given a word and its
-context, disambiguates between the previously inferred senses.
+which infers the possible senses of a word from untagged \emph{corpora} based
+on the additional words that co-occur with the target word; and, given a word
+and its context, disambiguates between the previously inferred senses.
 
 % Describe the layout of this paper
 
-In Chapter~\ref{ch:stateofart}, the existing \ac{WSI} implementations and models
+This dissertation is organized as follows:
+
+In Chapter~\ref{ch:stateofart}, existing \ac{WSI} implementations and models
 are described, as well and the theoretical foundations and additional tools
-which support and aide them. In Chapter~\ref{ch:architecture}, the architecture
-of the model is outlined, as well as the various stages of which it is composed
-of. In Chapter~\ref{ch:implementation}, the implementation details, such as the
-used corpora, existing tools from which the model is developed on, and
+that support and aide them. In Chapter~\ref{ch:architecture}, the architecture
+of the model is outlined, as well as the various stages that compose it. In
+Chapter~\ref{ch:implementation}, the implementation details, such as the
+\emph{corpora} used, existing tools from which the model is developed, and
 adaptations made to those same tools, are depicted.
-Chapter~\ref{ch:eval-method} describes how the algorithm is tested and which are
-the theoretical foundations for the soundness of the methodology.
+Chapter~\ref{ch:eval-method} describes how the algorithm is tested and which
+are the theoretical foundations for the soundness of the methodology.
 Chapter~\ref{ch:eval} describes the test corpus used, the chosen parameters and
-analyses the results of the evaluation. Chapter~\ref{ch:future} describes what
-can be improved in the future and Chapter~\ref{ch:conclusion} provides a
-resume and conclusion to this dissertation.
+analyses the results of the evaluation. Chapter~\ref{ch:conclusion} provides a
+synopsis of the findings and describes what can be improved in the future.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

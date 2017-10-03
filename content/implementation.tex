@@ -79,7 +79,7 @@ last accessed on \DTMdate{2017-08-06}}. This parser loads the file in memory and
 creates the \ac{DOM}-like tree structure from there.
 
 This implementation was having problems with larger files, on the range of
-100MiB and larger, taking exponential amounts of time to preform the most basic
+100MiB and larger, taking exponential amounts of time to perform the most basic
 operations.
 
 The existing \ac{DOM} parser was thus replaced with a pull-parser. This reads
@@ -156,13 +156,13 @@ in Section~\ref{sec:clusteralgorithms}.
 
 \section{Sense Disambiguation}
 
-To be able to preform disambiguation, additional changes had to be done to the
+To be able to perform disambiguation, additional changes had to be done to the
 co-occurrence extractor in \citep{correia2015syntax}. The extractor had the 
 logic
 to extract the co-occurrences and the code to write them in the database merged
 together. To make the extractor usable for the task of disambiguation, a
 separation of the code to write in the database and the logic of extracting the
-co-occurrences was preformed.
+co-occurrences was performed.
 
 Having applied those changes, the disambiguation for a target word $w$ and a
 context $c$ starts by using the modified extractor to obtain all co-occurrences
