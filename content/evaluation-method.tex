@@ -1,23 +1,23 @@
-\chapter{Evaluation Methodology}
-\label{ch:eval-method}
+\section{Evaluation Methodology}
+\label{sec:eval-method}
 
 The evaluation is composed of two methods, an unsupervised evaluation and a
 supervised evaluation. The unsupervised evaluation is used to assess the
-resulting clusters' similarity to the \ac{GS} senses. The supervised evaluation
+resulting clusters' similarity to the \acf{GS} senses. The supervised evaluation
 is used as an application-oriented assessment of the resulting clusters in the
 task of \ac{WSD}.
 
-\section{Unsupervised Evaluation}
-\label{sec:unsupeval}
+\subsection{Unsupervised Evaluation}
+\label{subsec:unsupeval}
 
 In this evaluation method, the set of resulting clusters is compared to a
 \ac{GS}. This comparison is made by evaluating the clusters'
-\textit{homogeneity} and \textit{completeness}. Homogeneity refers to the degree
-that each cluster consists of data points primarily belonging to a single
-\ac{GS} class. Completeness refers to the degree that each \ac{GS} class
-consists of data points assigned to a single cluster
-\citep{manandhar2009semeval}. To evaluate homogeneity and completeness, the
-F-score and the V-measure will be used.
+\textit{homogeneity} and \textit{completeness} \citep{manandhar2009semeval}. 
+Homogeneity refers to the degree that each cluster consists of data points 
+primarily belonging to a single \ac{GS} class. Completeness refers to the 
+degree that each \ac{GS} class consists of data points assigned to a single 
+cluster. To evaluate homogeneity and completeness, the F-score and the 
+V-measure will be used.
 
 Given a particular \ac{GS} sense $gs_i$ of size $a_i$ and a cluster $c_j$ of
 size $a_j$, the F-score of $gs_i$ and $c_j$ is the harmonic mean of its
@@ -60,14 +60,15 @@ of homogeneity and completeness have been satisfied \citep{rosenberg2007v}. Just
 as precision and recall are combined to form the F-score, homogeneity and
 completeness are combined using the harmonic mean to compute the V-measure.
 
-For the homogeneity criterion, a clustering must assign only the data points of a
-single class to a single cluster. That is, the class distribution of each
-cluster should be skewed to a single class, zero entropy \citep{rosenberg2007v}.
-In a perfectly homogeneous case, $H(GS|C) = 0$ and in an imperfect situation,
-this value is dependent on the size of the dataset and distribution of class
-sizes. Therefore, the V-measure normalizes this value by the maximum reduction
-in entropy the clustering could provide, $H(GS)$, resulting in
-Equation~\ref{eq:homogeneity}.
+For the \emph{homogeneity} criterion, a clustering must assign only the data 
+points of a single class to a single cluster. That is, the class distribution 
+of each cluster should be skewed to a single class, zero entropy 
+\citep{rosenberg2007v}. In a perfectly homogeneous case, $H(GS|C) = 0$ and in 
+an imperfect situation, this value is dependent on the size of the dataset and 
+distribution of class sizes. Therefore, the V-measure normalizes this value by 
+the maximum reduction in entropy the clustering could provide, $H(GS)$, 
+resulting in Equations~\ref{eq:homogeneity}, \ref{eq:entropygs}, and 
+\ref{eq:entropygsc}.
 
 \begin{equation} \label{eq:homogeneity}
  h = \begin{dcases}
@@ -76,25 +77,26 @@ Equation~\ref{eq:homogeneity}.
      \end{dcases}
 \end{equation}
 
-\begin{equation}
+\begin{equation} \label{eq:entropygs}
  H(GS) = - \sum_{i=1}^{|GS|} \frac{\sum_{j=1}^{|C|} a_{ij}}{N}
          \log \frac{\sum_{j=1}^{|C|} a_{ij}}{N}
 \end{equation}
 
-\begin{equation}
+\begin{equation} \label{eq:entropygsc}
  H(GS|C) = - \sum_{j=1}^{|C|} \sum_{i=1}^{|GS|} \frac{a_{ij}}{N}
            \log \frac{a_{ij}}{\sum_{k=1}^{|GS|} a_{kj}}
 \end{equation}
 
-Symmetrically to homogeneity, for the completeness criterion, a clustering
-solution must assign all of the datapoints of a single class to a single
-cluster. This can be evaluated by calculating the conditional entropy of the
-proposed cluster distribution given the class of the component data points,
+Symmetrically to homogeneity, for the \emph{completeness} criterion, a 
+clustering solution must assign all the datapoints of a single class to a 
+single cluster. This can be evaluated by calculating the conditional entropy of 
+the proposed cluster distribution given the class of the component data points,
 $H(C|GS)$. In a perfectly complete case, $H(C|GS) = 0$ and in the worst case
 scenario each class is represented by every cluster with a distribution equal to
 the distribution of cluster sizes, $H(C|GS)$ is maximal and equals $H(C)$.
 Therefore, adding a way symmetric to that used for homogeneity, the V-measure
-defines completeness as in Equation~\ref{eq:completeness}.
+defines completeness as in Equations~\ref{eq:completeness}, \ref{eq:entropyc}, 
+and \ref{eq:entropycgs}.
 
 \begin{equation} \label{eq:completeness}
  c = \begin{dcases}
@@ -103,12 +105,12 @@ defines completeness as in Equation~\ref{eq:completeness}.
      \end{dcases}
 \end{equation}
 
-\begin{equation}
+\begin{equation} \label{eq:entropyc}
  H(C) = - \sum_{j=1}^{|C|} \frac{\sum_{i=1}^{|GS|} a_{ij}}{N}
         \log \frac{\sum_{i=1}^{|GS|} a_{ij}}{N}
 \end{equation}
 
-\begin{equation}
+\begin{equation} \label{eq:entropycgs}
  H(C|GS) = - \sum_{i=1}^{|GS|} \sum_{j=1}^{|C|} \frac{a_{ij}}{N}
            \log \frac{a_{ij}}{\sum_{k=1}^{|C|} a_{ik}}
 \end{equation}
@@ -138,12 +140,11 @@ to which each cluster contains objects from primarily one class. The larger the
 purity, the better the clustering algorithm performs. A formal definition of
 these measures is available in \citep{zhao2005hierarchical}. However, as both of
 them evaluate only the homogeneity of a clustering algorithm, disregarding
-completeness \citep{manandhar2009semeval}, and are not frequently used in the
-evaluation of more recent algorithms, they will not be considered in this
+completeness \citep{manandhar2009semeval}, they will not be considered in this
 evaluation.
 
-\section{Supervised Evaluation}
-\label{sec:supeval}
+\subsection{Supervised Evaluation}
+\label{subsec:supeval}
 
 In the supervised evaluation method, the target corpus is split into a testing
 and training part. The training part is used to map the automatically induced

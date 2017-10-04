@@ -1,15 +1,14 @@
 \chapter{Evaluation}
 \label{ch:eval}
 
+\input{content/evaluation-method.tex}
+
 \section{Test Corpus}
 
-To evaluate the project, the corpus from \citep{pires2017verb} was used. This 
-was
-the PAROLE corpus \citep{nascimento1998parole}, with each verb manually 
-annotated
-with its ViPEr class and reviewed by linguists.
-
-The splitting used for evaluation was to use the whole corpus for training,
+To evaluate the project, the corpus from \citep{baptista2013viper} was used. 
+This was the PAROLE corpus \citep{nascimento1998parole}, with each verb 
+instance manually annotated with its ViPEr class and reviewed by linguists. The 
+splitting used for evaluation was to use the whole corpus for training,
 except for the sentence being evaluated.
 
 \section{Parameter choosing}
@@ -18,26 +17,22 @@ The graph partitioning algorithm chosen was \ac{CW}, as the other option,
 MaxMax, has a tendency to generate many fine-grained clusters
 \citep{hope2013uos}.
 
-\ac{NPMI} and logDice were chosen as the association measures due to their
+The \ac{NPMI} and the logDice association measures were chosen as due to their
 normalized scores, which allow to use the same parameter between different words
-while keeping the same underlying meaning.
-
-\ac{NPMI} was tested with minimum thresholds of 0.0, 0.25, 0.5, and 0.75,
-ranging from each word being at best independent of the other up to both
-occurring mostly together.
-
-logDice was tested with minimum thresholds of 0.0, 2.5, 5.0, 7.5, and 10,
-ranging from being at least 1 co-occurrence per 16,000 instances of each
-individual word, up to 1 co-occurrence per 15.625 instances of each word.
+while keeping the same underlying meaning. The \ac{NPMI} association measure 
+was tested with minimum thresholds of 0.0, 0.25, 0.5, and 0.75, ranging from 
+each word being at best independent of the other up to both occurring mostly 
+together. The logDice association measure was tested with minimum thresholds of 
+0.0, 2.5, 5.0, 7.5, and 10.
 
 \section{Unsupervised Evaluation}
 
-The results of the unsupervised evaluation (shown in
-Table~\ref{tab:unsup-results}), shows that all tests scored poorly in F-Score,
-while \ac{MFS} had a result on average of 83.4\%. In the V-Measure, results
-varied from 0.0\% for the lowest values up to 34.4\% for the highest. Not
-counting the most restrictive threshold of logDice and NPMI, all tests had
-better results than \ac{MFS}, which scored 0.4\% in V-Measure.
+The results of the unsupervised evaluation (Table~\ref{tab:unsup-results}) show 
+that all tests scored poorly in F-Score, while \ac{MFS} had a result on average 
+of 83.4\%. In the V-Measure, results varied from 0.0\% for the lowest values up 
+to 34.4\% for the highest. Not counting the most restrictive threshold of 
+logDice and NPMI, all tests had better results than \ac{MFS}, which scored 
+0.4\% in V-Measure.
 
 Another thing which is possible to see if that when the threshold is too high,
 not enough points are available to form a meaningful view of the contexts,

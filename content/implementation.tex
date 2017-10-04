@@ -3,17 +3,18 @@
 
 \section{Corpora Pre-Parse}
 
-Two corpora were chosen to be used in this project, the CETEMPúblico corpus
-\citep{rocha2000cetempublico}, and a dump of the Portuguese edition Wikipedia
+Two \emph{corpora} were chosen to be used in this project, the CETEMPúblico 
+\emph{corpus} \citep{rocha2000cetempublico}, and a dump of the Portuguese 
+edition of Wikipedia 
 \footnote{\url{https://en.wikipedia.org/wiki/Wikipedia:Database_download}, last
-accessed on \DTMdate{2017-06-21}.}. Each one was using its own syntax to
+accessed on \DTMdate{2017-06-21}.}. Each \emph{corpus} used its own syntax to
 describe its contents. As \ac{STRING} only parses plain text sentences, the
 additional meta-data provided was either removed or adapted for parsing by
 \ac{STRING}.
 
 \subsection{CETEMPúblico}
 
-CETEMPúblico was provided in \iac{SGML} format with the following tags:
+CETEMPúblico was provided in \ac{SGML} format with the following tags:
 
 \begin{description}[labelwidth=3em]
  \item [\texttt{ext}] Extract (usually composed of two paragraphs);
@@ -25,15 +26,15 @@ CETEMPúblico was provided in \iac{SGML} format with the following tags:
 \end{description}
 
 To parse it, a Python script was designed, which parses it as \ac{XML} using a
-parser which generates the element tree incrementally. Tags considered
+parser that generates the element tree incrementally. Tags considered
 irrelevant were ignored, and tags with special meanings, such as the ones
-settings the bounds of a sentence, paragraph or excerpt were replaced with
+setting the boundaries of a sentence, paragraph or excerpt were replaced with
 unique plain text identifiers.
 
 Because the corpus was in \ac{SGML} format and not \ac{XML}, a few replacements
-were made before feeding each line to the parser to made sure that it the parser
-only be fed valid \ac{XML}. These ensured attributes were quoted and that all
-elements had an opening and closing tag.
+were made before feeding each line to the parser to make sure that the parser 
+would only be fed valid \ac{XML}. These made sure attributes were quoted and 
+that all elements had an opening and closing tag.
 
 \subsection{Wikipedia}
 
@@ -52,24 +53,22 @@ plain text identifiers which can be recognized even after being parsed by
 
 \section{Co-occurrence Extraction}
 
-To obtain the co-occurrences, the extractor created in \citep{correia2015syntax}
-is used. The extractor was not able to be used as it was due to different
-requirements and conditions for each work, so adaptations were made to it for
-the new environment.
+To obtain the co-occurrences, the extractor created by \citet{correia2015syntax}
+was used, but had to be adapted because it had been developed under different
+requirements and conditions distinct from the ones for this work.
 
 \subsection{Storage Model}
 
 To be able to provide all the required information to the graph construction
-algorithm, the model used to store the information had to be modified.
-
-A new \ac{ER} was designed, as shown in Figure~\ref{fig:er-model}, and used to
+algorithm, the model used to store the information had to be modified. A new 
+\ac{ER} was designed, as shown in Figure~\ref{fig:er-model}, and used to
 generate the relational model used in the database.
 
-To optimize for the database usage, all tables have their own \texttt{id},
-used as the primary key, with the previous primary key being set as a
-\texttt{UNIQUE} constraint. The new \texttt{id} primary key is used to reference
-to a given table's line in other tables. This helped reduce the space occupied
-by repeated references to text-based primary keys.
+All tables have their own \texttt{id}, used as the primary key, with the 
+previous primary key being set with a \texttt{UNIQUE} constraint. The new 
+\texttt{id} primary key is used to reference to a given table's line in other 
+tables. This helped to reduce the space occupied by repeated references to 
+text-based primary keys.
 
 \subsection{Parsing \ac{XIP} files}
 
@@ -79,15 +78,16 @@ last accessed on \DTMdate{2017-08-06}}. This parser loads the file in memory and
 creates the \ac{DOM}-like tree structure from there.
 
 This implementation was having problems with larger files, on the range of
-100MiB and larger, taking exponential amounts of time to perform the most basic
+100MB and larger, taking exponential amounts of time to perform the most basic
 operations.
 
 The existing \ac{DOM} parser was thus replaced with a pull-parser. This reads
 the file sequentially and, as new tags are found, such as the start or the
-end of an element, an event is generated, with only the contents pertaining it.
+end of an element, an event is generated, with only the contents pertaining to 
+it.
 
 The pull-parser has an $O(1)$ memory usage for parsing, as only the currently
-parsed segment needs to stay in memory as the document structure is built.
+parsed segment needs to stay in memory while the document structure is built.
 
 On top of the XML pull parser, a basic stack is used to keep track of what is
 the current element and depth in the document. The name of the current tag
@@ -99,22 +99,22 @@ deciding the next action in the construction of the XIP document in memory.
 
 \subsection{Populating the Database}
 
-After parsing the \ac{XIP} files, the dependencies are extracted using the
-tools from \citep{correia2015syntax}. The extracted dependencies are then added
-to the database as co-occurrences, by attempting to insert them at first and
-updating the existing one if the insertion fail due to uniqueness constraints.
+After parsing the \ac{XIP} files, the dependencies are extracted and added to 
+the database as co-occurrences. First an \texttt{INSERT} is attempted, if it 
+fails due to \texttt{UNIQUE} violations, the existing entry is updated with the 
+new information.
 
 After all co-occurrences are added to the database, the values of the
 association measures are updated in batches of 2000 at a time. To prevent
 slowdowns while waiting to read, a cache of read values from the database is
 used to prevent reading multiple times the same value from the database,
-allowing to considerably reduce the time taken populating the association
-measures.
+allowing to reduce considerably the time taken to populate the values of the 
+association measures.
 
 \section{Sense Induction}
 
 Given a target word $w$, a query to the database is made to obtain all
-co-occurrences which happen in the same context as co-occurrences with $w$ as
+co-occurrences that happen in the same context as co-occurrences with $w$ as
 either the first or second word, as in Listing~\ref{lst:contextextract}.
 
 \begin{lstlisting}[language=SQL,float=h,caption=SQL Query to extract all
@@ -144,14 +144,13 @@ that same set.
 All co-occurrences in which the association measure's weight is lower than a
 pre-specified threshold are then removed from the graph.
 
-A breadth first search is then applied, starting from $w$, to ensure only nodes
-directly connected to $w$ by any number of steps remain in the graph. This
+A breadth-first search is then applied, starting from $w$, to ensure that only 
+nodes directly connected to $w$ by any number of steps remain in the graph. This
 eliminates nodes and co-occurrences not connected to the graph at all, coming
--- for example -- from dangling co-occurrences which were previously connected
-only through other co-occurrences which were removed in previous steps of the
-generation.
+-- for example -- from dangling co-occurrences that were previously connected
+through a path removed in one of the previous steps of the generation.
 
-The resulting graph is finally clustered using one of the algorithms explained
+The resulting graph is finally clustered using the \ac{CW} algorithm, explained
 in Section~\ref{sec:clusteralgorithms}.
 
 \section{Sense Disambiguation}
