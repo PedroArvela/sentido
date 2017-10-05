@@ -3,20 +3,8 @@
 
 This project proposed an algorithm for disambiguating the sense of words in the
 Portuguese language without the need to manually create a sense inventory or
-sense-tagged corpora.
-
-Additionally, this project implemented a proof-of-concept of this same proposal,
-and evaluated its results against a \ac{MFS} baseline.
-
-Although the project was unable to achieve satisfactory results in the
-evaluation, it was possible to pinpoint were possible weaknesses were and a base
-model was defined and documented, which can be used for future attempts at
-solving the given problem.
-
-At last, this project shows in its State of the Art extensive examples of
-interest and successful attempts, showing that not only is this goal beneficial
-for \ac{NLP} tasks, as well as possible to do, even if this specific
-implementation was not capable of achieving good results.
+sense-tagged corpora. Additionally, this project implemented a proof-of-concept
+of this same proposal, and evaluated its results against a \ac{MFS} baseline.
 
 One important aspect to investigate is the possibility of adding more
 dependency types to the ones detected by Syntax Deep Explorer
@@ -31,16 +19,21 @@ as
 they could help improve the results of both the induction and the disambiguation
 phase.
 
-Another point worth investigating is further processing before or after
-generating the graph or during induction, such as choosing different association
-measures and thresholds, or including information about the dependency patterns
-themselves in the generated clusters for when applying the disambiguation
+Another point worth investigating is what should be further processed between
+the stages of induction, such as choosing different association measures and
+thresholds, or including information about the dependency types themselves in
+the generated graphs, to later use when applying the disambiguation
 \citep{panchenko2016noun}.
 
 Additionally, it might be relevant to investigate porting the data to a graph
-database engine, as it's native work in graphs might improve the execution speed
+database engine, as its native work in graphs might improve the execution speed
 of the induction phase by removing several of the currently required
 \texttt{JOIN}s of multiple tables in relational databases.
+
+Although the project was unable to achieve satisfactory results in the
+evaluation, it was possible to pinpoint were possible weaknesses were and a base
+model was defined and documented, which can be used for future attempts at
+solving the given problem.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

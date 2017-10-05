@@ -124,7 +124,7 @@ intersecting the words in WordNet
 with the nouns in the corpus, resulting in a test set of 13403 words with an 
 average number of 740.8 features per word. \ac{CBC} obtained a precision of 
 $60.8\%$, a recall of $50.8\%$ and an F-score of $55.4\%$. These evaluation 
-measures are later described in Section~\ref{sec:unsupeval}.
+measures are later described in Section~\ref{subsec:unsupeval}.
 
 \subsection{HERMIT}
 
@@ -183,7 +183,7 @@ and evaluated in an unsupervised method, which compares the found clusters with
 the gold data for the word senses, and a supervised method, which evaluates the 
 results of \ac{WSD} using the induced clusters. The first was measured
 according to the F-score and V-measure, which is the harmonic mean between the 
-homogeneity and completeness (later described in Section~\ref{sec:unsupeval}); 
+homogeneity and completeness (later described in Section~\ref{subsec:unsupeval});
 while the second was measured using supervised recall. Using the provided test 
 corpus, parameters were tuned for a context window size of $\pm1$, a clustering
 threshold of $.15$ and a maximum of $15$ clusters per word.
