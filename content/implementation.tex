@@ -26,10 +26,10 @@ CETEMPúblico was provided in \ac{SGML} format with the following tags:
 \end{description}
 
 To parse it, a Python script was designed, which parses it as \ac{XML} using a
-parser that generates the element tree incrementally. Tags considered
-irrelevant were ignored, and tags with special meanings, such as the ones
-setting the boundaries of a sentence, paragraph or excerpt were replaced with
-unique plain text identifiers.
+parser that generates the \ac{DOM} \emph{Element Tree} incrementally. Tags
+considered irrelevant were ignored, and tags with special meanings, such as the
+ones setting the boundaries of a sentence, paragraph or excerpt were replaced
+with unique plain text identifiers.
 
 Because the corpus was in \ac{SGML} format and not \ac{XML}, a few replacements
 were made before feeding each line to the parser to make sure that the parser 
