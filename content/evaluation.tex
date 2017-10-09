@@ -105,61 +105,47 @@ The high number of clusters obtained (on average above the hundreds) shows that
 the results are too fine-grained to be able to properly match them to the senses
 trying to disambiguate.
 
-This might be caused by the use of syntactic dependencies, which give many less
-co-occurrences, ad thus not being able to make use of the small word properties
-of co-occurrence graphs described in Section~\ref{sec:co-occurrence}.
-
-Another relevant point which might affect the results is that the extractor used
-\citep{correia2015syntax} never had in mind the use case of this project, and 
-was
-filtering several co-occurrences, as seen in Figure~\ref{fig:extractor}. It is
-possible and likely that it could have filtered co-occurrences essential to be
-able to disambiguate the use of a word in a given context. The co-occurrences
-it was filtering might also have affected the small word properties of the
-co-occurrence graph, invalidating the foundations in which the graph clustering
-algorithms work on to be able to achieve acceptable results.
+Further inspection into specific graphs of some words, such as the graph for the
+word \emph{vingar} (Figure~\ref{fig:vingar_graph}) can further explain the
+obtained results.
 
 \begin{figure}[ht]
-\caption[Dependencies found by \acs*{STRING} and the extractor]{A comparison between
-the dependencies found by STRING and the ones used by the extractor. All the
-dependencies shown were found by \ac{STRING}, while only the ones shown in blue
-were recognized by the extractor.}
-\label{fig:extractor}
-\centering
-\tikzstyle{every node}=[text height=1.5ex, text depth=0.25ex,
-                        minimum width=1cm, text centered]
-\tikzstyle{every path} = [draw=gray, -triangle 45]
-\begin{tikzpicture}[node distance=1.55cm, on grid]
-\node (1) {O};
-\node [right of=1] (2) {Pedro};
-\node [right of=2] (3) {vingou};
-\node [right of=3] (4) {se};
-\node [right of=4] (5) {de};
-\node [right of=5] (6) {quem};
-\node [right of=6] (7) {matou};
-\node [right of=7] (8) {o};
-\node [right of=8] (9) {seu};
-\node [right of=9] (10) {pai};
-
-\path (2) -- (1);
-\path (10) to[bend right] (8);
-\path (6) -- (5);
-\path (7) to[bend right] (3);
-\path (10) -- (9);
-\path [blue] (3) -- (2);
-\path [blue] (7) to[bend right] (2);
-\path (4) -- (3);
-\path [blue] (7) to[bend left] (10);
-\path (6) -- (7);
-\end{tikzpicture}
+  \caption{Image of the induction graph for the word \emph{vingar}, using the
+    \ac*{CW} algorithm and the \ac*{NPMI} association measure.}
+  \label{fig:vingar_graph}
+  \centering
+  \includegraphics[width=\textwidth]{graphics/vingar_VERB_npmi_0_4_chineseWhispers}
 \end{figure}
 
-Additionally, even though \ac{CW} produces coarser clusters than MaxMax, its
-results are still fine-grained and produce more clusters than related algorithms
-\citep{marco2013clustering}. Using a different algorithm, such as \ac{B-MST}
-\citep{marco2013clustering} or HyperLex \citep{veronis2004hyperlex} could 
-possibly
-have achieved better results.
+The first noticeable thing is that the graph includes many words with spelling
+errors. As these are exceptional, when they do appear, association measure
+values rank them as words highly related to the target word, and add noise to
+the induction phase.
+
+The second noticeable thing is that although the work by
+\citet{correia2015syntax} identifies named entities and replaces their lemmas
+with their categories, many of the words in the graph are named entities which
+were not recognized by \ac{STRING}. This adds noise to the graph, increasing the
+number of small clusters generated.
+
+But the most noticeable thing is how sparse the graph is. Algorithms such as
+\ac{CW} or MaxMax require a \emph{small-world network} with several high-density
+areas to be able to find clusters in the graph. In a graph such as the one
+in Figure~\ref{fig:vingar_graph}, with the exception of the node corresponding
+to the target word, no nodes have more than 2 neighbours. This undermines the
+assumptions used in graph-clustering algorithms, and prevents the possibility
+of better results.
+
+It is possible the graph was sparse because the syntactic dependencies used
+impose a stricter relationship between the two words than the usage of mere
+words which co-occur in the same sentence or paragraph would. The stricter
+relationship between the words changes the behavior of the resulting graph,
+which make the graph-clustering algorithms behave poorly.
+
+Additionally, the stricter relationship might be preventing words that are
+related but do not have a syntactic relationship from being included in the
+graph. This might make the generated graphs unsuitable for the specific \ac{WSI}
+algorithms used in this project.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

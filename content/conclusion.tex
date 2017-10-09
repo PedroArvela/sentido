@@ -6,34 +6,27 @@ Portuguese language without the need to manually create a sense inventory or
 sense-tagged corpora. Additionally, this project implemented a proof-of-concept
 of this same proposal, and evaluated its results against a \ac{MFS} baseline.
 
-One important aspect to investigate is the possibility of adding more
-dependency types to the ones detected by Syntax Deep Explorer
-\citep{correia2015syntax}. Not only would these help improve the results
-obtained
-by \ac{SENTIDO} as they would also be useful for Syntax Deep Explorer's original
-goal.
+One future investigation point would be to evaluate the use of relaxed
+co-occurrences based on context windows, sentences or even paragraphs, instead
+of the syntactic dependency co-occurrences used in this project. This might
+influence the characteristics of the generated graphs and improve the
+performance of the graph-clustering algorithms.
 
-Another aspect would be to investigate further clustering algorithms, such as
-\ac{B-MST} \citep{marco2013clustering} or HyperLex \citep{veronis2004hyperlex},
-as
-they could help improve the results of both the induction and the disambiguation
-phase.
-
-Another point worth investigating is what should be further processed between
-the stages of induction, such as choosing different association measures and
-thresholds, or including information about the dependency types themselves in
-the generated graphs, to later use when applying the disambiguation
-\citep{panchenko2016noun}.
+Another aspect should be to investigate vector-based algorithms. These might be
+capable of making use of the dependency information provided by \ac{XIP}, and
+might perform better in relation to algorithms blind to this
+information, such as the ones used in this project.
 
 Additionally, it might be relevant to investigate porting the data to a graph
-database engine, as its native work in graphs might improve the execution speed
-of the induction phase by removing several of the currently required
-\texttt{JOIN}s of multiple tables in relational databases.
+database engine. The traditional relational database used requires the use of
+multiple \texttt{JOIN}s to execute the required queries. A database with a
+native concept of a graph would allow to remove these \texttt{JOIN}s and improve
+execution speed.
 
 Although the project was unable to achieve satisfactory results in the
-evaluation, it was possible to pinpoint were possible weaknesses were and a base
-model was defined and documented, which can be used for future attempts at
-solving the given problem.
+evaluation, it was possible to pinpoint where possible weaknesses were located.
+A base model was defined and documented, and it can be used as a base for future
+attempts at solving the challenges found.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

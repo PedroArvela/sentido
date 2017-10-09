@@ -19,8 +19,7 @@ The data flow is represented in Figure~\ref{fig:data-progression}. The
 processed text from \ac{STRING} 
 goes through a modified implementation of the co-occurrence extractor from 
 \citep{correia2015syntax}, which stores the co-occurrence word-pairs along with 
-their frequencies and 
-association measure values in a database.
+their frequencies and association measure values in a database.
 
 \begin{figure}[ht]
  \caption{The progression of data as it evolves through the architecture}
@@ -29,11 +28,17 @@ association measure values in a database.
  \include{graphics/data-progression}
 \end{figure}
 
-\section{Co-occurrence Storage}
+\section{Co-occurrence Extraction and Storage}
 
-The co-occurrences are stored in an SQLite database, using the \ac{ER} model in 
+Syntactic co-occurrences are extracted using the work by
+\citet{correia2015syntax}. Additionally, this work uses the named entities
+obtained from \ac{XIP}. If the word in a co-occurrence is a named entity, the
+lemma of the word is attributed with the appropriate category (for example, the
+word \emph{Pedro} is identified with the lemma \texttt{INDIVIDUAL}).
+
+The co-occurrences are then stored in an SQLite database, using the \ac{ER} model in
 Figure~\ref{fig:er-model}, adapted from \citet{correia2015syntax}, with minor 
-changes to keep information of all the sentences use (in the \emph{Context} 
+changes to keep information of all the sentences used (in the \emph{Context}
 entity) instead of only 20 randomly selected sentences for each co-occurrence.
 
 \begin{figure}[ht]
