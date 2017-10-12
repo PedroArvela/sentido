@@ -4,17 +4,17 @@
 In graph-based models, the meanings of a word are represented by a weighted
 and undirected co-occurrence graph. The nodes (or vertices) of the graph are the
 words which occur in the corpus and the transitions (or edges) are 
-co-occurrences, with the weight of the edge describing the amount of times that 
+co-occurrences, with the weight of the edge describing the number of times that 
 co-occurrence exists. Two words are said to co-occur if they both occur within 
 the same context.
 
 These models are based on the idea that co-occurrence graphs have the properties
-of \textit{small world networks} \cite{veronis2004hyperlex}, that is, most nodes
-are not neighbours to one another, but most nodes can be reached by a small
-number of steps, as shown in Figure~\ref{fig:small-world}. These properties
-then allow to search for highly interconnected bundles of co-occurrences, that
-is, \textit{high density components}, which correspond to the senses being
-searched.
+of \textit{small world networks} \citep{veronis2004hyperlex}, that is, most 
+nodes are not neighbours to one another, but most nodes can be reached by a 
+small number of steps, as shown in Figure~\ref{fig:small-world}. These 
+properties then allow to search for highly interconnected bundles of 
+co-occurrences, that is, \textit{high density components}, which correspond to 
+the senses being searched.
 
 \begin{figure}[ht]
  \caption{An example of a small world network.}
@@ -28,7 +28,7 @@ searched.
 A graph from a \ac{POS}-tagged corpus is made in \citep{widdows2002graph}, using
 words as nodes and the grammatical co-occurrence relationships between pairs as
 edges. The relationships extracted are the co-occurrences of Noun-Verb,
-Verb-Noun, Adjective-Noun, Noun-Noun. To generate the edges the top-$n$
+Verb-Noun, Adjective-Noun, Noun-Noun. To generate the edges, the top-$n$
 neighbours of each word are selected and turned into edges.
 
 An incremental algorithm is then used to extract categories based on a given
@@ -68,7 +68,7 @@ incorrect, giving an accuracy of $82\%$.
 A graph of collocations is used in \citep{klapaftis2008word} to generate a
 taxonomy of senses which takes into consideration word polysemy. In this, each
 node corresponds to an occurrence of two words in the same context window (which
-in the model is a paragraph) and two nodes are connected if two collocations
+in this model is a paragraph) and two nodes are connected if two collocations
 occur in the same context window.
 
 The base corpus, $bc$, consists of paragraphs containing the target word, $tw$.

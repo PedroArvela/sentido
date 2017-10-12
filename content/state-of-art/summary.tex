@@ -40,8 +40,10 @@ Collocations-BL   & \ac{SWSI} 2007 & ---  & ---  & 89.6 & 29.0 & 73.1 & ---  \\
 UoY     & WSI\&D 2010    & ---  & ---  & ---  & ---  & 38.2 & 20.6 \\
 HERMIT  & WSI\&D 2010    & ---  & ---  & ---  & ---  & 30.1 & 16.7 \\
 \hline
-1c1word & \ac{SWSI} 2007 & ---  & ---  & ---  & ---  & 80.7 & \footnotemark[1]0.0 \\
-Random  & \ac{SWSI} 2007 & ---  & ---  & ---  & ---  & 38.1 & \footnotemark[1]4.9 \\
+1c1word & \ac{SWSI} 2007 & ---  & ---  & ---  & ---  & 80.7 & 
+0.0\footnotemark[1] \\
+Random  & \ac{SWSI} 2007 & ---  & ---  & ---  & ---  & 38.1 & 
+4.9\footnotemark[1] \\
 MFS     & WSI\&D 2010    & ---  & ---  & ---  & ---  & 57.0 & 0.0  \\
 Random  & WSI\&D 2010    & ---  & ---  & ---  & ---  & 30.4 & 4.2  \\
 \hline
@@ -74,8 +76,8 @@ Random        & WSI\&D 2010    & 51.5 \\
 
 \subsection{Graph Clustering Algorithms.}
 
-The work in this area introduces algorithms time-linear to the number of edges
-with results comparable to older existing algorithms.
+The work in this area introduces algorithms that are time-linear to the number 
+of edges with results comparable to older existing algorithms.
 
 Both algorithms are shown to be suitable for \ac{WSI} tasks. Both algorithms are
 time-linear to the number of edges and ideal for execution in large-scale graphs
@@ -85,8 +87,8 @@ which feature small-world features, as it can be seen on Table~\ref{tab:clalg}.
 but unlike MaxMax, it is not deterministic, and it does not allow to place the
 same node in several clusters -- soft-clustering --, a feature specially
 desirable for a global graph approach so that one word can have several senses.
-On the other side, MaxMax is known to generate many fine-grained clusters, which
-then need to be merged to obtain clusters more similar in size to the target
+On the other hand, MaxMax is known to generate many fine-grained clusters, which
+then have to be merged to obtain clusters more similar in size to the target
 senses \citep{hope2013uos}.
 
 \begin{table}

@@ -102,8 +102,8 @@ achieve better results, showing the project is not ready to be used for
 disambiguation.
 
 The high number of clusters obtained (on average above the hundreds) shows that
-the results are too fine-grained to be able to properly match them to the senses
-trying to disambiguate.
+the results are too fine-grained to be able to properly match them to the 
+senses one is trying to disambiguate.
 
 Further inspection into specific graphs of some words, such as the graph for the
 word \emph{vingar} (Figure~\ref{fig:vingar_graph}) can further explain the
@@ -117,16 +117,14 @@ obtained results.
   \includegraphics[width=\textwidth]{graphics/vingar_VERB_npmi_0_4_chineseWhispers}
 \end{figure}
 
-The first noticeable thing is that the graph includes many words with spelling
-errors. As these are exceptional, when they do appear, association measure
-values rank them as words highly related to the target word, and add noise to
-the induction phase.
-
-The second noticeable thing is that although the work by
-\citet{correia2015syntax} identifies named entities and replaces their lemmas
-with their categories, many of the words in the graph are named entities which
-were not recognized by \ac{STRING}. This adds noise to the graph, increasing the
-number of small clusters generated.
+The first noticeable thing is that the graph includes a few words with spelling
+errors, such as the nodes \emph{natambém} and \emph{estratrégia}. The second 
+noticeable thing is that although the work by \citet{correia2015syntax} 
+identifies named entities and replaces their lemmas with their categories, many 
+of the words in the graph are named entities which were not recognized as such 
+by \ac{STRING}. This can be seen in nodes such as \emph{Windsor} and 
+\emph{Shrek}, and adds noise to the graph, increasing the number of small 
+clusters generated.
 
 But the most noticeable thing is how sparse the graph is. Algorithms such as
 \ac{CW} or MaxMax require a \emph{small-world network} with several high-density
@@ -136,7 +134,7 @@ to the target word, no nodes have more than 2 neighbours. This undermines the
 assumptions used in graph-clustering algorithms, and prevents the possibility
 of better results.
 
-It is possible the graph was sparse because the syntactic dependencies used
+It is possible the graph is sparse because the syntactic dependencies used
 impose a stricter relationship between the two words than the usage of mere
 words which co-occur in the same sentence or paragraph would. The stricter
 relationship between the words changes the behaviour of the resulting graph,
@@ -146,6 +144,11 @@ Additionally, the stricter relationship might be preventing words that are
 related but do not have a syntactic relationship from being included in the
 graph. This might make the generated graphs unsuitable for the specific \ac{WSI}
 algorithms used in this project.
+
+Another possible cause of the poor results might be the absence of categories, 
+such as \texttt{PERSON}, \texttt{PLACE} or \texttt{ORG}, among others, in the 
+algorithm used. As it is blind to the categories, the algorithm can not make 
+use of them to help infer the senses of the target word.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

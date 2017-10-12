@@ -13,14 +13,14 @@ task of \ac{WSD}.
 In this evaluation method, the set of resulting clusters is compared to a
 \ac{GS}. This comparison is made by evaluating the clusters'
 \textit{homogeneity} and \textit{completeness} \citep{manandhar2009semeval}. 
-Homogeneity refers to the degree that each cluster consists of data points 
-primarily belonging to a single \ac{GS} class. Completeness refers to the 
-degree that each \ac{GS} class consists of data points assigned to a single 
-cluster. To evaluate homogeneity and completeness, the F-score and the 
-V-measure will be used.
+\emph{Homogeneity} refers to the degree that each cluster consists of data 
+points primarily belonging to a single \ac{GS} class. \emph{Completeness} 
+refers to the degree that each \ac{GS} class consists of data points assigned 
+to a single cluster. To evaluate homogeneity and completeness, the F"~score and 
+the V"~measure will be used.
 
 Given a particular \ac{GS} sense $gs_i$ of size $a_i$ and a cluster $c_j$ of
-size $a_j$, the F-score of $gs_i$ and $c_j$ is the harmonic mean of its
+size $a_j$, the F"~score of $gs_i$ and $c_j$ is the harmonic mean of its
 precision and its recall, as defined in Equation~\ref{eq:smallf}
 \citep{agirre2007semeval}. Precision of a class $gs_i$ with respect to cluster
 $c_j$ is the number of common instances divided by total cluster size, i.e.
@@ -33,11 +33,11 @@ i.e. $R(gs_i, c_j) = \frac{a_ {ij}}{a_i}$.
                      {P(gs_i,c_j) + R(gs_i,c_j)}
 \end{equation}
 
-The F-score of a class $gs_i$ is the maximum F-score obtained at any cluster, as
-according to Equation~\ref{eq:fscoregs}. The F-Score of the entire clustering
-solution is the weighted average of the F-scores of each \ac{GS}, as in
-Equation~\ref{eq:fscore}, where $q$ is the number of \ac{GS} senses and $N$ is
-the total number of target word instances.
+The F"~score of a class $gs_i$ is the maximum F"~score obtained at any cluster, 
+as according to Equation~\ref{eq:fscoregs}. The F"~score of the entire
+clustering solution is the weighted average of the F"~scores of each \ac{GS}, 
+as in Equation~\ref{eq:fscore}, where $q$ is the number of \ac{GS} senses and 
+$N$ is the total number of target word instances.
 
 \begin{equation} \label{eq:fscoregs}
  F(gs_i) = \underset{c_j}{\max} f(gs_i, c_j)
@@ -47,25 +47,25 @@ the total number of target word instances.
  FS = \sum_{i=1}^q \frac{|gs_i|}{N}F(gs_i)
 \end{equation}
 
-The F-score measures both homogeneity (precision) and completeness (recall).
-However, the F-score suffers from the \textit{matching problem}, by not
+The F"~score measures both homogeneity (precision) and completeness (recall).
+However, the F"~score suffers from the \textit{matching problem}, by not
 evaluating the entire membership of a cluster \citep{rosenberg2007v}. This is
-due to the F-score not considering the components of the clusters beyond the
-majority class. Furthermore, the F-score penalises systems for getting the
+due to the F"~score not considering the components of the clusters beyond the
+majority class. Furthermore, the F"~score penalises systems for getting the
 number of \ac{GS} classes wrongly \citep{manandhar2009semeval}.
 
-Thus, to complement the F-score, the V-measure is also used. V-measure is an
+Thus, to complement the F"~score, the V"~measure is also used. V"~measure is an
 entropy-based measure that explicitly measures how successfully the criteria
 of homogeneity and completeness have been satisfied \citep{rosenberg2007v}. Just
-as precision and recall are combined to form the F-score, homogeneity and
-completeness are combined using the harmonic mean to compute the V-measure.
+as precision and recall are combined to form the F"~score, homogeneity and
+completeness are combined using the harmonic mean to compute the V"~measure.
 
 For the \emph{homogeneity} criterion, a clustering must assign only the data 
 points of a single class to a single cluster. That is, the class distribution 
 of each cluster should be skewed to a single class, zero entropy 
 \citep{rosenberg2007v}. In a perfectly homogeneous case, $H(GS|C) = 0$ and in 
 an imperfect situation, this value is dependent on the size of the dataset and 
-distribution of class sizes. Therefore, the V-measure normalizes this value by 
+distribution of class sizes. Therefore, the V"~measure normalizes this value by 
 the maximum reduction in entropy the clustering could provide, $H(GS)$, 
 resulting in Equations~\ref{eq:homogeneity}, \ref{eq:entropygs}, and 
 \ref{eq:entropygsc}.
@@ -94,7 +94,7 @@ the proposed cluster distribution given the class of the component data points,
 $H(C|GS)$. In a perfectly complete case, $H(C|GS) = 0$ and in the worst case
 scenario each class is represented by every cluster with a distribution equal to
 the distribution of cluster sizes, $H(C|GS)$ is maximal and equals $H(C)$.
-Therefore, adding a way symmetric to that used for homogeneity, the V-measure
+Therefore, adding a way symmetric to that used for homogeneity, the V"~measure
 defines completeness as in Equations~\ref{eq:completeness}, \ref{eq:entropyc}, 
 and \ref{eq:entropycgs}.
 
@@ -115,7 +115,7 @@ and \ref{eq:entropycgs}.
            \log \frac{a_{ij}}{\sum_{k=1}^{|C|} a_{ik}}
 \end{equation}
 
-Based on these calculations of homogeneity and completeness, the V-measure of a
+Based on these calculations of homogeneity and completeness, the V"~measure of a
 clustering solution is then computed using the weighted harmonic mean of
 homogeneity and completeness, according to Equation~\ref{eq:vmes}, in which if
 $\beta$ is greater than 1 completeness is weighted more strongly and if less
@@ -125,10 +125,12 @@ than 1 homogeneity is weighted more strongly.
  V_\beta = \frac{(1+\beta)hc}{(\beta h) + c}
 \end{equation}
 
-Although the V-measure does not increase monotonically, it is known to tend to
+Although the V"~measure does not increase monotonically, it is known to tend to
 favour systems producing a higher number of clusters than the number of \ac{GS}
-senses \citep{manandhar2010semeval}. With this in mind, both the F-score and the
-V-measure are used for this evaluation method, as the F-score penalises systems
+senses \citep{manandhar2010semeval}. With this in mind, both the F"~score and 
+the
+V"~measure are used for this evaluation method, as the F"~score penalises 
+systems
 when they produce a different number of clusters from the number of \ac{GS}
 senses.
 

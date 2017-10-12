@@ -23,9 +23,9 @@ as described in Figure~\ref{fig:stringarch}.
 In the first stage, the text is passed through a tokenizer, which is also
 responsible for recognising some special tokens, such as numbers or punctuation.
 The tokens are then passed through a \ac{POS} tagger, LexMan
-\citep{vicente2013lexman}, which uses finite state transducers to label tokens
+\citep{vicente2013lexman}, which uses finite"~state transducers to label tokens
 with their appropriate \ac{POS} tags. At last, the text is split into sentences
-based mainly on the punctuation and having into account abbreviations, acronyms,
+mainly based on the punctuation and having into account abbreviations, acronyms,
 and the use of ellipsis.
 
 \subsubsection*{POS Disambiguation}
@@ -52,7 +52,7 @@ and unigrams, which codify lexical information.
 
 \subsubsection*{Syntactic Analysis}
 
-Syntactic analysis is done through the use of \ac{XIP} 
+Syntactic analysis is done through the use of \acf{XIP} 
 \citep{ait2002robustness},
 which also allows for adding lexical, syntactic and semantic information to the
 output of the previous modules. \ac{XIP} is responsible for several tasks:
@@ -71,41 +71,40 @@ different chunks (subject, direct object, modifier, etc.).
 
 \subsubsection*{Post-Syntactic Analysis}
 
-At this stage additional tasks are executed which extract additional information
-from the text. One is the \ac{AR} task \citep{marques2013anaphora}, which
-preforms anaphora identification in the text and then uses the \ac{EM} algorithm
-to obtain the probabilities of each antecedent candidate. Other tasks performed
-include time normalisation \citep{mauricio2011normalizacao} and event ordering
+At this stage, additional tasks are executed, which extract additional 
+information from the text. One is the \ac{AR} task \citep{marques2013anaphora}, 
+which preforms pronominal anaphora identification in the text and then uses the 
+\ac{EM} algorithm to obtain the probabilities of each word to be the antecedent 
+of a given anaphora candidate. Other tasks performed include time normalisation 
+\citep{mauricio2011normalizacao} and event ordering
 \citep{cabrita2014ordenar}.
 
 \subsection{Syntax Deep Explorer}
 
-In \citet{correia2015syntax}, a tool was developed to make use of \ac{STRING} to
+In \citet{correia2015syntax}, a tool was developed making use of \ac{STRING} to
 allow one to explore co-occurrence data obtained from Portuguese texts. The
 presented solution was composed of a tool to extract co-occurrences and
 calculate the association measures of these as well as a web-based interface to
 display these co-occurrences in an intuitive fashion.
 
-The developed solution takes advantage of the rich lexical resources extracted
+The developed solution takes advantage of the rich lexical resources available
 and the syntactic and semantic analysis of \ac{STRING} to provide information
 about the patterns of co-occurrences found in the corpora evaluated.
 
 \subsubsection*{Dependencies and Properties}
 
-For the project in question, each co-occurrence is considered a syntactic
+For the project in question, each co-occurrence is based on a syntactic
 dependency extracted from \ac{XIP}. These dependencies have two words, in which
 the first word is the modified element and the second word is the modifier,
 information about the dependency itself, and a set of properties, if these
-exist.
-
-The project only considers the a subset of possible properties as relevant for
-its goals, which indicate if the modifier is before, or after the modified word
-or if the modifier is a focus adverb.
+exist. The project only considers the a subset of possible properties as 
+relevant for its goals, which indicate if the modifier is before or after the 
+modified word, or if the modifier is a focus adverb.
 
 
 \subsubsection*{Architecture}
 
-The implemented solution split the problem into four separate components:
+The implemented solution splits the problem into four separate components:
 
 \begin{itemize}
  \item The storage format of the extracted and computed information;
@@ -121,33 +120,29 @@ An \ac{ER} model was developed to represent the database, and a relational model
 was generated from the created \ac{ER} model.
 
 To store the information in the database, the \ac{ER} model in
-Figure~\ref{fig:correira2015er} was created and used.
+Figure~\ref{fig:correira2015er} was created and used. In this model:
 
-\begin{figure}[ht]
- \caption[ER model of (Correia et al. 2015)]{The \ac{ER} model used in
- \citep{correia2015syntax}.}
- \label{fig:correira2015er}
- \centering
- \include{graphics/correia2015er}
-\end{figure}
-
-The entities \textit{Corpus}, \textit{Word} and \textit{Dependency} are used to
-store the information about each corpus, word and dependency type respectively.
-
-The weak entity \textit{Property} associates the \textit{Dependency} with a
-property type.
-
-Each word has a \textit{Belongs} relation with the corpus, which indicates how
-often the word occurs in the Corpus.
-
-Each pair of words and property also have a \textit{Co-occurrence} relation,
-with a \textit{frequency} attribute which defines how often these words occur
-together in the same corpus with the given property. Additionally, several
-attributes exist for each kind of association measure.
-
-The weak entity \textit{Sentence} has a \textit{Belongs} association with the
-\textit{Corpus}, and the aggregation of the \textit{Co-occurrence} associations
-has a \textit{Exemplifies} association with the \textit{Sentence} entity.
+\begin{itemize}
+	\item The entities \textit{Corpus}, \textit{Word} and \textit{Dependency} 
+	are used to store the information about each corpus, word and dependency 
+	type respectively.
+	
+	\item The weak entity \textit{Property} associates the \textit{Dependency} 
+	with a property type.
+	
+	\item Each word has a \textit{Belongs} relation with the corpus, which 
+	indicates how often the word occurs in the Corpus.
+	
+	\item Each pair of words and property also have a \textit{Co-occurrence} 
+	relation, with a \textit{frequency} attribute which defines how often these 
+	words occur together in the same corpus with the given property. 
+	Additionally, several attributes exist for each kind of association measure.
+	
+	\item The weak entity \textit{Sentence} has a \textit{Belongs} association 
+	with the \textit{Corpus}, and the aggregation of the \textit{Co-occurrence} 
+	associations has a \textit{Exemplifies} association with the 
+	\textit{Sentence} entity.
+\end{itemize}
 
 Additionally, the following \acp{IC} were identified:
 
@@ -160,13 +155,21 @@ Additionally, the following \acp{IC} were identified:
 \textit{Corpus} to which the given \textit{Co-occurrence} is associated with.
 \end{enumerate}
 
+\begin{figure}[ht]
+\caption[ER model of (Correia et al. 2015)]{The \ac{ER} model used in
+	\citep{correia2015syntax}.}
+\label{fig:correira2015er}
+\centering
+\include{graphics/correia2015er}
+\end{figure}
+
 \subsubsection*{Co-occurrence extraction}
 
-The co-occurrence extractor obtains the processed XML from XIP, and then parses
-it to obtain the dependency information.
+The co-occurrence extractor obtains the processed \ac{XML} from \ac{XIP} and, 
+then, parses it to obtain the dependency information.
 
-The extractor reads all dependencies parsed from the XML and stores in the
-database, for each:
+The extractor reads all dependencies parsed from the \ac{XML} and stores the 
+following information about each of them in the database:
 
 \begin{itemize}
   \item The type of the dependency in question;
@@ -178,14 +181,14 @@ database, for each:
 \subsubsection*{Association Measures}
 \label{sec:assoc}
 
-After the database is populated with the co-occurrences from the \textit{corpus}
-the association measures are calculated in batches of 2,000 co-occurrences
-each.
+After the database is populated with the co-occurrences from the 
+\textit{corpus}, the association measures are calculated in batches of 2,000 
+co-occurrences each.
 
 The measures calculated are:
 
 \begin{itemize}
-  \item \ac{PMI};
+  \item \acl{PMI};
   \item \textit{Dice} Coefficient;
   \item \textit{LogDice};
   \item Pearson's Chi-Square Test;
@@ -195,10 +198,10 @@ The measures calculated are:
 
 \subsubsection*{Information Display}
 
-The extracted information which was stored in the database is then displayed to
-the user through the use of a web interface written in \ac{PHP} and AngularJS.
-The \emph{front-end}, executed on the \emph{client-side}, makes \ac{AJAX}
-requests to the \emph{back-end}, executed on the \emph{server-side}.
+The extracted information, which was stored in the database, is then displayed 
+to the user through the use of a web interface written in \ac{PHP} and 
+AngularJS. The \emph{front-end}, executed on the \emph{client-side}, makes 
+\ac{AJAX} requests to the \emph{back-end}, executed on the \emph{server-side}.
 
 \subsection{Association Measures}
 
@@ -214,7 +217,7 @@ This section further examines some association measures and their properties.
 \ac{PMI} is a measure of how much the actual probability of a co-occurrence
 $p(x,y)$ differs from what would be expected given the probabilities of the
 individual events and assuming the independence of $p(x)$ and $p(y)$
-\citep{bouma2009normalized}. \ac{PMI} is thus defined in Equation~\ref{eq:pmi}.
+\citep{church1990word}. \ac{PMI} is thus defined in Equation~\ref{eq:pmi}.
 
 \begin{equation}
   \label{eq:pmi}

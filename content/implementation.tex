@@ -5,12 +5,12 @@
 
 Two \emph{corpora} were chosen to be used in this project, the CETEMPúblico 
 \emph{corpus} \citep{rocha2000cetempublico}, and a dump of the Portuguese 
-edition of Wikipedia 
-\footnote{\url{https://en.wikipedia.org/wiki/Wikipedia:Database_download}, last
-accessed on \DTMdate{2017-06-21}.}. Each \emph{corpus} used its own syntax to
-describe its contents. As \ac{STRING} only parses plain text sentences, the
-additional meta-data provided was either removed or adapted for parsing by
-\ac{STRING}.
+edition of 
+Wikipedia\footnote{\url{https://en.wikipedia.org/wiki/Wikipedia:Database_download},
+ last accessed on \DTMdate{2017-06-21}.}. Each \emph{corpus} used its own 
+syntax to describe its contents. As \ac{STRING} only parses plain text 
+sentences, the additional meta-data provided was either removed or adapted for 
+parsing by \ac{STRING}.
 
 \subsection{CETEMPúblico}
 
@@ -38,10 +38,10 @@ that all elements had an opening and closing tag.
 
 \subsection{Wikipedia}
 
-After obtaining the Wikipedia dump, a tool called WikiExtract
-\footnote{\url{https://github.com/attardi/wikiextractor}, last accessed on
-\DTMdate{2017-06-21}.} was used to convert the obtained \ac{XML} into mostly
-plain text files.
+After obtaining the Wikipedia dump, a tool called 
+WikiExtract\footnote{\url{https://github.com/attardi/wikiextractor}, last 
+accessed on \DTMdate{2017-06-21}.} was used to convert the obtained \ac{XML} 
+into mostly plain text files.
 
 Further cleaning was executed, in which all possible invalid \ac{XML} or
 possible leftover tags were found using a regular expression, added to a list,
@@ -54,8 +54,9 @@ plain text identifiers which can be recognized even after being parsed by
 \section{Co-occurrence Extraction}
 
 To obtain the co-occurrences, the extractor created by \citet{correia2015syntax}
-was used, but had to be adapted because it had been developed under different
-requirements and conditions distinct from the ones for this work.
+was used, but it had to be adapted because it had been developed under different
+requirements and conditions distinct from the ones necessary for this work. 
+These adaptations are described below.
 
 \subsection{Storage Model}
 
@@ -105,7 +106,7 @@ fails due to \texttt{UNIQUE} violations, the existing entry is updated with the
 new information.
 
 After all co-occurrences are added to the database, the values of the
-association measures are updated in batches of 2000 at a time. To prevent
+association measures are updated in batches of 2,000 at a time. To prevent
 slowdowns while waiting to read, a cache of read values from the database is
 used to prevent reading multiple times the same value from the database,
 allowing to reduce considerably the time taken to populate the values of the 
@@ -156,16 +157,15 @@ in Section~\ref{sec:clusteralgorithms}.
 \section{Sense Disambiguation}
 
 To be able to perform disambiguation, additional changes had to be done to the
-co-occurrence extractor in \citep{correia2015syntax}. The extractor had the 
-logic
-to extract the co-occurrences and the code to write them in the database merged
-together. To make the extractor usable for the task of disambiguation, a
+co-occurrence extractor in \citep{correia2015syntax}. The extractor had merged
+together the logic to extract the co-occurrences and the code to write them in 
+the database. To make the extractor usable for the task of disambiguation, a
 separation of the code to write in the database and the logic of extracting the
 co-occurrences was performed.
 
 Having applied those changes, the disambiguation for a target word $w$ and a
-context $c$ starts by using the modified extractor to obtain all co-occurrences
-which occur in $c$. These are considered the cluster of co-occurrences of the
+context $c$ starts by using the modified extractor to obtain all word 
+co-occurrences in $c$. These are considered the cluster of co-occurrences of the
 word $w$ in context $c$.
 
 To discover which of the induced senses $s$ is the most likely to be in use,
@@ -187,7 +187,7 @@ row and each property was a column.
 
 Each time an extensive operation is concluded, such as obtaining the
 co-occurrences in the context of a word, or generating the clusters for a
-word using a given set of parameters, the results are saved in a CSV file.
+word using a given set of parameters, the results are saved in the CSV file.
 
 If that same set of data is required later on, instead of re-calculating it
 from scratch, the information is obtained from the existing file.

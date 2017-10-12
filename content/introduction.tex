@@ -11,32 +11,44 @@ according to the context in which it is used. For example:
 \end{enumerate}
 
 In these two sentences, the word \textit{bow} means different things. In
-sentence (a) it is used as a hunting tool, while in sentence (b) it is a ribbon.
-To be able to do some tasks in \ac{NLP}, machines need to be able to
-differentiate between each use of the same word.
+sentence (a), it is used as a hunting tool, while in sentence (b), it is a 
+ribbon. To be able to do some tasks in \ac{NLP}, machines need to be able to
+differentiate between the different meaning of the same word in each use.
 
 % Show why the problem is ubiquitous
 
 This problem affects, among other \ac{NLP} tasks, \ac{MT}, \ac{IR} and content
 categorization \citep{navigli2009word}. Taking an example from \ac{MT}, the
 Portuguese word \textit{laço} can be translated in various different English
-words depending on context; it can be translated into \textit{ribbon} or it can
-be translated to the \textit{bond} between two people. A system which naïvely
-uses the \ac{MFS} may improperly translate or categorize this word when it is
-used outside of its most common context.
+words depending on context. It can be translated into \textit{ribbon} or it can
+be translated as the \textit{bond} between two people.
+
+\begin{enumerate}[label=(\alph*)]
+	\item Ela atou o presente com um \textbf{laço}. \\ \textit{She tied the 
+	gift with a ribbon.}
+	\item Há um forte \textbf{laço} entre eles. \\ \textit{There is a strong 
+	bond between them.}
+\end{enumerate}
+
+A system which naïvely uses the \ac{MFS} of a given word, as found in a 
+semantically annotated \emph{corpus}, may improperly translate or categorize 
+this word when it is used outside of its most common context or in a different 
+corpus.
 
 % Introduce the solution to the problem
 
-To deal with this problem it is necessary to identify the underlying meaning of
+To deal with this problem, it is necessary to identify the specific meaning of
 a word based on its context. This process is called \ac{WSD}
-\citep{navigli2009word}. This process requires both sense inventories as well as
-large amounts of sense-tagged \emph{corpora} to function efficiently. As a
-result, under-resourced languages need to deal with greater hardships to be
+\citep{navigli2009word}. It requires both sense inventories and large amounts 
+of sense-tagged \emph{corpora} to function efficiently. As a result, 
+under-resourced languages need to deal with greater hardships to be
 able to achieve satisfactory results \citep{ng1997getting}.
 
 A solution to the lack of resources is to automatically identify the meaning of
 words in their given context, without the requirement of manually annotated
-data. This is called \ac{WSI} \citep{agirre2007semeval}.
+data. This is called \ac{WSI} \citep{agirre2007semeval}. Most \ac{WSI} models 
+rely on word co-occurrence to determine the main senses a word may have. 
+Semantic dependencies between words are seldom used.
 
 % Propose questions which this paper will answer
 
@@ -46,20 +58,19 @@ data. This is called \ac{WSI} \citep{agirre2007semeval}.
 % How do you evaluate it? Aka, how do you know it is better?
 
 The goal of this dissertation is to investigate the feasibility of creating a
-\ac{WSI} model for the Portuguese language which is capable of improving the
-quality of detected word senses within the words' contexts. Furthermore, this
-dissertation looks into seeing if the task of \ac{WSI} and \ac{WSD} can be
-performed within reasonable time, and to evaluate the quality of this new model
-against the \ac{MFS} baseline.
+\ac{WSI} model for the Portuguese language, which would be capable using 
+syntactic dependency information to determine the main senses a sord may have. 
+Furthermore, this dissertation looks into seeing if the task of \ac{WSI} and 
+\ac{WSD} can be performed within reasonable time, and to evaluate the quality 
+of this new model against the \ac{MFS} baseline.
 
 % Introduce the shiny new tool, explain the problem it solves
 
-Additionally, this dissertation presents the results of this investigation, in
+Additionally, this dissertation presents the results of this investigation in
 a project called \ac{SENTIDO}. \ac{SENTIDO} is a \ac{WSI} and \ac{WSD} model
 which infers the possible senses of a word from untagged \emph{corpora} based
-on the additional words are syntactically related with the target word; and,
-given a word and its context, disambiguates between the previously inferred
-senses.
+its syntactic relations with its context; and, given a word and its context, 
+disambiguates between the previously inferred senses.
 
 % Describe the layout of this paper
 
@@ -74,9 +85,9 @@ Chapter~\ref{ch:implementation}, the implementation details, such as the
 adaptations made to those same tools, are depicted.
 Chapter~\ref{ch:eval} describes how the algorithm is tested, which are the
 theoretical foundations for the soundness of the methodology, the test corpus
-used, the chosen parameters and analyses the results of the evaluation.
-Chapter~\ref{ch:conclusion} provides a synopsis of the findings and describes
-what can be improved in the future.
+used, and the chosen parameters and finally, this chapter analyses the results 
+of the evaluation. Chapter~\ref{ch:conclusion} provides a synopsis of the 
+findings and describes what can be improved in the future.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;

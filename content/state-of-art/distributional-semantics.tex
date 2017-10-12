@@ -1,9 +1,9 @@
 \section{Statistical and Vector Space Models}
 \label{sec:vectorspace}
 
-These methods implement \acp{DSM} either based on a statistically or a 
-geometrically  oriented probability distribution models \citep{van2010mining}. 
-Some of these methods are presented below.
+These methods implement \acp{DSM} based on statistically or geometrically  
+oriented probability distribution models \citep{van2010mining}. Some of these 
+methods are presented below.
 
 \subsection{\acl*{CBC}}
 
@@ -11,10 +11,10 @@ An implementation of a clustering approach is \ac{CBC}
 \citep{pantel2003clustering}. The algorithm represents each word as a feature 
 vector, in which each feature corresponds to a context where the word occurs. 
 The value of the feature is the \ac{PMI} between the feature and the word 
-\citep{bouma2009normalized}, which is later described in \ref{subsec:pmi}. The 
-similarity between two words is computed using the \textit{cosine coefficient} 
-\citep{salton1986introduction} of their mutual information vectors, as in 
-Equation~\ref{eq:simwiwj}.
+\citep{bouma2009normalized} (\ac{PMI} is later described in 
+Subsection~\ref{subsec:pmi}). The similarity between two words is computed 
+using the \textit{cosine coefficient} \citep{salton1986introduction} of their 
+mutual information vectors, as in Equation~\ref{eq:simwiwj}.
 
 \begin{equation}
 \operatorname{sim}(w_i,w_j) = \frac{\sum_c mi_{w_i,c} \times mi_{w_j,c}}
@@ -121,9 +121,9 @@ the TREC Collection (1988 AP Newswire, 1989-90 LA Times, and 1991 San Jose
 Mercury)\footnote{\url{http://trec.nist.gov/data/test_coll.html}, last 
 accessed on \DTMdate{2017-09-28}.}. The test set was constructed by 
 intersecting the words in WordNet 
-with the nouns in the corpus, resulting in a test set of 13403 words with an 
+with the nouns in the corpus, resulting in a test set of 13,403 words with an 
 average number of 740.8 features per word. \ac{CBC} obtained a precision of 
-$60.8\%$, a recall of $50.8\%$ and an F-score of $55.4\%$. These evaluation 
+60.8\%, a recall of 50.8\% and an F-score of 55.4\%. These evaluation 
 measures are later described in Section~\ref{subsec:unsupeval}.
 
 \subsection{HERMIT}
@@ -135,10 +135,8 @@ group similar contexts.
 
 Each context of a word is approximated using the \ac{RI} word space model
 \citep{kanerva2000random}, in which the occurrence of a word is represented with
-an \textit{index vector} instead of a set of dimensions.
-
-\ac{RI} can be described as a two-step operation
-\citep{sahlgren2005introduction}:
+an \textit{index vector} instead of a set of dimensions. \ac{RI} can be 
+described as a two-step operation \citep{sahlgren2005introduction}:
 
 \begin{enumerate}
  \item Each context in the data is assigned an unique and randomly generated
@@ -182,15 +180,16 @@ The model was submitted for SemEval-2010 Task 14 \citep{manandhar2009semeval}
 and evaluated in an unsupervised method, which compares the found clusters with 
 the gold data for the word senses, and a supervised method, which evaluates the 
 results of \ac{WSD} using the induced clusters. The first was measured
-according to the F-score and V-measure, which is the harmonic mean between the 
-homogeneity and completeness (later described in Section~\ref{subsec:unsupeval});
-while the second was measured using supervised recall. Using the provided test 
-corpus, parameters were tuned for a context window size of $\pm1$, a clustering
-threshold of $.15$ and a maximum of $15$ clusters per word.
+according to the F"~score and V"~measure. V"~measure is the harmonic mean 
+between the \emph{homogeneity} and \emph{completeness} (and will be later 
+described in Subsection~\ref{subsec:unsupeval}); while the second metric is 
+measured using supervised recall. Using the provided test corpus, parameters 
+were tuned for a context window size of $\pm$1, a clustering threshold of 0.15 
+and a maximum of 15 clusters per word.
 
 The final results of the SemEval-2010 Task 14 showed that Hermit achieved a
-V-measure of $16.7\%$ and an F-score of $24.4\%$ in nouns in the unsupervised
-evaluation and a supervised recall of $53.6\%$.
+V"~measure of 16.7\% and an F"~score of 24.4\% in nouns in the unsupervised
+evaluation and a supervised recall of 53.6\%.
 
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
