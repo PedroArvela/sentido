@@ -97,7 +97,7 @@ For the project in question, each co-occurrence is based on a syntactic
 dependency extracted from \ac{XIP}. These dependencies have two words, in which
 the first word is the modified element and the second word is the modifier,
 information about the dependency itself, and a set of properties, if these
-exist. The project only considers the a subset of possible properties as 
+exist. The project only considers a subset of possible properties as 
 relevant for its goals, which indicate if the modifier is before or after the 
 modified word, or if the modifier is a focus adverb.
 
@@ -340,9 +340,7 @@ defined in Equation~\ref{eq:loglikelihood}.
 \begin{equation}
   \label{eq:loglikelihood}
   -2\log\lambda = 2 \sum_{i,j} n_{ij} \log \left( \frac{n_{ij}}{m_{ij}} \right)
-\end{equation}
-
-\begin{equation}
+  \quad ,\quad
   n_{ij} = \frac{k_{ij}}{k_{i1} + k_{i2}}, m_{ij} = \frac{k_{1j} + k_{2j}}{N}
 \end{equation}
 

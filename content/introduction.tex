@@ -58,36 +58,20 @@ Semantic dependencies between words are seldom used.
 % How do you evaluate it? Aka, how do you know it is better?
 
 The goal of this dissertation is to investigate the feasibility of creating a
-\ac{WSI} model for the Portuguese language, which would be capable using 
-syntactic dependency information to determine the main senses a sord may have. 
-Furthermore, this dissertation looks into seeing if the task of \ac{WSI} and 
-\ac{WSD} can be performed within reasonable time, and to evaluate the quality 
+\ac{WSI} model for the Portuguese language, which would be capable of using 
+syntactic dependency information to determine the main senses a word may have. 
+Furthermore, this dissertation looks into evaluating the quality 
 of this new model against the \ac{MFS} baseline.
 
 % Introduce the shiny new tool, explain the problem it solves
 
 Additionally, this dissertation presents the results of this investigation in
 a project called \ac{SENTIDO}. \ac{SENTIDO} is a \ac{WSI} and \ac{WSD} model
-which infers the possible senses of a word from untagged \emph{corpora} based
-its syntactic relations with its context; and, given a word and its context, 
-disambiguates between the previously inferred senses.
+which infers the possible senses of a word from sense-untagged \emph{corpora} based its syntactic relations with its context; and, given a word and its context, the system disambiguates between the previously inferred senses.
 
 % Describe the layout of this paper
 
-This dissertation is organized as follows:
-
-In Chapter~\ref{ch:stateofart}, existing \ac{WSI} implementations and models
-are described, as well and the theoretical foundations and additional tools
-that support and aide them. In Chapter~\ref{ch:architecture}, the architecture
-of the model is outlined, as well as the various stages that compose it. In
-Chapter~\ref{ch:implementation}, the implementation details, such as the
-\emph{corpora} used, existing tools from which the model is developed, and
-adaptations made to those same tools, are depicted.
-Chapter~\ref{ch:eval} describes how the algorithm is tested, which are the
-theoretical foundations for the soundness of the methodology, the test corpus
-used, and the chosen parameters and finally, this chapter analyses the results 
-of the evaluation. Chapter~\ref{ch:conclusion} provides a synopsis of the 
-findings and describes what can be improved in the future.
+This dissertation is organized as follows: In Chapter~\ref{ch:stateofart}, existing \ac{WSI} implementations and models are described, as well and the theoretical foundations and additional tools that support and aide them. In Chapter~\ref{ch:architecture}, the architecture of the model is outlined, as well as the various stages that compose it. In Chapter~\ref{ch:implementation}, the implementation details, such as the \emph{corpora} used, existing tools from which the model is developed, and adaptations made to those same tools, are depicted. Chapter~\ref{ch:eval} describes how the algorithm is tested, which are the theoretical foundations for the soundness of the methodology, the test corpus used, and the chosen parameters and finally, this chapter analyses the results of the evaluation. Chapter~\ref{ch:conclusion} provides a synopsis of the findings and describes what can be improved in the future.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
