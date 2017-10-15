@@ -8,18 +8,18 @@ articulation with the \ac{STRING} \ac{NLP} system.
 The architecture of this system consists of four components:
 
 \begin{enumerate}
-  \item A corpus pre-parser, which prepares the corpus being used to be
+  \item a corpus pre-parser, which prepares the corpus being used to be
 processed by \ac{STRING};
-  \item The co-occurrence extractor from \citet{correia2015syntax};
-  \item A graph constructor and clustering algorithm;
-  \item A word sense disambiguation module.
+  \item the co-occurrence extractor from \citet{correia2015syntax};
+  \item a graph constructor and clustering algorithm;
+  \item a word sense disambiguation module.
 \end{enumerate}
 
 The data flow is represented in Figure~\ref{fig:data-progression}. The 
 processed text from \ac{STRING} 
 goes through a modified implementation of the co-occurrence extractor from 
 \citet{correia2015syntax}, which stores the co-occurrence word-pairs along with 
-their frequencies and association measures values in a database.
+their frequencies and association measures' corpora's values in a database.
 
 \begin{figure}[ht]
  \caption{The progression of data as it evolves through the architecture}

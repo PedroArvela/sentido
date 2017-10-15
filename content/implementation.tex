@@ -32,8 +32,8 @@ with unique plain text identifiers.
 
 Because the corpus was in \ac{SGML} format and not \ac{XML}, a few replacements
 were made before feeding each line to the parser to make sure that the parser 
-would only be fed valid \ac{XML}. These made sure attributes were quoted and 
-that all elements had an opening and closing tag.
+would only be fed valid \ac{XML}. These made sure that attributes were quoted
+and that all elements had an opening and closing tag.
 
 \subsection{Wikipedia}
 
@@ -72,7 +72,7 @@ text-based primary keys.
 
 \subsection{Parsing \ac{XIP} files}
 
-The \ac{XIP} files were being parsed as XML using Java's W3C based \ac{DOM}
+The \ac{XIP} files were being parsed as XML using Java's W3C-based \ac{DOM}
 parser\footnote{\url{https://docs.oracle.com/javase/8/docs/api/org/w3c/dom/package-summary.html},
 last accessed on \DTMdate{2017-08-06}}. This parser loads the file in memory and
 creates the \ac{DOM}-like tree structure from there.
@@ -182,14 +182,12 @@ as possible, allowing the project to use these files as a cache for calculated
 operations.
 
 The format chosen was a subset of \ac{CSV} files, in which each element was a
-row and each property was a column.
-
-Each time an extensive operation is concluded, such as obtaining the
-co-occurrences in the context of a word, or generating the clusters for a
-word using a given set of parameters, the results are saved in the CSV file.
-
-If that same set of data is required later on, instead of re-calculating it
-from scratch, the information is obtained from the existing file.
+row and each property was a column. Each time an extensive operation is
+concluded, such as obtaining the co-occurrences in the context of a word, or
+generating the clusters for a word using a given set of parameters, the results
+are saved in the CSV file. If that same set of data is required later on,
+instead of re-calculating it from scratch, the information is obtained from the
+existing file.
 
 % kate: default-dictionary en_GB; indent-width 2; replace-tabs on;
 % kate: remove-trailing-space on; space-indent on;
