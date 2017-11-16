@@ -1,0 +1,44 @@
+\begin{tikzpicture}[
+    on grid,
+    node distance = 1.5cm
+  ]
+  \tikzstyle{block} = [
+    draw, rectangle,
+    text centered,
+    align          = center,
+    minimum width  = 2.4cm,
+    minimum height = 0.6cm
+  ]
+  \tikzstyle{data}  = [
+    draw, ellipse,
+    text centered,
+    align          = center,
+    node distance  = 4cm
+  ]
+  \tikzstyle{arrow}  = [draw, -latex']
+  \tikzstyle{line}   = [draw]
+
+  \node [block]                         (string)       {STRING};
+  \node [block, below of = string]      (depextract)   {Dependency \\ Extractor};
+  \node [block, below of = depextract]  (graphgen)     {Graph \\ Generator};
+  \node [block, below of = graphgen]    (graphcluster) {Graph \\ Clusterer};
+  \node [block, below of = graphcluster] (disambiguator) {Disambiguator};
+  
+  \path [arrow] (string)     -- coordinate[midway](sd) (depextract);
+  \path [arrow] (depextract) -- coordinate[midway](dg) (graphgen);
+  \path [arrow] (graphgen)   -- coordinate[midway](gg) (graphcluster);
+  \path [arrow] (graphcluster) -- coordinate[midway](gc) (disambiguator);
+  
+  \node [data] at (4cm,  0.6cm)         (sentences)     {Sentences};
+  \node [data, right of = sd]           (xipxml)       {XIP XML};
+  \node [data, right of = dg]           (depdb)        {Dependency \\ Database};
+  \node [data, right of = gg]           (depgraph)     {Dependency \\ Graph};
+  \node [data, right of = gc]           (depcls)       {Dependency \\ Clusters};
+  
+  \path [line] (sentences) -| (string);
+  \path [line] (xipxml) -- (sd);
+  \path [line] (depdb) -- (dg);
+  \path [line] (depgraph) -- (gg);
+  \path [line] (graphcluster) |- (depcls);
+  \path [line] (graphcluster) -- (disambiguator);
+\end{tikzpicture}

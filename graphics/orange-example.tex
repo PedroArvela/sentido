@@ -1,0 +1,28 @@
+\begin{tikzpicture}[
+    on grid,
+    node distance = 2cm,
+    font = \normalsize
+  ]
+
+  %\clip (-0.175cm,-0.175cm) rectangle (7.0cm,0.9cm);
+
+  \tikzstyle {every node} = [color = gray, text height = 1.8ex, text depth = 0.55ex, inner sep = 0]
+  \tikzstyle {every path} = [color = gray!30!white, draw=gray!30!white, -latex']
+  \tikzstyle {lbl} = [font = \footnotesize, color = gray!60!white, inner sep=0]
+
+  \node (0) {Eu};
+  \node [color=black, base right = of 0] (1) {comi};
+  \node [right of = 1] (2) {uma};
+  \node [color=black, base right = of 2] (3) {laranja};
+  \node [color=black, base right = of 3] (4) {pequena};
+
+
+  \draw (0) to [bend left] node[lbl, above] {subj pre} (1);
+  \path (2) to[bend left] node[lbl, above] {quantd} (3);
+  \path [draw, color=black] (3) to[bend right] node[lbl, above] {cdir post} (1);
+  \path [draw, color=black] (4) to[bend right] node[lbl, above] {mod post} (3);
+\end{tikzpicture}
+
+% kate: default-dictionary pt_PT; indent-width 2; replace-tabs on;
+% kate: remove-trailing-space on; space-indent on;
+% kate: replace-trailing-space-save on; remove-trailing-space on;

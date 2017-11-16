@@ -3,10 +3,18 @@
 
 This project proposed an algorithm for disambiguating the sense of words in the
 Portuguese language without the need to manually create a sense inventory or
-sense-tagged corpora. Additionally, this project implemented a proof-of-concept
-of this same proposal, and evaluated its results against a \ac{MFS} baseline.
+sense-tagged corpora. An experimental implementation was created, which used a
+graph-based algorithm and the dependencies produced by \ac{STRING}. And with
+this experimental implementation, a database was populated with the
+co-occurrences of the CETEMPúblico \textit{corpus}.
 
-One future investigation point would be to evaluate the use of relaxed
+Finally, the use of syntactic dependencies for the task of \ac{WSI} was
+evaluated and compared with a baseline of the \ac{MFS}.
+
+Future investigation possibilities could focus on improving the results obtained
+in this implementation as well as improving the system's performance.
+
+One possibility to improve the results would be to evaluate the use of relaxed
 co-occurrences based on context windows, sentences or even paragraphs, instead
 of the syntactic dependency co-occurrences used in this project. This might
 influence the characteristics of the generated graphs and improve the
@@ -17,11 +25,11 @@ capable of making use of the dependency information provided by \ac{XIP}, and
 might perform better in relation to algorithms blind to this
 information, such as the ones used in this project.
 
-Additionally, it might be relevant to investigate porting the data to a graph
-database engine. The traditional relational database used requires the use of
-multiple \texttt{JOIN}s to execute the required queries. A database with a
-native concept of a graph would allow to remove these \texttt{JOIN}s and improve
-execution speed.
+To improve performance, it might be relevant to investigate porting the data to
+a graph database engine. The traditional relational database used requires the
+use of multiple \texttt{JOIN}s to execute the required queries. A database with
+a native concept of a graph would allow to remove these \texttt{JOIN}s and
+improve execution speed.
 
 Although the project was unable to achieve satisfactory results in the
 evaluation, it was possible to pinpoint where possible weaknesses are located.

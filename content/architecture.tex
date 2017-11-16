@@ -5,7 +5,8 @@ In this chapter, the architecture of the \ac{WSI} and \ac{WSD} system is
 presented, as well as its 
 articulation with the \ac{STRING} \ac{NLP} system.
 
-The architecture of this system consists of four components:
+The architecture of this system consists of four components, ordered as per
+Figure~\ref{fig:architecture}:
 
 \begin{enumerate}
   \item a corpus pre-parser, which prepares the corpus being used to be
@@ -14,6 +15,13 @@ processed by \ac{STRING};
   \item a graph constructor and clustering algorithm;
   \item a word sense disambiguation module.
 \end{enumerate}
+
+\begin{figure}[ht]
+  \caption{The architecture of the system}
+  \label{fig:architecture}
+  \centering
+  \include{graphics/architecture}
+\end{figure}
 
 The data flow is represented in Figure~\ref{fig:data-progression}. The 
 processed text from \ac{STRING} 
@@ -31,10 +39,18 @@ their frequencies and association measures' corpora's values in a database.
 \section{Co-occurrence Extraction and Storage}
 
 Syntactic co-occurrences are extracted using the work by
-\citet{correia2015syntax}. Additionally, this work uses the named entities
+\citet{correia2015syntax}, as per the example in Figure~\ref{fig:orange-example}. Additionally, this work uses the named entities
 obtained from \ac{XIP}. If the word in a co-occurrence is a named entity, the
 lemma of the word is attributed with the appropriate category (for example, the
 word \emph{Pedro} is identified with the lemma \texttt{INDIVIDUAL}).
+
+\begin{figure}[ht]
+  \caption{Example of the co-occurrences extracted from a sample sentence}
+  \label{fig:orange-example}
+  \centering
+  \include{graphics/orange-example}
+\end{figure}
+
 
 The co-occurrences are then stored in an SQLite database, using the \ac{ER} model in
 Figure~\ref{fig:er-model}, adapted from \citet{correia2015syntax}, with minor 
@@ -69,15 +85,17 @@ and the resulting senses are stored.
 
 \section{Sense Disambiguation}
 
-To disambiguate senses of a target word $w$ from a given context
-$c$, the co-occurrences from $c$ are extracted and used to generate
-the co-occurrence cluster for the context, $C_i$.
+Disambiguation is done by measuring the separation between the words in the
+given context and each of the induced sense clusters. The sense with the lowest
+separation score is the most likely sense of the word.
+
+For a target word $w$ from a given context $c$, the co-occurrences from $c$ are
+extracted and used to generate the cluster for the context, $C_i$.
 
 Then, for each inferred sense cluster $C_j$ of $w$, the
 \emph{Separation} between $C_i$ and $C_j$ is calculated according to
-Equation~\ref{eq:separation} \citep{hope2013uos}, in which
-$\operatorname{proximity}$ is defined as the weight of the co-occurrence in the
-inferred sense graph.
+Equation~\ref{eq:separation} \citep{hope2013uos}. $\operatorname{proximity}$ is
+defined as the weight of the co-occurrence in the dependency graph of the word.
 
 \begin{equation}
  \operatorname{separation}(C_i,C_j) =

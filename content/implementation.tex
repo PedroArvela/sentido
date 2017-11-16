@@ -1,6 +1,16 @@
 \chapter{Implementation}
 \label{ch:implementation}
 
+To preform the induction step, the CETEMPúblico \textit{corpus}
+\citep{rocha2000cetempublico} was used. This \textit{corpus} has more than 1
+million extracts of articles from the Portuguese newspaper \textit{Público} and
+over 191 million words. The resulting database has more than 50 million
+co-occurrences, as well as the respective association measures.
+
+This following chapter describes the changes which were required to be able to
+populate the database within a reasonable time frame, as well as implementation
+details of some of the stages.
+
 \section{Corpora Pre-Parse}
 
 Two \emph{corpora} were chosen to be used in this project, the CETEMPúblico 
@@ -156,7 +166,7 @@ in Section~\ref{sec:clusteralgorithms}.
 \section{Sense Disambiguation}
 
 To be able to perform disambiguation, additional changes had to be done to the
-co-occurrence extractor in \citep{correia2015syntax}. The extractor had merged
+co-occurrence extractor from \citet{correia2015syntax}. The extractor had merged
 together the logic to extract the co-occurrences and the code to write them in 
 the database. To make the extractor usable for the task of disambiguation, a
 separation of the code to write in the database and the logic of extracting the
