@@ -17,13 +17,13 @@ using the \textit{cosine coefficient} \citep{salton1986introduction} of their
 mutual information vectors, as in Equation~\ref{eq:simwiwj}.
 
 \begin{equation}
-\operatorname{sim}(w_i,w_j) = \frac{\sum_c mi_{w_i,c} \times mi_{w_j,c}}
-                    {\sqrt{\sum_c{mi_{w_i,c}}^2 \times \sum_c{mi_{w_j,c}}^2}}
+\operatorname{sim}(e_i,e_j) = \frac{\sum_f mi_{e_i,f} \times mi_{e_j,f}}
+                    {\sqrt{\sum_f{mi_{e_i,f}}^2 \times \sum_f{mi_{e_j,f}}^2}}
 \label{eq:simwiwj}
 \end{equation}
 
 The \ac{CBC} algorithm consists of three phases. In phase I, the top-$k$ 
-similar elements of each element $e$ are computed. In phase II a collection of 
+similar elements of each element $e$ are computed. In phase II a collection of
 tight clusters is constructed, where the elements of each cluster form a 
 committee. In each step, the algorithm finds a set of tight clusters, called 
 committees, and identifies residue elements not covered by any. First the 
@@ -34,50 +34,49 @@ recursively attempts to find more committees among the residue elements. The
 details are presented in Algorithm~\ref{alg:cbcphaseii}.
 
 \begin{algorithm}
-\begin{algorithmic}
-\Function{phaseII}{$E$, $S$, $\theta_1$, $\theta_2$}
-  \ForAll {$e \in E$}
-    \State $C \gets$ \Call{average-link}{$S$, $e$}
-    \ForAll {$c \in C$}
-      \Comment{For each cluster discovered}
-      \State $Sc(c) \gets |c| \times $ \Call{avgsim}{$c$}
-      \Comment{Compute its score}
-    \EndFor
-    \State $L \gets L \cup c \in C, \max(Sc) = c$
-    \Comment{Store highest-scoring cluster in a List L}
-  \EndFor
+\begin{description}[align=left, labelwidth=4em]
+\item[Input:] A list of elements $E$ to be clustered, a similarity database $S$
+from Phase I, thresholds $\theta_1$ and $\theta_2$. \\
 
-  \State $L \gets$ \Call{sort}{$L$}
+\item[Step 1:] For each element $e \in E$ \\
 
-  \State $C \gets$ \Call{new-list}{}
-  \Comment{List of committees}
-  \ForAll {$c \in L$}
-    \State $cn \gets$ \Call{centroid}{c}
-    \If {$\forall c' \in C, sim(c, $ \Call{centroid}{$c'$} $) < \theta_1$}
-      \State $C \gets C \cup c$
-    \EndIf
-  \EndFor
+Cluster the top elements of $e$ from $S$ using average-link clustering
+\citep{han2000data}. \\
 
-  \If {$C \subset \emptyset$}
-    \State \Return $C$
-  \EndIf
+For each discovered cluster $c$, compute the score
+$|c| \times \operatorname{avgsim}(c)$, where $|c|$ is the number of elements in
+$c$ and $\operatorname{avgsim}(c)$ is the average pairwise similarity between
+elements in $c$. \\
 
-  \State $R \gets$ \Call{new-list}{}
-  \Comment{List of Residues}
-  \ForAll {$e \in E$}
-    \If {$\forall c \in C, sim(e, c) < \theta_2$}
-      \State $R \gets R \cup e$
-    \EndIf
-  \EndFor
+Store the highest-scoring cluster in a list $L$. \\
 
-  \If {$R \subset \emptyset$}
-    \State \Return $C$
-  \Else
-    \State \Return $C \cup$ \Call{phaseII}{$R$, $S$, $\theta_1$, $\theta_2$}
-  \EndIf
-\EndFunction
-\end{algorithmic}
-\caption{\label{alg:cbcphaseii} Phase II of CBC}
+\item[Step 2:] Sort the clusters in $L$ in descending order of their scores. \\
+
+\item[Step 3:] Let $C$ be a list of committees, initially empty. \\
+
+For each cluster $c \in L$ in sorted order \\
+
+Compute the centroid of $c$ by averaging the feature vectors of its elements and
+computing the mutual information scores in the same way as done for individual
+elements. \\
+
+If the similarity of $c$ to the centroid of each committee added before to $C$
+is below threshold $\theta_1$, add $c$ to $C$. \\
+
+\item[Step 4:] If $C$ is empty, finish and return $C$. \\
+
+\item[Step 5:] For each element $e \in E$ \\
+
+If the similarity of $e$ to every committee in $C$ is below threshold
+$\theta_2$, add $e$ to the list of residues $R$. \\
+
+\item[Step 6:] If R is empty, finish and return $C$, otherwise return the union
+of $C$ and the output of a recursive call to Phase II using the same input,
+except replacing $E$ with $R$. \\
+
+\item[Output:] A list of committees.
+\end{description}
+\caption[Phase II of CBC]{\label{alg:cbcphaseii} Phase II of CBC  \citep{pantel2003clustering}}
 \end{algorithm}
 
 
@@ -92,17 +91,17 @@ senses of a word and avoid duplicate senses.
 \begin{algorithmic}
 \State $C$ is a list of clusters initially empty
 \Function{phaseIII}{$e$}
-  \State $S \gets$ \Call{top200}{$e$}
-  \Comment{The top-200 similar clusters to e}
+  \State $S \gets$ The top-200 similar clusters to $e$
 
-  \While {$\neg S \subset \emptyset$}
-    \State $c \gets$ \Call{most-similar}{$S$, $e$}
-    \If {$sim(e, c) < \sigma$}
+  \While {$\neg (S \subset \emptyset)$}
+    \State $c \gets$ The cluster in $S$ most similar to $e$
+    \If {$\operatorname{similarity}(e, c) < \sigma$}
       \State \textbf{break}
     \EndIf
-   \If {$\forall c' \in C, \neg similar(c,c')$}
-     \State $c \gets c \cup e$
-     \State Remove from e its features that overlap with the features of c
+   \If {$c$ is not similar to any cluster in $C$}
+     \State $e \gets c$
+     \State Remove from $e$ its features that overlap with the features of $c$
+     \State $C \gets C \cup c$
    \EndIf
    \State $S \gets S \setminus \{c\}$
   \EndWhile
@@ -128,7 +127,7 @@ measures are later described in Section~\ref{subsec:unsupeval}.
 
 \subsection{HERMIT}
 
-The model from \citet{jurgens2010hermit} performs \ac{WSI} by modelling 
+The model from \citet{jurgens2010hermit} performs \ac{WSI} by modelling
 individual contexts in a high dimensional word space. Word senses are induced 
 by finding contexts which are similar and a hybrid clustering method is used to 
 group similar contexts.
@@ -152,15 +151,14 @@ described as a two-step operation \citep{sahlgren2005introduction}:
 
 This allows for a creation of a co-occurrence matrix $F_{w \times d}$ which is
 an approximation of a standard co-occurrence matrix $F_{w \times c}$, but in
-which $d \ll c$. As a result, HERMIT transforms the original co-occurrence 
-counts into a smaller and denser representation without the computational 
-overhead of other dimensional reduction techniques such as \ac{SVD} 
-\citep{jurgens2010hermit}.
+which $d \ll c$  ($c$ being the number of contexts). As a result, HERMIT
+transforms the original co-occurrence counts into a smaller and denser
+representation without the computational overhead of other dimensional reduction techniques such as \ac{SVD} \citep{jurgens2010hermit}.
 
 The identification of related contexts is made through the use of clustering, 
 which separates similar context vectors into dissimilar clusters representing 
 the distinct senses of a word. A hybrid of the online $k$-means clustering 
-\citep{liberty2016algorithm} and \ac{HAC} \citep{zepeda2013hierarchical} with a 
+\citep{liberty2016algorithm} and \ac{HAC} \citep{zepeda2013hierarchical} with a
 threshold is used. The threshold allows for the number of clusters to be 
 determined by data similarity instead of manually specified.
 

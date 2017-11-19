@@ -103,18 +103,15 @@ marked as $root$ uniquely identify clusters.
  \caption{The MaxMax algorithm}
  \label{alg:maxmax}
  \begin{algorithmic}
-  \Function{MaxMax}{V, E}
-   \ForAll{$(u,v) \in E$}
-    \If{$v$ is $maximal\_vertex(u)$}
-     \State $E' \gets E' \cup (v,u)$
-    \EndIf
-   \EndFor
-   \State $G' \gets dirgraph(V, E')$
-   \State $\forall v \in V, v \gets root$
+  \Function{MaxMax}{G=(V, E)}
+   \State $G' = (V, E') \gets$ a directed graph where $(v,u) \in E'$ iff
+   $(u,v) \in E$ and $v$ is a maximal vertex of $u$
+
+   \State Mark all vertices of $G'$ initially as \textit{root}
 
    \ForAll{$v \in V$}
     \If{$v$ is $root$}
-     \ForAll{$u \in descentant(v)$}
+     \ForAll{$u \in descentant(v) \setminus v$}
       \State $u \gets \neg root$
      \EndFor
     \EndIf

@@ -42,6 +42,7 @@ set of nodes and $N(a)$ are all the nodes which are linked to a node $a$.
 \begin{algorithm}
  \begin{algorithmic}
   \State $N(A) \gets \cup_{a \in A} N(a)$
+  \Comment $A$ is a set of nodes, $N(A)$ the neighbours of $A$
   \State $b \gets u \in N(A) \setminus A, max(\frac{|N(u) \cap N(A)|}{|N(u)|})$
   \State $A \gets A \cup b$
  \end{algorithmic}
